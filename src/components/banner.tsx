@@ -73,7 +73,9 @@ export default function HeroSearchSection() {
                 <div className="row align-items-center pt-lg-2 pb-lg-3 pb-xl-4 pb-xxl-5">
                     {/* Heading */}
                     <div className="col-lg-4 order-lg-2 text-center text-lg-start pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-5 mb-lg-0">
-                        <h3 className="display-5 text-white">Chaque voyage compte, chaque colis arrive</h3>
+                        <h4 className="display-6 text-white" style={{
+                         fontSize: "3rem"
+                        }}>De l’envoi à la livraison, nous garantissons fiabilité et suivi irréprochable.</h4>
                         <div className="d-flex align-items-center justify-content-center justify-content-lg-start mt-4">
                             <div className="d-flex gap-3 flex-column flex-sm-row">
                                 <Link
