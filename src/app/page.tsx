@@ -3,6 +3,8 @@ import HeroSearchSection from "@/components/banner";
 import Listing from "@/components/listing";
 import FeaturesSection from "@/components/howto";
 import CategoryCardsSection from "@/components/feature";
+import CitySearchCarousel from "@/components/countries";
+import DirectoryListingCTA from "@/components/c-t-a";
 
 export default function Home() {
   return (
@@ -16,6 +18,10 @@ export default function Home() {
         <CTASection />
 
         <CategoryCardsSection />
+
+        <DirectoryListingCTA />
+
+        <CitySearchCarousel />
     </>
   );
 }
