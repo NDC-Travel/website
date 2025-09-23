@@ -39,13 +39,13 @@ export default function Header() {
                         <ul className="navbar-nav position-relative">
 
                             <li className="nav-item py-lg-2 me-lg-n2 me-xl-0">
-                                <Link href="#" className="nav-link">Nos Services</Link>
+                                <Link href="#" className="fw-bold nav-link">Nos Services</Link>
                             </li>
                             <li className="nav-item py-lg-2 me-lg-n2 me-xl-0">
-                                <Link href="#" className="nav-link">À Propos</Link>
+                                <Link href="#" className="fw-bold nav-link">À Propos</Link>
                             </li>
                             <li className="nav-item py-lg-2 me-lg-n2 me-xl-0">
-                                <Link href="#" className="nav-link">Contactez-Nous</Link>
+                                <Link href="/contact" className="fw-bold nav-link">Contactez-Nous</Link>
                             </li>
 
                         </ul>

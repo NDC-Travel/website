@@ -112,7 +112,7 @@
 
 :root,
 [data-bs-theme=light] {
-    --fn-primary: #CD5D23;
+    --fn-primary: #D46328;
     --fn-secondary: #6c727f;
     --fn-success: #33b36b;
     --fn-info: #3d7a81;
@@ -177,10 +177,10 @@
     --fn-tertiary-bg: #f5f7fa;
     --fn-tertiary-bg-rgb: 245, 247, 250;
     --fn-heading-color: #111827;
-    --fn-link-color: #d85151;
+    --fn-link-color: #D46328;
     --fn-link-color-rgb: 216, 81, 81;
     --fn-link-decoration: underline;
-    --fn-link-hover-color: #d85151;
+    --fn-link-hover-color: #D46328;
     --fn-link-hover-color-rgb: 216, 81, 81;
     --fn-link-hover-decoration: none;
     --fn-code-color: #d63384;
@@ -3279,19 +3279,19 @@ fieldset:disabled .btn {
 .btn-primary,
 [data-bs-theme=dark] .product-card:hover .product-card-button {
     --fn-btn-color: #fff;
-    --fn-btn-bg: #d85151;
-    --fn-btn-border-color: #d85151;
+    --fn-btn-bg: #D46328;
+    --fn-btn-border-color: #D46328;
     --fn-btn-hover-color: #fff;
-    --fn-btn-hover-bg: #b84545;
-    --fn-btn-hover-border-color: #ad4141;
+    --fn-btn-hover-bg: #D46328;
+    --fn-btn-hover-border-color: #D46328;
     --fn-btn-focus-shadow-rgb: 222, 107, 107;
     --fn-btn-active-color: #fff;
-    --fn-btn-active-bg: #ad4141;
-    --fn-btn-active-border-color: #a23d3d;
+    --fn-btn-active-bg: #D46328;
+    --fn-btn-active-border-color: #D46328;
     --fn-btn-active-shadow: none;
     --fn-btn-disabled-color: #fff;
-    --fn-btn-disabled-bg: #d85151;
-    --fn-btn-disabled-border-color: #d85151
+    --fn-btn-disabled-bg: #D46328;
+    --fn-btn-disabled-border-color: #D46328
 }
 
 .btn-secondary {
@@ -3415,19 +3415,19 @@ fieldset:disabled .btn {
 }
 
 .btn-outline-primary {
-    --fn-btn-color: #d85151;
-    --fn-btn-border-color: #d85151;
+    --fn-btn-color: #D46328;
+    --fn-btn-border-color: #D46328;
     --fn-btn-hover-color: #fff;
-    --fn-btn-hover-bg: #d85151;
-    --fn-btn-hover-border-color: #d85151;
+    --fn-btn-hover-bg: #D46328;
+    --fn-btn-hover-border-color: #D46328;
     --fn-btn-focus-shadow-rgb: 216, 81, 81;
     --fn-btn-active-color: #fff;
-    --fn-btn-active-bg: #d85151;
-    --fn-btn-active-border-color: #d85151;
+    --fn-btn-active-bg: #D46328;
+    --fn-btn-active-border-color: #D46328;
     --fn-btn-active-shadow: none;
-    --fn-btn-disabled-color: #d85151;
+    --fn-btn-disabled-color: #D46328;
     --fn-btn-disabled-bg: transparent;
-    --fn-btn-disabled-border-color: #d85151;
+    --fn-btn-disabled-border-color: #D46328;
     --fn-gradient: none
 }
 
@@ -5323,7 +5323,7 @@ fieldset:disabled .btn {
     --fn-progress-border-radius: 50rem;
     --fn-progress-box-shadow: none;
     --fn-progress-bar-color: #fff;
-    --fn-progress-bar-bg: #d85151;
+    --fn-progress-bar-bg: #D46328;
     --fn-progress-bar-transition: width 0.6s ease;
     background-color: var(--fn-progress-bg);
     border-radius: var(--fn-progress-border-radius);
