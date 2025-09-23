@@ -8,6 +8,13 @@ import DirectoryListingCTA from "@/components/c-t-a";
 import ContactSupportSection from "@/components/contactbanner";
 import FAQSection from "@/components/faq";
 import ContactFormSection from "@/components/contact";
+import type {Metadata} from "next";
+
+
+export const metadata: Metadata = {
+    title: "Contactez-nous - NDC Travels",
+    description: "Chaque voyage compte, chaque colis arrive",
+};
 
 export default function Home() {
     return (
