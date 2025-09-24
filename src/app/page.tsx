@@ -1,3 +1,5 @@
+'use client'
+
 import CTASection from "@/components/cta";
 import HeroSearchSection from "@/components/banner";
 import Listing from "@/components/listing";

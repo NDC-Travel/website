@@ -39,37 +39,41 @@ export default function HeroSearchSection() {
     };
 
     return (
-        <section className="relative bg-white overflow-hidden py-5">
+        <section className="relative overflow-hidden py-5">
             {/* Background video */}
             {isClient && (
-                <div className="absolute inset-0 w-full h-full" style={{ zIndex: -1 }}>
+                <div className="absolute inset-0 w-full h-full" style={{ zIndex: 10 }}>
                     <video
                         className="absolute inset-0 w-full h-full object-cover"
                         autoPlay
                         muted
                         loop
                         playsInline
+                        preload="metadata" // Add preload
                         style={{ zIndex: -1 }}
                         onLoadStart={() => console.log('Video loading...')}
-                        onError={(e) => console.log('Video error:', e)}
+                        onCanPlay={() => console.log('Video can play')} // Add this
+                        onError={(e) => {
+                            console.log('Video error:', e);
+                            console.log('Error details:', e.target);
+                        }}
+                        onLoadedMetadata={() => console.log('Video metadata loaded')} // Add this
                     >
                         <source src="/banner.mp4" type="video/mp4" />
+                        <source src="/banner.webm" type="video/webm" />
+                        {/* Add fallback text */}
+                        Your browser does not support the video tag.
                     </video>
                 </div>
-            )}
-
-            {/* Fallback background if video fails */}
-            {!isClient && (
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-500 to-purple-600" style={{ zIndex: -1 }} />
             )}
 
             {/* Video overlay for better text readability */}
             <div
                 className="absolute inset-0 w-full h-full"
-                style={{ zIndex: 1, backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+                style={{ zIndex: 11, backgroundColor: "rgba(0, 0, 0, 0.4)" }}
             />
 
-            <div className="container relative z-10 pb-2 py-sm-3 py-md-4 py-lg-5 my-lg-3 my-xl-4 my-xxl-5">
+            <div className="container relative z-[12] pb-2 py-sm-3 py-md-4 py-lg-5 my-lg-3 my-xl-4 my-xxl-5">
                 <div className="row align-items-center pt-lg-2 pb-lg-3 pb-xl-4 pb-xxl-5">
                     {/* Heading */}
                     <div className="col-lg-4 order-lg-2 text-center text-lg-start pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-5 mb-lg-0">
@@ -101,7 +105,7 @@ export default function HeroSearchSection() {
 
                     {/* Search form */}
                     <div className="col-lg-8 order-lg-1">
-                        <div className="bg-white rounded p-4 mb-4 me-lg-4 me-xxl-0" style={{ maxWidth: '816px' }}>
+                        <div className=" rounded p-4 mb-4 me-lg-4 me-xxl-0" style={{ maxWidth: '816px', backgroundColor: 'rgba(255, 255, 255, 1)' }}>
                             <form className="p-sm-2" onSubmit={handleSubmit}>
 
                                 <div className={'flex justify-between items-center'}>
