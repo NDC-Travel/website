@@ -11,7 +11,7 @@ export const WhatsApp = (props: SVGProps<SVGSVGElement>) => <svg viewBox="0 0 25
 
 export default function Footer() {
     return (
-        <footer className="footer bg-black border-top" data-bs-theme="dark">
+        <footer className="footer !bg-[#094786] border-top" data-bs-theme="dark">
             <div className="container pt-sm-2 pt-md-3 pt-lg-4">
                 {/* Features */}
                 <div className="border-bottom flex md:flex-row flex-col md:gap-y-0 gap-y-5 justify-content-between item-center mt-0 pt-mt-4 pb-4">
@@ -22,7 +22,7 @@ export default function Footer() {
                     <div className="d-flex items-center gap-x-3">
                         <a
                             className="btn btn-market h-[40px] w-100"
-                            href="#!"
+                            href="https://wa.me/+237656501651"
                             aria-label="Download on App Store"
                         >
 
@@ -31,7 +31,7 @@ export default function Footer() {
                         </a>
                         <a
                             className="btn btn-market h-[40px] w-100"
-                            href="#!"
+                            href="tel:+33753368798"
                             aria-label="Download on Google Play"
                         >
                             <PhoneCallIcon className="lead w-[18px] ms-n1 me-2"/>

@@ -16,7 +16,7 @@ const DirectoryListingCTA = () => {
 
     return (
         <section className="container mx-auto">
-            <div className="bg-black rounded-lg pb-4 md:pb-0 px-4 md:px-0 mb-20">
+            <div className="!bg-[#094786] rounded-lg pb-4 md:pb-0 px-4 md:px-0 mb-20">
                 <div className="flex flex-col md:flex-row items-center">
 
                     <img src={"/cta.svg"} alt={""} className={'w-[200px] h-auto'} />

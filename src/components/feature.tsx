@@ -30,9 +30,9 @@ const categories: CategoryCard[] = [
         title: "Transporter des colis",
         buttonText: "Devenir transporteur",
         buttonLink: "/transporter",
-        bgColor: "bg-info",
-        textColor: "text-white",
-        icon: <Truck className="text-white my-3 mt-sm-0" size={48} />,
+        bgColor: "bg-success-subtle",
+        textColor: "text-black",
+        icon: <Truck className="text-black my-3 mt-sm-0" size={48} />,
         image: "/banner2.jpg"
     },
     {
@@ -59,7 +59,7 @@ export default function CategoryCardsSection() {
                     <div key={category.id} className="col">
                         <article className={`card hover-effect-scale ${category.bgColor} border-0 overflow-hidden text-center h-100`}>
                             <div className="card-body pt-sm-5 pb-3">
-                                {category.icon}
+                                <center>{category.icon}</center>
                                 <h3 className={`h5 mb-0 ${category.textColor}`}>
                                     {category.title}
                                 </h3>
@@ -67,7 +67,7 @@ export default function CategoryCardsSection() {
                             <div className="card-footer d-flex flex-column align-items-center gap-4 gap-sm-5 bg-transparent border-0 p-0">
                                 <Link
                                     href={category.buttonLink}
-                                    className="btn btn-dark stretched-link mx-4"
+                                    className="btn btn-dark !bg-[#094786] !border-[#094786] stretched-link mx-4"
                                 >
                                     {category.buttonText}
                                 </Link>

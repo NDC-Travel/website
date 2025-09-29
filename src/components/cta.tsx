@@ -3,7 +3,7 @@ import {ArrowRightCircle, Package, User2} from "lucide-react";
 
 export default function CTASection() {
     return (
-        <section className="position-relative bg-black py-5 px-sm-5 px-md-0">
+        <section className="position-relative !bg-[#094786] py-5 px-sm-5 px-md-0">
             <div className="container position-relative z-2 py-lg-5">
                 <div className="row py-2 py-sm-4 py-lg-5">
                     <div className="col-md-4 col-lg-5 py-lg-2 py-xl-4 py-xxl-5 mb-md-3">

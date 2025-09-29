@@ -302,7 +302,7 @@ export default function Listing() {
                     {/* View More Button for Mobile */}
                     <div className="text-center mt-4">
                         <Link href="/listings" className="btn btn-outline-primary btn-lg">
-                            Voir Plus d'Annonces
+                            Voir Plus d&#39;Annonces
                         </Link>
                     </div>
                 </div>

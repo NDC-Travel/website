@@ -24,9 +24,9 @@ const PrinciplesSection: React.FC = () => {
                 "NDC Travel se positionne comme un pont entre les continents, rapprochant les personnes et facilitant les échanges grâce à des solutions modernes, fiables et accessibles.",
             imageUrl: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=600&fit=crop",
             aspectRatios: {
-                mobile: (300 / 467) * 100,
-                tablet: (350 / 697) * 100,
-                desktop: (664 / 636) * 100
+                mobile: (300 / 167) * 100,
+                tablet: (350 / 397) * 100,
+                desktop: (204 / 336) * 100
             }
         },
 
@@ -143,7 +143,7 @@ const PrinciplesSection: React.FC = () => {
                 {/* Background image */}
                 <img
                     src={principle.imageUrl}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    // className="absolute inset-0 w-full h-full object-cover"
                     alt={principle.title}
                     loading="lazy"
                 />

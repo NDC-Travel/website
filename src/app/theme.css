@@ -14300,7 +14300,7 @@ html:not([dir=rtl]) .range-slider-ui.noUi-horizontal .noUi-handle {
     --fn-btn-color: #fff;
     --fn-btn-hover-color: #fff;
     --fn-btn-active-color: #fff;
-    --fn-btn-bg: #1d2735;
+    --fn-btn-bg: #000;
     --fn-btn-hover-bg: #333d4c;
     --fn-btn-active-bg: #333d4c
 }
@@ -14433,7 +14433,7 @@ html:not([dir=rtl]) .range-slider-ui.noUi-horizontal .noUi-handle {
     --fn-btn-color: #fff;
     --fn-btn-hover-color: #fff;
     --fn-btn-active-color: #fff;
-    --fn-btn-bg: #333d4c;
+    --fn-btn-bg: #000;
     --fn-btn-hover-bg: #4e5562;
     --fn-btn-active-bg: #4e5562
 }

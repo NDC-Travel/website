@@ -64,7 +64,7 @@ const FeaturesSection: React.FC = () => {
     };
 
     return (
-        <section className="bg-black">
+        <section className="!bg-[#094786]">
             <div className="container mx-auto px-4 py-8 lg:py-16">
                 <h2 className="text-4xl lg:text-5xl font-bold text-white pb-4 mb-8 lg:mb-12 text-center">
                     Nous proposons une large gamme de prestations

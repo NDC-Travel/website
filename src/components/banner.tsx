@@ -70,7 +70,7 @@ export default function HeroSearchSection() {
             {/* Video overlay for better text readability */}
             <div
                 className="absolute inset-0 w-full h-full"
-                style={{ zIndex: 11, backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+                style={{ zIndex: 11, backgroundColor: "rgba(9, 71, 134, 0.4)" }}
             />
 
             <div className="container relative z-[12] pb-2 py-sm-3 py-md-4 py-lg-5 my-lg-3 my-xl-4 my-xxl-5">
@@ -93,7 +93,7 @@ export default function HeroSearchSection() {
 
                                 <Link
                                     href="#"
-                                    className="btn btn-info btn-lg text-white d-flex align-items-center justify-content-center"
+                                    className="btn btn-info !bg-[#094786] btn-lg text-white d-flex align-items-center justify-content-center"
                                     style={{ minHeight: '50px' }}
                                 >
                                     <Headset className="me-2" size={20} />
@@ -108,13 +108,13 @@ export default function HeroSearchSection() {
                         <div className=" rounded p-4 mb-4 me-lg-4 me-xxl-0" style={{ maxWidth: '816px', backgroundColor: 'rgba(255, 255, 255, 1)' }}>
                             <form className="p-sm-2" onSubmit={handleSubmit}>
 
-                                <div className={'flex justify-between items-center'}>
-                                    <img src={'/1.gif'} alt={""} className={'w-[70px] h-auto'} />
+                                <div className={'flex justify-center items-center'}>
+                                    {/*<img src={'/1.gif'} alt={""} className={'w-[70px] h-auto'} />*/}
                                     <div className={"flex flex-col items-center"}>
                                         <h4>Transport de colis entre particuliers</h4>
                                         <span className={'text-muted'}>Expédition de colis pas cher, rapide et écolo</span>
                                     </div>
-                                    <img src={'/2.gif'} alt={""} className={'w-[70px] h-auto'} />
+                                    {/*<img src={'/2.gif'} alt={""} className={'w-[70px] h-auto'} />*/}
                                 </div>
 
                                 <div className="d-flex justify-content-center gap-2 gap-sm-3 mt-5 mb-5">
@@ -127,7 +127,7 @@ export default function HeroSearchSection() {
                                         onChange={() => setSearchType('all-cars')}
                                     />
                                     <label htmlFor="all-cars" className="btn btn-outline-primary rounded-pill">
-                                        J'expédie
+                                        J&#39;expédie
                                     </label>
 
                                     <input
@@ -240,7 +240,7 @@ export default function HeroSearchSection() {
                                 </div>
 
                                 <div className="d-flex justify-content-center mt-5">
-                                    <button type="submit" className="btn bg-black text-white w-[100%] md:w-[30%] d-flex align-items-center">
+                                    <button type="submit" className="btn !bg-[#094786] text-white w-[100%] md:w-[30%] d-flex align-items-center">
                                         <SearchIcon className="me-2" size={18} />
                                         Rechercher
                                     </button>
