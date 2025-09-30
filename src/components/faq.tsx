@@ -11,54 +11,19 @@ const FAQSection = () => {
     const faqData = [
         {
             id: "item-1",
-            question: "Comment commencer le processus d'achat d'une maison ?",
-            answer: "La première étape consiste à évaluer votre situation financière et à obtenir une pré-approbation pour un prêt hypothécaire. Cela vous donnera une compréhension claire de votre budget. Après cela, vous pouvez commencer à rechercher des propriétés qui correspondent à vos critères et travailler avec un agent immobilier pour vous guider tout au long du processus."
+            question: "Quels documents dois-je fournir ?",
+            answer: "En général, seule l’adresse complète du destinataire est nécessaire. Pour certains pays, des documents douaniers peuvent être demandés. Nous vous guidons si besoin."
         },
         {
             id: "item-2",
-            question: "Que dois-je considérer lors du choix d'un quartier ?",
-            answer: "Considérez des facteurs tels que la proximité des écoles, du travail, des transports en commun, la sécurité et les commodités locales comme les magasins et les parcs. Il est également important de rechercher les plans de développement futurs du quartier et les tendances de la valeur immobilière."
+            question: "Que faire si j’ai une question ou un problème ?",
+            answer: "Notre service client est disponible par téléphone, email ou WhatsApp pour répondre rapidement à toutes vos demandes"
         },
         {
             id: "item-3",
-            question: "Combien dois-je budgétiser pour les frais de clôture ?",
-            answer: "Les frais de clôture varient généralement de 2 % à 5 % du prix d'achat de la maison. Ces coûts peuvent inclure les frais de montage de prêt, l'assurance titre, les honoraires d'avocat et d'autres dépenses connexes. Il est conseillé de mettre de côté des fonds supplémentaires pour ces coûts."
+            question: "Est-ce que je peux faire confiance à NDC Travels ?",
+            answer: "Nous sommes spécialisés dans le transport international et nous accompagnons chaque client avec un suivi personnalisé et une assistance complète."
         },
-        {
-            id: "item-4",
-            question: "Vaut-il mieux louer ou acheter une maison ?",
-            answer: "Cela dépend de votre situation financière personnelle, de votre mode de vie et de vos objectifs à long terme. L'achat est souvent considéré comme un bon investissement, mais il nécessite un coût initial important et un entretien continu. La location offre plus de flexibilité et moins de responsabilités, mais vous ne construisez pas de capital."
-        },
-        {
-            id: "item-5",
-            question: "Comment déterminer le bon prix à offrir pour une maison ?",
-            answer: "Recherchez des propriétés comparables dans la région qui ont été vendues récemment pour avoir une idée de la valeur marchande. Votre agent immobilier peut également fournir une analyse comparative du marché (ACM) pour aider à déterminer une offre équitable basée sur l'état, l'emplacement et la demande du marché de la propriété."
-        },
-        {
-            id: "item-6",
-            question: "Que dois-je rechercher lors d'une inspection de maison ?",
-            answer: "Lors d'une inspection de maison, concentrez-vous sur l'intégrité structurelle de la propriété, y compris le toit, les fondations, la plomberie, les systèmes électriques et CVC. Recherchez des signes de dégâts d'eau, de moisissure et de parasites. L'inspecteur fournira un rapport détaillé, qui peut être utilisé pour négocier des réparations ou des ajustements de prix."
-        },
-        {
-            id: "item-7",
-            question: "Quels sont les avantages d'obtenir un prêt hypothécaire pré-approuvé ?",
-            answer: "Obtenir une pré-approbation pour un prêt hypothécaire montre aux vendeurs que vous êtes un acheteur sérieux et que vous pouvez vous permettre la propriété. Cela vous aide également à établir un budget réaliste et accélère le processus d'achat de maison puisque vos documents financiers sont déjà en ordre."
-        },
-        {
-            id: "item-8",
-            question: "Comment puis-je rendre ma maison plus attrayante pour les acheteurs ?",
-            answer: "Pour rendre votre maison plus attrayante, concentrez-vous sur l'attrait extérieur en entretenant l'extérieur, l'aménagement paysager et l'entrée. À l'intérieur, désencombrez, nettoyez soigneusement et envisagez de mettre en scène la maison avec un décor neutre pour permettre aux acheteurs de s'imaginer y vivre. Adressez-vous à toutes les réparations et mises à jour nécessaires."
-        },
-        {
-            id: "item-9",
-            question: "Qu'est-ce qu'un marché de vendeurs vs un marché d'acheteurs ?",
-            answer: "Un marché de vendeurs se produit lorsqu'il y a plus d'acheteurs que de propriétés disponibles, entraînant des prix plus élevés et des ventes plus rapides. Un marché d'acheteurs se produit lorsqu'il y a plus de propriétés que d'acheteurs, donnant aux acheteurs plus de pouvoir de négociation et conduisant généralement à des prix plus bas."
-        },
-        {
-            id: "item-10",
-            question: "Combien de temps faut-il pour finaliser l'achat d'une maison ?",
-            answer: "Le processus de clôture prend généralement 30 à 45 jours, selon divers facteurs tels que le type de prêt, l'efficacité des parties impliquées et tout problème imprévu qui peut survenir. Rester organisé et réactif peut aider à assurer un processus de clôture plus fluide et plus rapide."
-        }
     ];
 
     return (

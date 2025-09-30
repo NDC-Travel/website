@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mail, Phone } from 'lucide-react';
+import {FaWhatsapp} from "react-icons/fa";
 
 const ContactSupportSection = () => {
     return (
@@ -14,8 +15,8 @@ const ContactSupportSection = () => {
                         <div className="h-full bg-white rounded-lg shadow-sm border p-4 md:p-6 flex flex-col">
                             <div className="flex-1">
                                 <div className="mb-4">
-                                    <div className="w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center">
-                                        <Mail className="w-8 h-8 text-yellow-600" />
+                                    <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <FaWhatsapp className="w-8 h-8 text-green-600" />
                                     </div>
                                 </div>
                                 <h3 className="text-xl font-semibold pb-2 mb-1">Écrivez-nous</h3>
@@ -25,10 +26,10 @@ const ContactSupportSection = () => {
                             </div>
                             <div className="pt-4 md:pt-6">
                                 <a
-                                    className="w-full bg-[#D46328] text-white py-3 px-6 rounded-lg text-center font-medium hover:bg-gray-800 transition-colors duration-200 block"
-                                    href="mailto:support@ndc-travels.com"
+                                    className="w-full fw-bold bg-green-600 text-white py-3 px-6 rounded-lg text-center font-medium hover:bg-gray-800 transition-colors duration-200 block"
+                                    href="https://wa.me/237656501651"
                                 >
-                                    support@ndc-travels.com
+                                    +(237) 656-501-651
                                 </a>
                             </div>
                         </div>
@@ -40,7 +41,7 @@ const ContactSupportSection = () => {
                             <div className="flex-1">
                                 <div className="mb-4">
                                     <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center">
-                                        <Phone className="w-8 h-8 text-blue-600" />
+                                        <Phone className="w-8 h-8 text-[#094786]" />
                                     </div>
                                 </div>
                                 <h3 className="text-xl font-semibold pb-2 mb-1">Appelez-nous</h3>
@@ -50,10 +51,10 @@ const ContactSupportSection = () => {
                             </div>
                             <div className="pt-4 md:pt-6">
                                 <a
-                                    className="w-full bg-[#024686] text-white py-3 px-6 rounded-lg text-center font-medium hover:bg-gray-800 transition-colors duration-200 block"
-                                    href="tel:4065550120"
+                                    className="w-full fw-bold !bg-[#094786] text-white py-3 px-6 rounded-lg text-center font-medium hover:bg-gray-800 transition-colors duration-200 block"
+                                    href="tel:+33753368798"
                                 >
-                                    (406) 555-0120
+                                    +(33) 753 368 798
                                 </a>
                             </div>
                         </div>

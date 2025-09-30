@@ -10,102 +10,91 @@ import "swiper/css/pagination";
 const CitySearchCarousel = () => {
     const cities = [
         {
-            name: "New York",
+            name: "Paris ",
             image:
-                "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=400&h=300&fit=crop",
-            forSale: 1739,
+                "/paris.jpg",
+            flag: "https://img.icons8.com/?size=100&id=YwnngGdMBmIV&format=png&color=000000",
             forRent: 3845,
         },
         {
-            name: "Dallas",
+            name: "Yaoundé",
             image:
-                "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?w=400&h=300&fit=crop",
-            forSale: 986,
+                "/yaounde.jpg",
+            flag: "https://img.icons8.com/?size=100&id=xFzFk0KmlP22&format=png&color=000000",
             forRent: 2903,
         },
         {
-            name: "San Francisco",
+            name: "Douala",
             image:
-                "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop",
-            forSale: 2134,
+                "/douala.jpg",
+            flag: "https://img.icons8.com/?size=100&id=xFzFk0KmlP22&format=png&color=000000",
             forRent: 4561,
         },
         {
-            name: "Los Angeles",
+            name: "Abidjan",
             image:
-                "https://images.unsplash.com/photo-1444723121867-7a241cacace9?w=400&h=300&fit=crop",
-            forSale: 1875,
+                "/abidjan.png",
+            flag: "https://img.icons8.com/?size=100&id=v-MBirY7SnW3&format=png&color=000000",
             forRent: 3262,
         },
         {
-            name: "Chicago",
+            name: "Kinshasa",
             image:
-                "https://images.unsplash.com/photo-1477414348463-c0eb7f1359b6?w=400&h=300&fit=crop",
-            forSale: 1549,
+                "/kinshasa.jpg",
+            flag: "https://img.icons8.com/?size=100&id=etJo5r3yWSEU&format=png&color=000000",
             forRent: 2806,
         },
         {
-            name: "Philadelphia",
+            name: "Bruxelles",
             image:
-                "https://images.unsplash.com/photo-1549924231-f129b911e442?w=400&h=300&fit=crop",
-            forSale: 874,
+                "/bruxelles.jpg",
+            flag: "https://img.icons8.com/?size=100&id=EKJmSnhl1hWl&format=png&color=000000",
             forRent: 1625,
         },
         {
             name: "New York",
             image:
-                "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=400&h=300&fit=crop",
-            forSale: 1739,
+                "/nyc.jpg",
+            flag: "https://img.icons8.com/?size=100&id=fIgZUHgwc76e&format=png&color=000000",
             forRent: 3845,
         },
         {
-            name: "Dallas",
+            name: "Genève",
             image:
-                "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?w=400&h=300&fit=crop",
-            forSale: 986,
+                "/geneve.jpg",
+            flag: "https://img.icons8.com/?size=100&id=suxQg9He2_m5&format=png&color=000000",
             forRent: 2903,
         },
         {
-            name: "San Francisco",
+            name: "Washington",
             image:
-                "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop",
-            forSale: 2134,
+                "/dc.jpg",
+            flag: "https://img.icons8.com/?size=100&id=fIgZUHgwc76e&format=png&color=000000",
             forRent: 4561,
         },
         {
-            name: "Los Angeles",
+            name: "Libreville",
             image:
-                "https://images.unsplash.com/photo-1444723121867-7a241cacace9?w=400&h=300&fit=crop",
-            forSale: 1875,
+                "/libreville.jpg",
+            flag: "https://img.icons8.com/?size=100&id=8mKN_Bxzy1CH&format=png&color=000000",
             forRent: 3262,
-        },
-        {
-            name: "Chicago",
-            image:
-                "https://images.unsplash.com/photo-1477414348463-c0eb7f1359b6?w=400&h=300&fit=crop",
-            forSale: 1549,
-            forRent: 2806,
-        },
-        {
-            name: "Philadelphia",
-            image:
-                "https://images.unsplash.com/photo-1549924231-f129b911e442?w=400&h=300&fit=crop",
-            forSale: 874,
-            forRent: 1625,
-        },
+        }
     ];
 
     const CityCard = ({ city }: {city: any}) => (
-        <article className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 h-full overflow-hidden border-2">
-            <div className="bg-gray-100 overflow-hidden aspect-[306/230]">
-                <img
-                    src={city.image}
-                    alt={city.name}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                />
+        <article className="bg-white relative rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 h-full overflow-hidden border-2">
+            <div style={{ backgroundImage: `url(${city.image})`}} className="!bg-cover bg-gray-100 overflow-hidden aspect-[306/230] relative">
+                {/*<img*/}
+                {/*    src={city.image}*/}
+                {/*    alt={city.name}*/}
+                {/*    className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"*/}
+                {/*/>*/}
             </div>
+            <img
+                src={city.flag}
+                className={'w-[50px] h-auto !absolute !left-[50%] border-2 border-white rounded-full bg-white !bottom-[30%]'} style={{ transform: "translate(-50%, -50%)"}} alt={city.name} />
             <div className="p-4 text-center">
-                <h3 className="text-lg font-semibold mb-0">
+                <h3 className="text-lg font-semibold mb-0 mt-4">
                     <a
                         href="#"
                         className="text-gray-900 hover:text-blue-600 transition-colors duration-200 hover:underline"

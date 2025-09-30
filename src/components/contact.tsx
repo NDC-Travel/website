@@ -125,10 +125,10 @@ const ContactFormSection: React.FC = () => {
                             <span>Appelez-nous dès maintenant</span>
                             <a
                                 className="text-blue-600 hover:text-blue-800 font-semibold border-b border-transparent hover:border-blue-600 transition-colors duration-200"
-                                href="tel:4065550120"
+                                href="tel:+33753368798"
                                 aria-label="Numéro de téléphone"
                             >
-                                (406) 555‑0120
+                                +(33) 753 368 798
                             </a>
                         </div>
                     </div>

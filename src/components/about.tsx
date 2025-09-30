@@ -53,7 +53,7 @@ const PrinciplesSection: React.FC = () => {
             aspectRatios: {
                 mobile: (300 / 467) * 100,
                 tablet: (350 / 697) * 100,
-                desktop: (617 / 636) * 100
+                desktop: (217 / 636) * 100
             }
         },
 
@@ -73,7 +73,7 @@ const PrinciplesSection: React.FC = () => {
             aspectRatios: {
                 mobile: (300 / 467) * 100,
                 tablet: (350 / 697) * 100,
-                desktop: (353 / 636) * 100
+                desktop: (453 / 636) * 100
             }
         },
         {
@@ -84,7 +84,7 @@ const PrinciplesSection: React.FC = () => {
             aspectRatios: {
                 mobile: (300 / 467) * 100,
                 tablet: (350 / 697) * 100,
-                desktop: (452 / 636) * 100
+                desktop: (202 / 636) * 100
             }
         }
     ];
@@ -104,7 +104,7 @@ const PrinciplesSection: React.FC = () => {
                                                                                        className = ""
                                                                                    }) => {
         return (
-            <div className={`relative bg-gray-100 rounded-2xl overflow-hidden ${className}`}>
+            <div className={`relative !bg-[#094786] rounded-2xl overflow-hidden ${className}`}>
                 {/* Content overlay */}
                 <div className="absolute inset-0 z-20 p-4">
                     <div className="p-2 lg:p-3 xl:p-4">
