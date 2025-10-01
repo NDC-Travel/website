@@ -4,6 +4,7 @@ import FAQSection from "@/components/faq";
 import type {Metadata} from "next";
 import AboutHeroSection from "@/components/aboutBanner";
 import PrinciplesSection from "@/components/about";
+import TestimonialsSection from "@/components/testimonial";
 
 
 export const metadata: Metadata = {
@@ -19,6 +20,8 @@ export default function Home() {
             <FeaturesSection />
 
             <PrinciplesSection/>
+
+            <TestimonialsSection />
         </>
     );
 }
