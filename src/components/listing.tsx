@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Marquee from "react-fast-marquee";
 import {
@@ -17,7 +17,7 @@ import {
     StarIcon
 } from 'lucide-react';
 
-interface Listing {
+export interface Listing {
     id: number;
     title: string;
     year: number;
@@ -176,7 +176,7 @@ export default function Listing() {
                     </div>
                     <div
                         className="ratio hover-effect-target bg-body-tertiary"
-                        style={{ '--fn-aspect-ratio': 'calc(204 / 306 * 100%)' }}
+                        style={{ '--fn-aspect-ratio': 'calc(204 / 306 * 100%)' } as React.CSSProperties}
                     >
                         <img
                             src={listing.image}
@@ -200,7 +200,7 @@ export default function Listing() {
 
                     <h3 className="h6 mb-2">
                         <Link
-                            href={`/listings/${listing.id}`}
+                            href={`/package/${listing.id}`}
                             className="hover-effect-underline stretched-link me-1"
                         >
                             {listing.title}
@@ -301,7 +301,7 @@ export default function Listing() {
 
                     {/* View More Button for Mobile */}
                     <div className="text-center mt-4">
-                        <Link href="/listings" className="btn btn-outline-primary btn-lg">
+                        <Link href="/package" className="btn btn-outline-primary btn-lg">
                             Voir Plus d&#39;Annonces
                         </Link>
                     </div>

@@ -1,0 +1,18 @@
+POSTGRES_URL="postgres://44ff7f1599efad3aab45fb229a5e42bef3f61edb71a75d83adce57e327a03b20:sk_80mGfB-_0Ei6WAUFjEmr9@db.prisma.io:5432/postgres?sslmode=require"
+PRISMA_DATABASE_URL="prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqd3RfaWQiOjEsInNlY3VyZV9rZXkiOiJza184MG1HZkItXzBFaTZXQVVGakVtcjkiLCJhcGlfa2V5IjoiMDFLNkU0NlI0SzlKQ0FCQldOMlFDMjhIUjkiLCJ0ZW5hbnRfaWQiOiI0NGZmN2YxNTk5ZWZhZDNhYWI0NWZiMjI5YTVlNDJiZWYzZjYxZWRiNzFhNzVkODNhZGNlNTdlMzI3YTAzYjIwIiwiaW50ZXJuYWxfc2VjcmV0IjoiYjIxMzg3ZTYtYTE5YS00Nzc5LWIyNTQtMWI1MzNiYzkyOGQ2In0.311tD-_ScGHvhiYcJIjZC67G_U45wR849dXx0l3bNeQ"
+DATABASE_URL="postgres://44ff7f1599efad3aab45fb229a5e42bef3f61edb71a75d83adce57e327a03b20:sk_80mGfB-_0Ei6WAUFjEmr9@db.prisma.io:5432/postgres?sslmode=require"
+
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=borissandeu0@gmail.com
+SMTP_PASS=urjfvmijqnfuprby
+
+EMAIL_FROM="NDC Travels <support@ndc-travels.com>"
+
+NEXT_PUBLIC_APP_URL=https://ndc-travels.com
+
+AUTH_SECRET="FzUb3qj/+XtzE1uuaf5a5sryb05NWJa6He1B/MG15R0="
+
+GOOGLE_CLIENT_ID=730086558067-arpd77tkgumul3f0fqp7u2ih1cb6sp43.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
