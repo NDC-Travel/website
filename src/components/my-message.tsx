@@ -73,6 +73,36 @@ export default function MessagesTab() {
         fetchMessages();
     }, [session?.user?.id]);
 
+    const getAllMessages = async () => {
+        try {
+            const res = await fetch("/api/message");
+            if (!res.ok) throw new Error("Erreur lors du chargement des messages");
+            const data = await res.json();
+            const allMessages: Message[] = data.messages || [];
+
+            setMessages(allMessages);
+
+            // Group messages by the other user to build conversation list
+            const convoMap = new Map<string, Message>();
+            allMessages.forEach((msg) => {
+                const otherUser = msg.senderId === session.user.id ? msg.receiverId : msg.senderId;
+                convoMap.set(otherUser, msg); // overwrite to keep the last message
+            });
+
+            const convoList: Conversation[] = Array.from(convoMap.entries()).map(
+                ([userId, msg]) => ({
+                    userId,
+                    receiverName: msg.receiver.name,
+                    profileImage: msg.receiver.image,
+                    lastMessage: msg.content,
+                })
+            );
+            setConversations(convoList);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     // Pusher real-time updates
     useEffect(() => {
         if (!session?.user?.id) return;
@@ -124,19 +154,74 @@ export default function MessagesTab() {
         }
     };
 
+    const startMessage = async (receiver: string, message: string) => {
+        if (!receiver || !message.trim()) return;
+
+        try {
+            setIsSending(true); // start loading
+            const res = await fetch("/api/message", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ receiver: receiver, content: message }),
+            });
+            const data = await res.json();
+            if (data.success) {
+                setMessages((prev) => [...prev, data.message]);
+                await getAllMessages();
+                setSelectedUser(data.message.receiver.id);
+                setShowNewConvo(false);
+                setNewConvoReceiver("");
+                setNewMesssage("");
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsSending(false); // stop loading
+        }
+    };
+
 
     // Filter messages for current conversation
     const currentMessages = messages.filter(
         (msg) => msg.senderId === selectedUser || msg.receiverId === selectedUser
     );
 
+    const [showNewConvo, setShowNewConvo] = useState(false);
+    const [newConvoReceiver, setNewConvoReceiver] = useState("");
+    const [newConvoMessage, setNewMesssage] = useState("");
+
     return (
         <div className="grid md:grid-cols-3 gap-6 h-[60vh]">
             {/* Conversations list */}
             <Card className="md:col-span-1 flex flex-col">
-                <CardHeader>
+                <CardHeader className="flex justify-between items-center">
                     <CardTitle>Conversations</CardTitle>
+                    <Button size="sm" onClick={() => setShowNewConvo(true)}>+</Button>
                 </CardHeader>
+
+                {showNewConvo && (
+                    <div className="p-2 flex flex-col gap-2">
+                        <Input
+                            placeholder="Email ou téléphone"
+                            value={newConvoReceiver}
+                            onChange={(e) => setNewConvoReceiver(e.target.value)}
+                        />
+                        <Input
+                            placeholder="Méssage"
+                            value={newConvoMessage}
+                            onChange={(e) => setNewMesssage(e.target.value)}
+                        />
+                        <Button
+                            size="sm" className={'w-full'}
+                            onClick={() => {
+                                startMessage(newConvoReceiver, newConvoMessage);
+                            }}
+                        >
+                            Créer
+                        </Button>
+                    </div>
+                )}
+
                 <CardContent className="flex-1 overflow-y-auto">
                     {conversations.length === 0 ? (
                         <p className="text-muted-foreground">Aucune conversation</p>

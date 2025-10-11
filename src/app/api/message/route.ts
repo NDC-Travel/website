@@ -45,6 +45,14 @@ export async function POST(req: Request) {
             receiverId: receiverUser.id,
             content,
         },
+        include: {
+            sender: {
+                select: { id: true, name: true, email: true, image: true },
+            },
+            receiver: {
+                select: { id: true, name: true, email: true, image: true },
+            },
+        },
     });
 
     // Trigger real-time event for both sender & receiver using their IDs
@@ -104,81 +112,3 @@ export async function GET(req: Request) {
     return NextResponse.json({ messages });
 }
 
-
-
-
-
-// import { NextResponse } from "next/server";
-// import Pusher from "pusher";
-// import { getServerSession } from "next-auth";
-// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-// import { PrismaClient } from "@prisma/client";
-//
-// const prisma = new PrismaClient();
-//
-// const pusher = new Pusher({
-//     appId: process.env.PUSHER_APP_ID!,
-//     key: process.env.PUSHER_APP_KEY!,
-//     secret: process.env.PUSHER_APP_SECRET!,
-//     cluster: process.env.PUSHER_APP_CLUSTER!,
-//     useTLS: true,
-// });
-//
-// export async function POST(req: Request) {
-//     const session = await getServerSession(authOptions);
-//     if (!session?.user?.id) {
-//         return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
-//     }
-//
-//     const { receiver, content } = await req.json();
-//     if (!receiver || !content.trim()) {
-//         return NextResponse.json({ error: "Invalid message" }, { status: 400 });
-//     }
-//
-//     const receiverUser = await prisma.user.findFirst({
-//         where: {
-//             OR: [
-//                 { email: receiver },
-//                 { phone: receiver },
-//             ],
-//         },
-//     });
-//
-//     if (!receiverUser) {
-//         return NextResponse.json(
-//             { error: "Receiver not found" },
-//             { status: 404 }
-//         );
-//     }
-//
-//     const message = await prisma.message.create({
-//         data: {
-//             senderId: session.user.id,
-//             receiverId: receiverUser.id,
-//             content,
-//         },
-//     });
-//
-//     // Trigger a real-time event for both sender & receiver
-//     await pusher.trigger([`chat-${session.user.id}`, `chat-${receiver}`], "new-message", message);
-//
-//     return NextResponse.json({ success: true, message });
-// }
-//
-// export async function GET() {
-//     const session = await getServerSession(authOptions);
-//     if (!session?.user?.id)
-//         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-//
-//     const messages = await prisma.message.findMany({
-//         where: {
-//             OR: [
-//                 { senderId: session.user.id },
-//                 { receiverId: session.user.id },
-//             ],
-//         },
-//         orderBy: { createdAt: "asc" },
-//     });
-//
-//     return NextResponse.json({ messages });
-// }
