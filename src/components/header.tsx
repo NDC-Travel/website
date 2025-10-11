@@ -32,11 +32,19 @@ import {
     ItemTitle,
 } from "@/components/ui/item"
 import {Button} from "@/components/ui/button";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Login from "@/components/login";
 import {usePathname} from "next/navigation";
 import {useSession} from "next-auth/react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+
+interface Notification {
+    id: string;
+    targetId: string | null;
+    title: string;
+    content: string;
+    createdAt: string;
+}
 
 export default function Header() {
 
@@ -70,6 +78,62 @@ export default function Header() {
             duration: "3:30",
         },
     ]
+
+    const [notifications, setNotifications] = useState<Notification[]>([]);
+
+    // Fetch notifications on load
+    useEffect(() => {
+        if (!session?.user?.id) return;
+
+        const fetchNotifications = async () => {
+            const res = await fetch("/api/notifications");
+            const data = await res.json();
+            const visible = data.notifications.filter(
+                (notif: Notification) => !notif.targetId || notif.targetId === session.user.id
+            );
+            setNotifications(visible);
+        };
+
+        fetchNotifications();
+    }, [session?.user?.id]);
+
+    // Real-time notifications via Pusher
+    useEffect(() => {
+        if (!session?.user?.id) return;
+
+        const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
+            cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER!,
+        });
+
+        // Subscribe to user-specific and global channels
+        const channelUser = pusher.subscribe(`notifications-${session.user.id}`);
+        const channelAll = pusher.subscribe("notifications-all");
+
+        const handleNewNotification = (notif: Notification) => {
+            setNotifications((prev) => [notif, ...prev]);
+
+            // Browser notification
+            if (Notification.permission === "granted") {
+                new Notification(notif.title, { body: notif.content });
+            }
+        };
+
+        channelUser.bind("new-notification", handleNewNotification);
+        channelAll.bind("new-notification", handleNewNotification);
+
+        // Request permission
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+
+        return () => {
+            channelUser.unbind_all();
+            channelUser.unsubscribe();
+            channelAll.unbind_all();
+            channelAll.unsubscribe();
+            pusher.disconnect();
+        };
+    }, [session?.user?.id]);
 
     return (
         <header
@@ -133,59 +197,50 @@ export default function Header() {
                                 </Link>
                                 <Sheet>
                                     <SheetTrigger asChild>
-                                        <Button variant="outline" size="icon" className={'!h-[40px] !m-0 !rounded-full !w-[40px]'}>
+                                        <Button variant="outline" size="icon" className="!h-[40px] !m-0 !rounded-full !w-[40px]">
                                             <BellIcon />
                                         </Button>
                                     </SheetTrigger>
+
                                     <SheetContent className="w-full sm:max-w-[640px] overflow-y-auto">
                                         <SheetHeader>
                                             <SheetTitle>Notifications</SheetTitle>
                                         </SheetHeader>
+
                                         <div className="!flex !w-full !px-3 !flex-col !gap-6">
                                             <ItemGroup className="gap-4">
-                                                {music.map((song) => (
-                                                    <Item key={song.title} variant="outline" asChild role="listitem">
-                                                        <a className={'!text-decoration-none !hover:text-decoration-none'} href="#">
-                                                            <ItemMedia variant="image">
-                                                                <Image
-                                                                    src={`/img.jpg}`}
-                                                                    alt={song.title}
-                                                                    width={32}
-                                                                    height={32}
-                                                                    className="object-cover"
-                                                                />
-                                                            </ItemMedia>
-                                                            <ItemContent>
-                                                                <ItemTitle className="line-clamp-1 text-black fw-bold">
-                                                                    {song.title}
-                                                                </ItemTitle>
-                                                                <ItemDescription>{song.artist}</ItemDescription>
-                                                            </ItemContent>
-                                                            <ItemContent className="flex-none text-center">
-                                                                <ItemDescription>{song.duration}</ItemDescription>
-                                                            </ItemContent>
-                                                        </a>
-                                                    </Item>
-                                                ))}
+                                                {notifications.length === 0 ? (
+                                                    <p className="text-muted-foreground">Aucune notification</p>
+                                                ) : (
+                                                    notifications.map((notif) => (
+                                                        <Item key={notif.id} variant="outline" asChild role="listitem">
+                                                            <a className="!text-decoration-none !hover:text-decoration-none" href="#">
+                                                                <ItemMedia variant="image">
+                                                                    <Image
+                                                                        src="/img.jpg"
+                                                                        alt={notif.title}
+                                                                        width={32}
+                                                                        height={32}
+                                                                        className="object-cover"
+                                                                    />
+                                                                </ItemMedia>
+                                                                <ItemContent>
+                                                                    <ItemTitle className="line-clamp-1 text-black fw-bold">{notif.title}</ItemTitle>
+                                                                    <ItemDescription>{notif.content}</ItemDescription>
+                                                                </ItemContent>
+                                                                <ItemContent className="flex-none text-center">
+                                                                    <ItemDescription>{new Date(notif.createdAt).toLocaleString()}</ItemDescription>
+                                                                </ItemContent>
+                                                            </a>
+                                                        </Item>
+                                                    ))
+                                                )}
                                             </ItemGroup>
-
-                                            <Item variant="outline" className={'!py-4'}>
-                                                <ItemContent>
-                                                    <ItemTitle className={'text-black !font-bold'}>Basic Item</ItemTitle>
-                                                    <ItemDescription>
-                                                        A simple item with title and description.
-                                                    </ItemDescription>
-                                                </ItemContent>
-                                                <ItemActions>
-                                                    <Button variant="outline" size="sm">
-                                                        Action
-                                                    </Button>
-                                                </ItemActions>
-                                            </Item>
                                         </div>
+
                                         <SheetFooter>
                                             <SheetClose asChild>
-                                                <Button className={'!rounded-lg'} variant="destructive">Fermer</Button>
+                                                <Button className="!rounded-lg" variant="destructive">Fermer</Button>
                                             </SheetClose>
                                         </SheetFooter>
                                     </SheetContent>

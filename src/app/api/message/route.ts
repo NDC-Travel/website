@@ -58,6 +58,12 @@ export async function POST(req: Request) {
     // Trigger real-time event for both sender & receiver using their IDs
     await pusher.trigger([`chat-${session.user.id}`, `chat-${receiverUser.id}`], "new-message", message);
 
+    const notification = await prisma.notification.create({
+        data: { targetId: receiverUser.id, title: "Nouveau message", content: content },
+    });
+    const channel = receiverUser.id ? `notifications-${receiverUser.id}` : "notifications-all";
+    await pusher.trigger(channel, "new-notification", notification);
+
     return NextResponse.json({ success: true, message });
 }
 
