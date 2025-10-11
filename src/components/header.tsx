@@ -1,11 +1,20 @@
 'use client'
 
+import {
+    Sheet,
+    SheetClose,
+    SheetContent,
+    SheetDescription,
+    SheetFooter,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet"
 import Link from 'next/link';
 import Image from "next/image";
-import {Package, Truck, User2Icon, UsersIcon} from "lucide-react";
+import {BadgeCheckIcon, BellIcon, ChevronRightIcon, Package, Truck, User2Icon, UsersIcon} from "lucide-react";
 import {
     Drawer,
-    DrawerClose,
     DrawerContent,
     DrawerDescription,
     DrawerFooter,
@@ -13,8 +22,17 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
+import {
+    Item,
+    ItemActions,
+    ItemContent,
+    ItemDescription,
+    ItemGroup,
+    ItemMedia,
+    ItemTitle,
+} from "@/components/ui/item"
 import {Button} from "@/components/ui/button";
-import React, {useEffect} from "react";
+import React from "react";
 import Login from "@/components/login";
 import {usePathname} from "next/navigation";
 import {useSession} from "next-auth/react";
@@ -32,7 +50,26 @@ export default function Header() {
         setOpen(false);
     }, [pathname]);
 
-    console.log(session)
+    const music = [
+        {
+            title: "Midnight City Lights",
+            artist: "Neon Dreams",
+            album: "Electric Nights",
+            duration: "3:45",
+        },
+        {
+            title: "Coffee Shop Conversations",
+            artist: "The Morning Brew",
+            album: "Urban Stories",
+            duration: "4:05",
+        },
+        {
+            title: "Digital Rain",
+            artist: "Cyber Symphony",
+            album: "Binary Beats",
+            duration: "3:30",
+        },
+    ]
 
     return (
         <header
@@ -87,12 +124,73 @@ export default function Header() {
 
                     {
                         session ?
-                            <Link href={"/dashboard"} className={'!text-decoration-none'}>
-                                <Avatar className={'!w-[40px] me-5 !bg-black !text-white !h-[40px]'}>
-                                    <AvatarImage src={session.user?.image as string} />
-                                    <AvatarFallback className={'!text-decoration-none !bg-black !text-white'}>{session.user?.name?.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                            </Link>
+                            <div className={'!flex !items-center !justify-center !gap-x-6  me-5'}>
+                                <Link href={"/dashboard"} className={'!text-decoration-none'}>
+                                    <Avatar className={'!w-[40px] !bg-black !text-white !h-[40px]'}>
+                                        <AvatarImage src={session.user?.image as string} />
+                                        <AvatarFallback className={'!text-decoration-none !bg-black !text-white'}>{session.user?.name?.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                </Link>
+                                <Sheet>
+                                    <SheetTrigger asChild>
+                                        <Button variant="outline" size="icon" className={'!h-[40px] !m-0 !rounded-full !w-[40px]'}>
+                                            <BellIcon />
+                                        </Button>
+                                    </SheetTrigger>
+                                    <SheetContent className="w-full sm:max-w-[640px] overflow-y-auto">
+                                        <SheetHeader>
+                                            <SheetTitle>Notifications</SheetTitle>
+                                        </SheetHeader>
+                                        <div className="!flex !w-full !px-3 !flex-col !gap-6">
+                                            <ItemGroup className="gap-4">
+                                                {music.map((song) => (
+                                                    <Item key={song.title} variant="outline" asChild role="listitem">
+                                                        <a className={'!text-decoration-none !hover:text-decoration-none'} href="#">
+                                                            <ItemMedia variant="image">
+                                                                <Image
+                                                                    src={`/img.jpg}`}
+                                                                    alt={song.title}
+                                                                    width={32}
+                                                                    height={32}
+                                                                    className="object-cover"
+                                                                />
+                                                            </ItemMedia>
+                                                            <ItemContent>
+                                                                <ItemTitle className="line-clamp-1 text-black fw-bold">
+                                                                    {song.title}
+                                                                </ItemTitle>
+                                                                <ItemDescription>{song.artist}</ItemDescription>
+                                                            </ItemContent>
+                                                            <ItemContent className="flex-none text-center">
+                                                                <ItemDescription>{song.duration}</ItemDescription>
+                                                            </ItemContent>
+                                                        </a>
+                                                    </Item>
+                                                ))}
+                                            </ItemGroup>
+
+                                            <Item variant="outline" className={'!py-4'}>
+                                                <ItemContent>
+                                                    <ItemTitle className={'text-black !font-bold'}>Basic Item</ItemTitle>
+                                                    <ItemDescription>
+                                                        A simple item with title and description.
+                                                    </ItemDescription>
+                                                </ItemContent>
+                                                <ItemActions>
+                                                    <Button variant="outline" size="sm">
+                                                        Action
+                                                    </Button>
+                                                </ItemActions>
+                                            </Item>
+                                        </div>
+                                        <SheetFooter>
+                                            <SheetClose asChild>
+                                                <Button className={'!rounded-lg'} variant="destructive">Fermer</Button>
+                                            </SheetClose>
+                                        </SheetFooter>
+                                    </SheetContent>
+                                </Sheet>
+                            </div>
                             :
                             <Drawer open={openAuth} onOpenChange={setOpen}>
                                 <DrawerTrigger onClick={() => setOpen(true)}>

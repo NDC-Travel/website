@@ -128,7 +128,7 @@
     --fn-danger-rgb: 240, 61, 61;
     --fn-light-rgb: 255, 255, 255;
     --fn-dark-rgb: 29, 39, 53;
-    --fn-primary-text-emphasis: #c92d2d;
+    --fn-primary-text-emphasis: #D46328;
     --fn-secondary-text-emphasis: #333d4c;
     --fn-success-text-emphasis: #288b53;
     --fn-info-text-emphasis: #2d595e;
@@ -459,7 +459,7 @@ sup {
 
 a {
     color: rgba(var(--fn-link-color-rgb), var(--fn-link-opacity, 1));
-    text-decoration: underline
+    /*text-decoration: underline*/
 }
 
 a:hover {
@@ -560,59 +560,59 @@ label {
     display: inline-block
 }
 
-button {
-    border-radius: 0
-}
+/*button {*/
+/*    border-radius: 0*/
+/*}*/
 
-button:focus:not(:focus-visible) {
-    outline: 0
-}
+/*button:focus:not(:focus-visible) {*/
+/*    outline: 0*/
+/*}*/
 
-button,
-input,
-optgroup,
-select,
-textarea {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    margin: 0
-}
+/*button,*/
+/*input,*/
+/*optgroup,*/
+/*select,*/
+/*textarea {*/
+/*    font-family: inherit;*/
+/*    font-size: inherit;*/
+/*    line-height: inherit;*/
+/*    margin: 0*/
+/*}*/
 
-button,
-select {
-    text-transform: none
-}
+/*button,*/
+/*select {*/
+/*    text-transform: none*/
+/*}*/
 
-[role=button] {
-    cursor: pointer
-}
+/*[role=button] {*/
+/*    cursor: pointer*/
+/*}*/
 
-select {
-    word-wrap: normal
-}
+/*select {*/
+/*    word-wrap: normal*/
+/*}*/
 
-select:disabled {
-    opacity: 1
-}
+/*select:disabled {*/
+/*    opacity: 1*/
+/*}*/
 
-[list]:not([type=date]):not([type=datetime-local]):not([type=month]):not([type=week]):not([type=time])::-webkit-calendar-picker-indicator {
-    display: none !important
-}
+/*[list]:not([type=date]):not([type=datetime-local]):not([type=month]):not([type=week]):not([type=time])::-webkit-calendar-picker-indicator {*/
+/*    display: none !important*/
+/*}*/
 
-[type=button],
-[type=reset],
-[type=submit],
-button {
-    -webkit-appearance: button
-}
+/*[type=button],*/
+/*[type=reset],*/
+/*[type=submit],*/
+/*button {*/
+/*    -webkit-appearance: button*/
+/*}*/
 
-[type=button]:not(:disabled),
-[type=reset]:not(:disabled),
-[type=submit]:not(:disabled),
-button:not(:disabled) {
-    cursor: pointer
-}
+/*[type=button]:not(:disabled),*/
+/*[type=reset]:not(:disabled),*/
+/*[type=submit]:not(:disabled),*/
+/*button:not(:disabled) {*/
+/*    cursor: pointer*/
+/*}*/
 
 ::-moz-focus-inner {
     border-style: none;
