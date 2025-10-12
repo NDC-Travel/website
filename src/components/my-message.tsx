@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, {use, useEffect, useRef, useState} from "react";
 import Pusher from "pusher-js";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -23,7 +23,11 @@ interface Conversation {
     profileImage: string;
 }
 
-export default function MessagesTab() {
+export default function MessagesTab({
+                                        searchParams,
+                                    }: {
+    searchParams: Promise<{ page?: string, id?: string }>
+}) {
     const { data: session } = useSession();
     const [messages, setMessages] = useState<Message[]>([]);
     const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -194,8 +198,10 @@ export default function MessagesTab() {
         (msg) => msg.senderId === selectedUser || msg.receiverId === selectedUser
     );
 
-    const [showNewConvo, setShowNewConvo] = useState(false);
-    const [newConvoReceiver, setNewConvoReceiver] = useState("");
+    const params = use(searchParams)
+
+    const [showNewConvo, setShowNewConvo] = useState(!!params.id ?? false);
+    const [newConvoReceiver, setNewConvoReceiver] = useState(params.id ?? "");
     const [newConvoMessage, setNewMesssage] = useState("");
 
     return (

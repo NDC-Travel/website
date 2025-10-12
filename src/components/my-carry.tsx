@@ -235,6 +235,25 @@ export const countryNameToISO: Record<string, string> = {
     "Zimbabwe": "ZW"
 };
 
+export const isoToFlag = (iso: string) => {
+    if(iso){
+        return iso
+            .toUpperCase()
+            .replace(/./g, char =>
+                String.fromCodePoint(127397 + char.charCodeAt(0))
+            );
+    }
+    else{
+        return iso
+    }
+};
+
+export const getCountryFromAddress = (address: string) => {
+    const parts = address.split(",");
+    const country = parts[parts.length - 1].trim();
+    return country;
+};
+
 
 interface Transport {
     id: string;
@@ -256,8 +275,6 @@ const TransportTable: React.FC = () => {
     const { data: session } = useSession();
     const [transports, setTransports] = useState<Transport[]>([]);
     const [selected, setSelected] = useState<Transport | null>(null);
-    const [editTransport, setEditTransport] = useState<Transport | null>(null);
-    const [isEditOpen, setIsEditOpen] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -310,20 +327,6 @@ const TransportTable: React.FC = () => {
             </Empty>
         );
     }
-
-    const isoToFlag = (iso: string) => {
-        return iso
-            .toUpperCase()
-            .replace(/./g, char =>
-                String.fromCodePoint(127397 + char.charCodeAt(0))
-            );
-    };
-
-    const getCountryFromAddress = (address: string) => {
-        const parts = address.split(",");
-        const country = parts[parts.length - 1].trim();
-        return country;
-    };
 
     return (
         <Table className="border border-gray-300">
@@ -435,7 +438,7 @@ interface ShareButtonProps {
     quote?: string; // Texte optionnel à afficher
 }
 
-const FacebookShareButton: React.FC<ShareButtonProps> = ({ url, quote }) => {
+export const FacebookShareButton: React.FC<ShareButtonProps> = ({ url, quote }) => {
     const handleShare = () => {
         const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}${
             quote ? `&quote=${encodeURIComponent(quote)}` : ""

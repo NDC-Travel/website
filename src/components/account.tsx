@@ -28,20 +28,15 @@ import PackageTable from "@/components/my-package";
 export default function Dashboard({
                                       searchParams,
                                   }: {
-    searchParams: Promise<{ page?: string }>
+    searchParams: Promise<{ page?: string, id?: string }>
 }) {
     const params = use(searchParams)
 
     const { data: session, status, update } = useSession();
     const router = useRouter();
-
-    // const searchParams = useSearchParams();
-
-    // Read the active tab from the URL
     const initialTab = params.page || "profile";
     const [activeTab, setActiveTab] = useState(initialTab);
 
-    // Redirect if unauthenticated
     useEffect(() => {
         if (status === "unauthenticated") {
             router.push("/auth/signin");
@@ -100,7 +95,7 @@ export default function Dashboard({
                         <TransportTable />
                     </TabsContent>
                     <TabsContent value="message">
-                        <MessageTab />
+                        <MessageTab searchParams={searchParams} />
                     </TabsContent>
                 </Tabs>
             </div>

@@ -1,7 +1,7 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import {getServerSession} from "next-auth";
+import {authOptions} from "@/app/api/auth/[...nextauth]/route";
+import {NextResponse} from "next/server";
+import {PrismaClient} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -10,20 +10,20 @@ interface Params {
 }
 
 // 🔹 UPDATE PACKAGE (PUT)
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, {params}: { params: { id: string } }) {
     const session = await getServerSession(authOptions);
-    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!session) return NextResponse.json({error: "Unauthorized"}, {status: 401});
 
-    const { id } = params;
+    const {id} = params;
 
     try {
         const contentType = req.headers.get("content-type");
 
         // Find existing package first
-        const existingPackage = await prisma.package.findUnique({ where: { id } });
-        if (!existingPackage) return NextResponse.json({ error: "Package not found" }, { status: 404 });
+        const existingPackage = await prisma.package.findUnique({where: {id}});
+        if (!existingPackage) return NextResponse.json({error: "Package not found"}, {status: 404});
         if (existingPackage.userId !== session.user?.id)
-            return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+            return NextResponse.json({error: "Forbidden"}, {status: 403});
 
         let updateData: any = {};
 
@@ -58,69 +58,82 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
                 updateData.imageUrl = blob.url;
             }
         } else {
-            return NextResponse.json({ error: "Unsupported Content-Type" }, { status: 400 });
+            return NextResponse.json({error: "Unsupported Content-Type"}, {status: 400});
         }
 
         // 🧩 Update package
         const updatedPackage = await prisma.package.update({
-            where: { id },
+            where: {id},
             data: updateData,
         });
 
         return NextResponse.json(updatedPackage);
     } catch (err) {
         console.error("Error updating package:", err);
-        return NextResponse.json({ error: "Update failed" }, { status: 500 });
+        return NextResponse.json({error: "Update failed"}, {status: 500});
     }
 }
 
 
 // 🔹 DELETE PACKAGE
-export async function DELETE(req: Request, { params }: Params) {
+export async function DELETE(req: Request, {params}: Params) {
     const session = await getServerSession(authOptions);
-    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!session) return NextResponse.json({error: "Unauthorized"}, {status: 401});
 
-    const { id } = params;
+    const {id} = params;
 
     try {
-        const existingPackage = await prisma.package.findUnique({ where: { id } });
+        const existingPackage = await prisma.package.findUnique({where: {id}});
         if (!existingPackage) {
-            return NextResponse.json({ error: "Package not found" }, { status: 404 });
+            return NextResponse.json({error: "Package not found"}, {status: 404});
         }
         if (existingPackage.userId !== session.user?.id) {
-            return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+            return NextResponse.json({error: "Forbidden"}, {status: 403});
         }
 
-        await prisma.package.delete({ where: { id } });
+        await prisma.package.delete({where: {id}});
 
-        return NextResponse.json({ message: "Package deleted successfully" });
+        return NextResponse.json({message: "Package deleted successfully"});
     } catch (err) {
         console.error("Error deleting package:", err);
-        return NextResponse.json({ error: "Failed to delete package" }, { status: 500 });
+        return NextResponse.json({error: "Failed to delete package"}, {status: 500});
     }
 }
 
 // 🔹 GET PACKAGE BY ID
-export async function GET(req: Request, { params }: Params) {
+export async function GET(req: Request, {params}: Params) {
     const session = await getServerSession(authOptions);
-    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!session) return NextResponse.json({error: "Unauthorized"}, {status: 401});
 
-    const { id } = params;
+    const {id} = params;
 
     try {
-        const packageData = await prisma.package.findUnique({ where: { id } });
+        const packageData = await prisma.package.findUnique({
+            where: {id},
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        image: true,
+                        phone: true,
+                    },
+                },
+            }
+        });
 
         if (!packageData) {
-            return NextResponse.json({ error: "Package not found" }, { status: 404 });
+            return NextResponse.json({error: "Package not found"}, {status: 404});
         }
         if (packageData.userId !== session.user?.id) {
-            return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+            return NextResponse.json({error: "Forbidden"}, {status: 403});
         }
 
         return NextResponse.json(packageData);
     } catch (err) {
         console.error("Error fetching package:", err);
-        return NextResponse.json({ error: "Failed to fetch package" }, { status: 500 });
+        return NextResponse.json({error: "Failed to fetch package"}, {status: 500});
     }
 }
 

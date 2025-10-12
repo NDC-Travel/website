@@ -153,6 +153,7 @@ model Package {
   height                 String
   length                 String
   weight                 String
+  rating                 String @default("0")
   participationAllowance String
   shippingDeadline       String
   parcelDetails          String
