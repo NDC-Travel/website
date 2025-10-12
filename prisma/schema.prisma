@@ -24,8 +24,10 @@ model User {
   receivedMessages   Message[]            @relation("ReceivedMessages")
   sentMessages       Message[]            @relation("SentMessages")
   Notification       Notification[]
+  packages           Package[]
   PasswordResetToken PasswordResetToken[]
   sessions           Session[]
+  transport          Transport[]
 }
 
 model Contact {
@@ -117,4 +119,45 @@ model ContactMessage {
   email     String
   message   String
   createdAt DateTime @default(now())
+}
+
+model Transport {
+  id                    String   @id @default(cuid())
+  userId                String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  destination           String
+  isRoundTrip           Boolean  @default(false)
+  meansTransport        String
+  origin                String
+  outboundArrivalDate   String
+  outboundDepartureDate String
+  paymentPeriod         String
+  pricePerKg            String
+  returnArrivalDate     String?
+  returnDepartureDate   String?
+  tripDescription       String?
+  weightAvailable       String
+  user                  User     @relation(fields: [userId], references: [id])
+}
+
+model Package {
+  id                     String   @id @default(cuid())
+  userId                 String
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  destination            String
+  origin                 String
+  packageContents        String
+  width                  String
+  height                 String
+  length                 String
+  weight                 String
+  participationAllowance String
+  shippingDeadline       String
+  parcelDetails          String
+  imageUrl               String?
+  imageKey               String?
+  status                 String   @default("active")
+  user                   User     @relation(fields: [userId], references: [id])
 }

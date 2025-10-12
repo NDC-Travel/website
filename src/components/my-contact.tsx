@@ -1,6 +1,6 @@
 "use client";
 import React, {useState, useEffect, useRef} from "react";
-import { useSession } from "next-auth/react";
+import {signOut, useSession} from "next-auth/react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter} from "@/components/ui/card";
@@ -297,7 +297,7 @@ export function ProfileTab({ session }: ProfileTabProps) {
             </CardContent>
 
             <CardFooter>
-                <Button className="w-full !h-[44px] !font-bold mt-5 !bg-[#d46328]" onClick={handleSave}>
+                <Button className=" !h-[44px] !font-bold mt-5 !bg-[#d46328]" onClick={handleSave}>
                     Enregistrer les modifications
                 </Button>
             </CardFooter>
@@ -346,6 +346,12 @@ export function ProfileTab({ session }: ProfileTabProps) {
                 </div>
 
             </CardContent>
+
+            <CardFooter>
+                <Button className=" !h-[44px] !font-bold mt-3 btn-danger" onClick={() => signOut()}>
+                    Se Déconnecter
+                </Button>
+            </CardFooter>
         </Card>
     );
 }

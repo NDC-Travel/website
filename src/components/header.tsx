@@ -289,12 +289,12 @@ export default function Header() {
                             </Drawer>
                     }
 
-                    <Link href="#" className="btn btn-primary animate-shake me-2 h-[40px]">
+                    <Link href="/carry" className="btn btn-primary animate-shake me-2 h-[40px]">
                         <Truck className="w-[20px] animate-target ms-n2 me-2"/>
                         Transporter
                     </Link>
 
-                    <Link href="#" className="btn btn-outline-primary animate-scale h-[40px]">
+                    <Link href="/ship" className="btn btn-outline-primary animate-scale h-[40px]">
                         <Package className="w-20px] animate-target ms-n2 me-1 me-sm-2"/>
                         Expédier
                     </Link>
