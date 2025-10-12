@@ -12,7 +12,16 @@ import {
 } from "@/components/ui/sheet"
 import Link from 'next/link';
 import Image from "next/image";
-import {BadgeCheckIcon, BellIcon, ChevronRightIcon, Package, Truck, User2Icon, UsersIcon} from "lucide-react";
+import {
+    BadgeCheckIcon,
+    BellIcon,
+    ChevronRightIcon,
+    Headphones, InfoIcon,
+    Package,
+    Truck,
+    User2Icon,
+    UsersIcon
+} from "lucide-react";
 import {
     Drawer,
     DrawerContent,
@@ -142,16 +151,70 @@ export default function Header() {
             data-sticky-element=""
         >
             <div className="container">
-                <button
-                    type="button"
-                    className="navbar-toggler me-3 me-lg-0"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <button
+                            type="button"
+                            className="navbar-toggler me-3 me-lg-0"
+                        >
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                    </SheetTrigger>
+                    <SheetContent className={'!pt-10'}>
+                        <div className="!pt-24 grid flex-1 auto-rows-min gap-6 px-4">
+                            <Item variant="outline" className={'!text-black'} size="sm" asChild>
+                                <Link href={"/services"}>
+                                    <ItemMedia>
+                                        <BadgeCheckIcon className="size-5" />
+                                    </ItemMedia>
+                                    <ItemContent>
+                                        <ItemTitle>Nos Services</ItemTitle>
+                                    </ItemContent>
+                                    <ItemActions>
+                                        <ChevronRightIcon className="size-4" />
+                                    </ItemActions>
+                                </Link>
+                            </Item>
+                            <Item variant="outline" className={'!text-black'} size="sm" asChild>
+                                <Link href={"/about"}>
+                                    <ItemMedia>
+                                        <InfoIcon className="size-5" />
+                                    </ItemMedia>
+                                    <ItemContent>
+                                        <ItemTitle>A Propos</ItemTitle>
+                                    </ItemContent>
+                                    <ItemActions>
+                                        <ChevronRightIcon className="size-4" />
+                                    </ItemActions>
+                                </Link>
+                            </Item>
+                            <Item variant="outline" className={'!text-black'} size="sm" asChild>
+                                <Link href={"/contact"}>
+                                    <ItemMedia>
+                                        <Headphones className="size-5" />
+                                    </ItemMedia>
+                                    <ItemContent>
+                                        <ItemTitle>Contactez-nous</ItemTitle>
+                                    </ItemContent>
+                                    <ItemActions>
+                                        <ChevronRightIcon className="size-4" />
+                                    </ItemActions>
+                                </Link>
+                            </Item>
+
+
+                            <Link href="/carry" className="btn btn-primary animate-shake me-2 h-[40px]">
+                                <Truck className="w-[20px] animate-target ms-n2 me-2"/>
+                                Transporter
+                            </Link>
+
+                            <Link href="/ship" className="btn btn-outline-primary animate-scale h-[40px]">
+                                <Package className="w-20px] animate-target ms-n2 me-1 me-sm-2"/>
+                                Expédier
+                            </Link>
+                        </div>
+                    </SheetContent>
+                </Sheet>
 
                 <Link href="/" className="navbar-brand py-1 py-md-2 py-xl-1 me-2 me-sm-n4 me-md-n5 me-lg-0 flex items-center">
                     <Image alt={"NDC Travels"} width={100} height={100} src={"/appIcon.png"} className={'w-[50px] h-auto'} />
@@ -185,11 +248,11 @@ export default function Header() {
                     </div>
                 </nav>
 
-                <div className="d-flex gap-sm-1">
+                <div className="d-flex gap-x-5">
 
                     {
                         session ?
-                            <div className={'!flex !items-center !justify-center !gap-x-6  me-5'}>
+                            <div className={'!flex !items-center !justify-center !gap-x-6 me-0 md:me-5'}>
                                 <Link href={"/dashboard"} className={'!text-decoration-none'}>
                                     <Avatar className={'!w-[40px] !bg-black !text-white !h-[40px]'}>
                                         <AvatarImage src={session.user?.image as string} />
@@ -289,12 +352,12 @@ export default function Header() {
                             </Drawer>
                     }
 
-                    <Link href="/carry" className="btn btn-primary animate-shake me-2 h-[40px]">
+                    <Link href="/carry" className="btn !hidden lg:!flex btn-primary animate-shake me-2 h-[40px]">
                         <Truck className="w-[20px] animate-target ms-n2 me-2"/>
                         Transporter
                     </Link>
 
-                    <Link href="/ship" className="btn btn-outline-primary animate-scale h-[40px]">
+                    <Link href="/ship" className="btn !hidden lg:!flex btn-outline-primary animate-scale h-[40px]">
                         <Package className="w-20px] animate-target ms-n2 me-1 me-sm-2"/>
                         Expédier
                     </Link>

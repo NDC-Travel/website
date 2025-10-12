@@ -11,13 +11,14 @@ import {
     StarIcon,
     PlaneTakeoff,
     PlaneLanding,
-    UserIcon, ArrowRight,
+    UserIcon, ArrowRight, Star,
 } from "lucide-react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import Breadcrumb from "@/components/nav";
 import {BsStarFill} from "react-icons/bs";
 import {countryNameToISO, FacebookShareButton, getCountryFromAddress, isoToFlag} from "@/components/my-carry";
+import {ReviewForm} from "@/components/review";
 
 interface Package {
     id: string;
@@ -67,6 +68,18 @@ export default function PackageDetailPage() {
         if (id) fetchData();
     }, [id]);
 
+    const [reviews, setReviews] = useState<any[]>([]);
+
+    const loadReviews = async () => {
+        const res = await fetch(`/api/reviews?packageId=${id}`);
+        const data = await res.json();
+        setReviews(data);
+    };
+
+    useEffect(() => {
+        loadReviews();
+    }, []);
+
     if (loading) {
         return (
             <div className="container py-20 text-center">
@@ -108,137 +121,40 @@ export default function PackageDetailPage() {
 
                 {/* Main Content */}
                 <div className="row">
-                    <div className="col-lg-7 mb-5">
+                    <div className="col-lg-7 mb-5 order-2 order-lg-1">
                         <div className="ratio bg-body-tertiary rounded overflow-hidden mb-4"
                              style={{"--fn-aspect-ratio": "calc(482 / 856 * 100%)"} as React.CSSProperties}>
                             <img src={pkg.imageUrl || "/img.jpg"} alt={pkg.title} className="w-100 h-auto"/>
                         </div>
 
+                        <div className="mt-10">
+                            <h4 className="font-semibold text-lg mb-3">Avis des Clients</h4>
 
-                        <div className="row g-4 pb-3 mb-3">
-                            <div className="col-sm-5 col-md-3 col-lg-4">
-                                <div className="vstack h-100 position-relative">
-                                    <div className="d-flex flex-column align-items-center justify-content-center h-100 position-relative z-1 p-4">
-                                        <div className="h1 pb-2 mb-1">4.5</div>
-                                        <div className="hstack justify-content-center gap-1 fs-sm mb-2">
-                                            <BsStarFill className="fi-star-filled text-warning" />
-                                            <BsStarFill className="fi-star-filled text-warning" />
-                                            <BsStarFill className="fi-star-filled text-warning" />
-                                            <BsStarFill className="fi-star-filled text-warning" />
-                                            <BsStarFill className="fi-star-half text-warning" />
+                            <div className="space-y-4">
+                                {reviews.map((r, i) => (
+                                    <div key={i} className="border rounded-xl p-3">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <strong>{r.user?.name}</strong>
+                                            <span className="text-sm text-gray-500">
+                  {new Date(r.createdAt).toLocaleDateString()}
+                </span>
                                         </div>
-                                        <div className="fs-sm">176 reviews</div>
+                                        <div className="flex gap-1 mb-2">
+                                            {[...Array(5)].map((_, j) => (
+                                                <Star
+                                                    key={j}
+                                                    className={`w-4 h-4 ${
+                                                        j < r.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                                                    }`}
+                                                />
+                                            ))}
+                                        </div>
+                                        <p className="text-sm text-gray-700">{r.comment}</p>
                                     </div>
-                                    <span className="position-absolute top-0 start-0 w-100 h-100 bg-body-tertiary rounded d-none-dark"></span>
-                                    <span className="position-absolute top-0 start-0 w-100 h-100 bg-body-secondary rounded opacity-50 d-none d-block-dark"></span>
-                                </div>
+                                ))}
                             </div>
 
-                            <div className="col-sm-7 col-md-9 col-lg-8">
-                                <div className="vstack gap-3">
-                                    {[
-                                        { stars: 5, percent: 65, count: 128 },
-                                        { stars: 4, percent: 21, count: 27 },
-                                        { stars: 3, percent: 10, count: 13 },
-                                        { stars: 2, percent: 5, count: 6 },
-                                        { stars: 1, percent: 2.6, count: 2 },
-                                    ].map(({ stars, percent, count }) => (
-                                        <div key={stars} className="hstack gap-2">
-                                            <div className="hstack fs-sm gap-1">
-                                                {stars}
-                                                <i className="fi-star-filled text-warning" />
-                                            </div>
-                                            <div
-                                                className="progress w-100"
-                                                role="progressbar"
-                                                aria-label={`${stars} stars`}
-                                                aria-valuenow={percent}
-                                                aria-valuemin={0}
-                                                aria-valuemax={100}
-                                                style={{ height: "4px" }}
-                                            >
-                                                <div
-                                                    className="progress-bar bg-warning rounded-pill"
-                                                    style={{ width: `${percent}%` }}
-                                                ></div>
-                                            </div>
-                                            <div
-                                                className="fs-sm text-nowrap text-end"
-                                                style={{ width: "40px" }}
-                                            >
-                                                {count}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="vstack gap-4">
-                            {[
-                                {
-                                    name: "Randy W.",
-                                    date: "November 19, 2024",
-                                    rating: 5,
-                                    text: "Dr. Michael Johnston is truly a life-saver. His expertise and attention to detail are unmatched. He took the time to explain everything clearly and made sure I felt comfortable every step of the way. Thanks to him, my heart health is now better than ever. I highly recommend him!",
-                                    likes: 6,
-                                    dislikes: 0,
-                                },
-                                {
-                                    name: "Lora Palmer",
-                                    date: "November 10, 2024",
-                                    rating: 5,
-                                    text: "From the first consultation, Dr. Johnston showed exceptional care and professionalism. His thorough approach to diagnosing my heart condition was impressive, and his treatment plan has worked wonders. I feel fortunate to have found such a knowledgeable and compassionate cardiologist.",
-                                    likes: 13,
-                                    dislikes: 2,
-                                },
-                                {
-                                    name: "Melissa Smith",
-                                    date: "November 5, 2024",
-                                    rating: 5,
-                                    text: "Dr. Johnston was incredibly attentive and reassuring during a very stressful time for me. He made complex medical concepts easy to understand and guided me through the entire process. His expertise gave me confidence, and my heart is now in great shape. Five stars for sure!",
-                                    likes: 8,
-                                    dislikes: 0,
-                                },
-                                {
-                                    name: "Alice Cooper",
-                                    date: "October 23, 2024",
-                                    rating: 5,
-                                    text: "I can't say enough good things about Dr. Johnston. His calm demeanor, vast knowledge, and caring nature set him apart. He listens carefully to all concerns and tailors treatments to each patient's needs. I'm grateful for the care I've received and highly recommend him to anyone seeking a top-notch cardiologist.",
-                                    likes: 27,
-                                    dislikes: 3,
-                                },
-                                {
-                                    name: "Natalia D.",
-                                    date: "October 7, 2024",
-                                    rating: 4,
-                                    text: "Dr. Johnston is an excellent cardiologist and clearly knows his field well. My treatment has been effective, and I feel much healthier. The only reason for 4 stars is that the wait time for my appointment was longer than expected, but once I saw him, the care was outstanding.",
-                                    likes: 15,
-                                    dislikes: 0,
-                                },
-                            ].map((review, index) => (
-                                <div key={index} className="vstack gap-2 mb-sm-2">
-                                    <div className="d-flex align-items-center gap-3 mb-1">
-                                        <h6 className="mb-0">{review.name}</h6>
-                                        <span className="fs-xs text-body-secondary">{review.date}</span>
-                                    </div>
-
-                                    <div className="d-flex gap-1 fs-sm mb-1">
-                                        {[...Array(5)].map((_, i) => (
-                                            <BsStarFill
-                                                key={i}
-                                                className={`fi-star${
-                                                    i < review.rating
-                                                        ? "-filled text-warning"
-                                                        : " text-warning"
-                                                }`}
-                                            />
-                                        ))}
-                                    </div>
-
-                                    <p className="fs-sm mb-1">{review.text}</p>
-                                </div>
-                            ))}
+                            <ReviewForm packageId={pkg.id} onSubmitted={loadReviews} />
 
                         </div>
 
@@ -246,7 +162,7 @@ export default function PackageDetailPage() {
 
                     {/* Sidebar */}
 
-                    <aside className={'col-lg-5 !mt-[-110px]'}>
+                    <aside className={'col-lg-5 order-1 order-lg-2 !mt-[-110px]'}>
                         <div className="position-sticky top-0" style={{paddingTop: "110px"}}>
 
                             {/* Seller info card */}
@@ -271,14 +187,14 @@ export default function PackageDetailPage() {
                                                 >
                                                     {pkg.user?.name}
                                                 </span>
-                                                <span className="badge text-bg-light">Private seller</span>
+                                                {/*<span className="badge text-bg-light">Private seller</span>*/}
                                             </div>
 
 
-                                            <div className="!flex !items-center gap-1">
+                                            <div className="!flex !flex-col md:!flex-col md:!items-center !items-start gap-1">
                                                 <span
                                                     className="fs-sm fw-medium text-dark-emphasis">{pkg.user?.phone}</span>
-                                                <BsStarFill className="!text-[0.75rem] text-warning"/>
+                                                <BsStarFill className="!text-[0.75rem] text-warning !hidden md:!flex"/>
                                                 <span className="fs-xs text-body-secondary">({pkg.user?.email})</span>
                                             </div>
                                         </div>
@@ -286,7 +202,7 @@ export default function PackageDetailPage() {
 
                                     <hr/>
 
-                                    <div className="d-flex flex-1 justify-content-between gap-3 !mt-0">
+                                    <div className="md:!flex !hidden flex-1 justify-content-between gap-3 !mt-0">
                                         <a
                                             href={"tel:" + pkg.user?.phone}
                                             className="btn btn-primary fw-bold d-flex align-items-center !bg-[#094786] !border-0"
@@ -302,6 +218,29 @@ export default function PackageDetailPage() {
                                         <Link
                                             href={"/dashboard?page=message&id=" + pkg.user?.email}
                                             className="btn btn-primary fw-bold d-flex align-items-center"
+                                        >
+                                            Chat Par Message
+                                        </Link>
+                                    </div>
+
+                                    <div className="!flex flex-col md:!hidden flex-1 justify-content-between gap-3 !mt-0">
+                                        <div className="!flex flex-1 justify-content-between gap-3 !mt-0">
+                                            <a
+                                                href={"tel:" + pkg.user?.phone}
+                                                className="btn btn-primary !flex-1 fw-bold d-flex align-items-center !bg-[#094786] !border-0"
+                                            >
+                                                Appel Direct
+                                            </a>
+                                            <a
+                                                href={"mailto:" + pkg.user?.email}
+                                                className="btn fw-bold btn-primary !flex-1 d-flex align-items-center !bg-[#094786] !border-0"
+                                            >
+                                                Envoi un mail
+                                            </a>
+                                        </div>
+                                        <Link
+                                            href={"/dashboard?page=message&id=" + pkg.user?.email}
+                                            className="btn !w-full btn-primary fw-bold d-flex align-items-center"
                                         >
                                             Chat Par Message
                                         </Link>
@@ -385,9 +324,9 @@ export default function PackageDetailPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-7">
                             {related.map((listing) => (
                                 <div key={listing.id}>
-                                    <article className="card h-100 hover-effect-scale">
+                                    <article className="card hover-effect-scale">
                                         <div className="card-img-top overflow-hidden">
-                                            <img src={listing.imageUrl || "/img.jpg"} alt={listing.title}/>
+                                            <img className={'!h-[300px] !w-full !object-cover'} src={listing.imageUrl || "https://img.freepik.com/free-vector/cardboard-box_23-2147513430.jpg?t=st=1760309231~exp=1760312831~hmac=cbb721d02a1fc426748066b66230a45e80ee69d96f18af4f1147f866ffb48b82&w=2000"} alt={listing.title}/>
                                         </div>
                                         <div className="card-body">
                                             <h3 className="h6 mb-1">
@@ -396,14 +335,19 @@ export default function PackageDetailPage() {
                                                     {listing.title}
                                                 </Link>
                                             </h3>
-                                            <div className="text-sm text-muted">
-                                                <PlaneTakeoff size={14}
-                                                              className="inline mr-1"/> {listing.departure || "N/A"} →{" "}
-                                                <PlaneLanding size={14}
-                                                              className="inline mr-1"/> {listing.destination || "N/A"}
+                                            <b className={'!text-black'}>{listing.packageContents}</b><br/>
+                                            <div className="flex items-center justify-content-between g-2 py-2 fs-sm h-[50px]">
+                                                <div className="col d-flex fw-bold !text-[0.7rem] align-items-center gap-2">
+                                                    {isoToFlag(countryNameToISO[getCountryFromAddress(listing.origin)])} {listing.origin}
+                                                </div>
+                                                <ArrowRight/>
+                                                <div
+                                                    className="col d-flex fw-bold !text-[0.7rem] align-items-center justify-content-end gap-2">
+                                                    {isoToFlag(countryNameToISO[getCountryFromAddress(listing.destination)])} {listing.destination}
+                                                </div>
                                             </div>
                                             <div className="mt-2 font-semibold text-primary">
-                                                {listing.reward ? `${listing.reward} €` : "Sur demande"}
+                                                {listing.participationAllowance ? `${listing.participationAllowance} €` : "Sur demande"}
                                             </div>
                                         </div>
                                     </article>

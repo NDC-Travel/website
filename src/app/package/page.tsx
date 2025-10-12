@@ -5,7 +5,11 @@ import ListingFilter from "@/components/filter";
 import {Separator} from "@/components/ui/separator";
 import ListingPackage from "@/components/list";
 
-export default function Listing() {
+export default function Listing({
+                                    searchParams,
+                                }: {
+    searchParams: Promise<{ origin?: string, search?: string, destination?: string }>
+}) {
     return (
         <main className={'content-wrapper'}>
 
@@ -16,11 +20,7 @@ export default function Listing() {
                 ]}
             />
 
-            <ListingFilter />
-
-            <Separator />
-
-            <ListingPackage />
+            <ListingPackage searchParams={searchParams} />
 
         </main>
     );

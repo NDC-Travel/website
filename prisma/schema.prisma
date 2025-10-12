@@ -28,6 +28,7 @@ model User {
   PasswordResetToken PasswordResetToken[]
   sessions           Session[]
   transport          Transport[]
+  review          Review[]
 }
 
 model Contact {
@@ -161,4 +162,17 @@ model Package {
   imageKey               String?
   status                 String   @default("active")
   user                   User     @relation(fields: [userId], references: [id])
+  review          Review[]
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  userId    String
+  packageId String
+
+  user      User     @relation(fields: [userId], references: [id])
+  package   Package  @relation(fields: [packageId], references: [id])
 }

@@ -585,6 +585,7 @@ interface LocationAutocompleteProps {
     placeholder?: string;
     defaultValue?: string;
     onSelect: (place: google.maps.places.PlaceResult | null) => void;
+    full?: boolean;
 }
 
 export const LocationAutocomplete: React.FC<LocationAutocompleteProps> = ({
@@ -592,7 +593,7 @@ export const LocationAutocomplete: React.FC<LocationAutocompleteProps> = ({
                                                                               label,
                                                                               placeholder,
                                                                               defaultValue,
-                                                                              onSelect,
+                                                                              onSelect, full
                                                                           }) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
@@ -631,7 +632,7 @@ export const LocationAutocomplete: React.FC<LocationAutocompleteProps> = ({
     }, [defaultValue]);
 
     return (
-        <div className="pb-4 mb-2 w-full md:w-1/2" onMouseDown={handleMouseDown}>
+        <div className={"pb-4 mb-2 w-full " + full ? "md:w-full" : "md:w-1/2"} onMouseDown={handleMouseDown}>
             <label
                 htmlFor={id}
                 className="block mb-1 font-semibold text-gray-700"

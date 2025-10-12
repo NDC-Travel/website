@@ -7,7 +7,7 @@ import {
     StarIcon,
     PlaneTakeoff,
     PlaneLanding,
-    UserIcon, ArrowRight
+    UserIcon, ArrowRight, Truck
 } from 'lucide-react';
 import {countryNameToISO, getCountryFromAddress, isoToFlag} from "@/components/my-carry";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
@@ -74,13 +74,7 @@ export default function Listing() {
 
                     <div className="ratio hover-effect-target bg-body-tertiary"
                          style={{ '--fn-aspect-ratio': 'calc(204 / 306 * 100%)' } as React.CSSProperties}>
-                        <img
-                            src={pkg.imageUrl || '/img.jpg'}
-                            alt={pkg.title}
-                            onError={(e) => {
-                                e.currentTarget.src = `https://img.icons8.com/liquid-glass/96/package.png`;
-                            }}
-                        />
+                        <img className={'!h-[300px] !w-full !object-cover'} src={pkg.imageUrl || "https://img.freepik.com/free-vector/cardboard-box_23-2147513430.jpg?t=st=1760309231~exp=1760312831~hmac=cbb721d02a1fc426748066b66230a45e80ee69d96f18af4f1147f866ffb48b82&w=2000"} alt={pkg.packageContents}/>
                     </div>
                 </div>
 
@@ -141,6 +135,13 @@ export default function Listing() {
             <div className="container">
                 <div className="d-sm-flex justify-content-between gap-3 pb-3 mb-2 mb-sm-3">
                     <h2 className="mb-sm-0">Dernières Annonces</h2>
+
+                    <Link
+                        href={"/package"}
+                        className="btn btn-primary btn-lg d-flex align-items-center justify-content-center"
+                    >
+                        Nos Colis
+                    </Link>
                 </div>
             </div>
 

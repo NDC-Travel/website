@@ -126,7 +126,7 @@ export default function Footer() {
                             >
                                 <ul className="nav flex-column gap-2 pt-sm-1 pt-lg-2 pb-3 pb-sm-0 mt-n1 mb-1 mb-sm-0">
                                     <li className="pt-1">
-                                        <Link href="/service" className="nav-link hover-effect-underline d-inline text-body fw-normal p-0">
+                                        <Link href="/services" className="nav-link hover-effect-underline d-inline text-body fw-normal p-0">
                                             Nos Services
                                         </Link>
                                     </li>
@@ -169,18 +169,18 @@ export default function Footer() {
                             >
                                 <ul className="nav flex-column gap-2 pt-sm-1 pt-lg-2 pb-3 pb-sm-0 mt-n1 mb-1 mb-sm-0">
                                     <li className="pt-1">
-                                        <Link href="/account" className="nav-link hover-effect-underline d-inline text-body fw-normal p-0">
+                                        <Link href="/dashboard" className="nav-link hover-effect-underline d-inline text-body fw-normal p-0">
                                             Mon Profil Utilisateur
                                         </Link>
                                     </li>
                                     <li className="pt-1">
-                                        <Link href="/wishlist" className="nav-link hover-effect-underline d-inline text-body fw-normal p-0">
-                                            Activités & Historiques
+                                        <Link href="/dashboard?page=package" className="nav-link hover-effect-underline d-inline text-body fw-normal p-0">
+                                            Mes Colis
                                         </Link>
                                     </li>
                                     <li className="pt-1">
-                                        <Link href="/my-listings" className="nav-link hover-effect-underline d-inline text-body fw-normal p-0">
-                                            Parametres du Site
+                                        <Link href="/dashboard?page=trip" className="nav-link hover-effect-underline d-inline text-body fw-normal p-0">
+                                            Mes Trajets
                                         </Link>
                                     </li>
                                 </ul>

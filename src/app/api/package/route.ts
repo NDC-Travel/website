@@ -121,12 +121,31 @@ export async function POST(req: Request) {
     }
 }
 
-export async function GET() {
+export async function GET(req: Request) {
     const session = await getServerSession(authOptions);
-    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!session) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const url = new URL(req.url);
+    const origin = url.searchParams.get("origin")?.trim();
+    const destination = url.searchParams.get("destination")?.trim();
+    const search = url.searchParams.get("search")?.trim();
 
     const transports = await prisma.package.findMany({
-        where: { userId: session.user?.id },
+        where: {
+            userId: session.user?.id,
+            ...(origin ? { origin: { contains: origin, mode: "insensitive" } } : {}),
+            ...(destination ? { destination: { contains: destination, mode: "insensitive" } } : {}),
+            ...(search
+                ? {
+                    OR: [
+                        { title: { contains: search, mode: "insensitive" } },
+                        { description: { contains: search, mode: "insensitive" } },
+                    ],
+                }
+                : {}),
+        },
         orderBy: { createdAt: "desc" },
     });
 
