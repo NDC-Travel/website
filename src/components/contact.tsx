@@ -61,18 +61,32 @@ const ContactFormSection: React.FC = () => {
         return newErrors;
     };
 
-    const handleSubmit = (): void => {
+    const handleSubmit = async (): Promise<void> => {
         const newErrors = validateForm();
 
         if (Object.keys(newErrors).length === 0) {
-            // Form is valid, handle submission
-            console.log('Formulaire soumis:', formData);
-            setIsSubmitted(true);
-            // Reset form after successful submission
-            setTimeout(() => {
-                setFormData({ fullName: '', email: '', message: '' });
-                setIsSubmitted(false);
-            }, 3000);
+            try {
+                const res = await fetch("/api/contact", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData),
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    setIsSubmitted(true);
+                    console.log("Message envoyé:", data);
+                    setFormData({ fullName: "", email: "", message: "" });
+
+                    setTimeout(() => setIsSubmitted(false), 4000);
+                } else {
+                    alert(data.error || "Erreur lors de l’envoi du message");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Erreur serveur !");
+            }
         } else {
             setErrors(newErrors);
         }

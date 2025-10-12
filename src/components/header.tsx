@@ -37,6 +37,7 @@ import Login from "@/components/login";
 import {usePathname} from "next/navigation";
 import {useSession} from "next-auth/react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import Pusher from "pusher-js";
 
 interface Notification {
     id: string;
@@ -89,7 +90,7 @@ export default function Header() {
             const res = await fetch("/api/notifications");
             const data = await res.json();
             const visible = data.notifications.filter(
-                (notif: Notification) => !notif.targetId || notif.targetId === session.user.id
+                (notif: Notification) => !notif.targetId || notif.targetId === session.user?.id
             );
             setNotifications(visible);
         };
@@ -202,31 +203,25 @@ export default function Header() {
                                         </Button>
                                     </SheetTrigger>
 
-                                    <SheetContent className="w-full sm:max-w-[640px] overflow-y-auto">
+                                    <SheetContent className="w-full sm:max-w-[500px] overflow-y-auto">
                                         <SheetHeader>
                                             <SheetTitle>Notifications</SheetTitle>
                                         </SheetHeader>
 
                                         <div className="!flex !w-full !px-3 !flex-col !gap-6">
-                                            <ItemGroup className="gap-4">
+                                            <ItemGroup className="gap-2">
                                                 {notifications.length === 0 ? (
                                                     <p className="text-muted-foreground">Aucune notification</p>
                                                 ) : (
                                                     notifications.map((notif) => (
-                                                        <Item key={notif.id} variant="outline" asChild role="listitem">
+                                                        <Item key={notif.id} variant="outline" className={'p-2'} asChild role="listitem">
                                                             <a className="!text-decoration-none !hover:text-decoration-none" href="#">
                                                                 <ItemMedia variant="image">
-                                                                    <Image
-                                                                        src="/img.jpg"
-                                                                        alt={notif.title}
-                                                                        width={32}
-                                                                        height={32}
-                                                                        className="object-cover"
-                                                                    />
+                                                                    <BellIcon className={'text-black w-[32px] h-[32px]'} />
                                                                 </ItemMedia>
                                                                 <ItemContent>
                                                                     <ItemTitle className="line-clamp-1 text-black fw-bold">{notif.title}</ItemTitle>
-                                                                    <ItemDescription>{notif.content}</ItemDescription>
+                                                                    <ItemDescription className={'m-0 pb-0'}>{notif.content}</ItemDescription>
                                                                 </ItemContent>
                                                                 <ItemContent className="flex-none text-center">
                                                                     <ItemDescription>{new Date(notif.createdAt).toLocaleString()}</ItemDescription>

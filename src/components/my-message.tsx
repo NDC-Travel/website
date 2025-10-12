@@ -49,21 +49,29 @@ export default function MessagesTab() {
 
                 setMessages(allMessages);
 
-                // Group messages by the other user to build conversation list
+                // Group messages by the OTHER user (not yourself)
                 const convoMap = new Map<string, Message>();
+
                 allMessages.forEach((msg) => {
-                    const otherUser = msg.senderId === session.user.id ? msg.receiverId : msg.senderId;
-                    convoMap.set(otherUser, msg); // overwrite to keep the last message
+                    const isSender = msg.senderId === session.user?.id;
+                    const otherUser = isSender ? msg.receiver : msg.sender; // <-- pick correct user
+                    convoMap.set(otherUser.id, msg); // overwrite to keep the most recent
                 });
 
                 const convoList: Conversation[] = Array.from(convoMap.entries()).map(
-                    ([userId, msg]) => ({
-                        userId,
-                        receiverName: msg.receiver.name,
-                        profileImage: msg.receiver.image,
-                        lastMessage: msg.content,
-                    })
+                    ([userId, msg]) => {
+                        const isSender = msg.senderId === session.user?.id;
+                        const otherUser = isSender ? msg.receiver : msg.sender;
+
+                        return {
+                            userId: otherUser.id,
+                            receiverName: otherUser.name,
+                            profileImage: otherUser.image,
+                            lastMessage: msg.content,
+                        };
+                    }
                 );
+
                 setConversations(convoList);
             } catch (err) {
                 console.error(err);

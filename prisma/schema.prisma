@@ -1,11 +1,9 @@
-// npx prisma db push
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql" // or "mysql" or "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -13,26 +11,21 @@ model User {
   id                 String               @id @default(cuid())
   name               String?
   email              String?              @unique
-  password           String? // hashed password (nullable if OAuth-only)
+  password           String?
   phone              String?
-  address            String?              // new field for user's address
-  image              String? // picture URL
+  image              String?
   emailVerified      DateTime?
-  accounts           Account[]
-  sessions           Session[]
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
+  address            String?
+  accounts           Account[]
+  contactOf          Contact[]            @relation("TargetContacts")
+  contacts           Contact[]            @relation("OwnerContacts")
+  receivedMessages   Message[]            @relation("ReceivedMessages")
+  sentMessages       Message[]            @relation("SentMessages")
+  Notification       Notification[]
   PasswordResetToken PasswordResetToken[]
-
-  // Contacts I own
-  contacts Contact[] @relation("OwnerContacts")
-  // Contacts where I am the target
-  contactOf Contact[] @relation("TargetContacts")
-
-  sentMessages     Message[] @relation("SentMessages")
-  receivedMessages Message[] @relation("ReceivedMessages")
-
-  Notification Notification[]
+  sessions           Session[]
 }
 
 model Contact {
@@ -40,9 +33,8 @@ model Contact {
   userId    String
   contactId String
   createdAt DateTime @default(now())
-
-  user      User @relation("OwnerContacts", fields: [userId], references: [id])
-  contact   User @relation("TargetContacts", fields: [contactId], references: [id])
+  contact   User     @relation("TargetContacts", fields: [contactId], references: [id])
+  user      User     @relation("OwnerContacts", fields: [userId], references: [id])
 
   @@unique([userId, contactId])
 }
@@ -53,12 +45,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -87,10 +79,9 @@ model PasswordResetToken {
   token     String   @unique
   expiresAt DateTime
   used      Boolean  @default(false)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
-
 
 model Message {
   id         String   @id @default(cuid())
@@ -98,18 +89,32 @@ model Message {
   receiverId String
   content    String
   createdAt  DateTime @default(now())
-
-  sender   User @relation("SentMessages", fields: [senderId], references: [id])
-  receiver User @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
 }
 
 model Notification {
-  id        String   @id @default(cuid())
-  targetId  String?  // null = all users
+  id        String    @id @default(cuid())
+  targetId  String?
   title     String
   content   String
-  createdAt DateTime @default(now())
-  readAt    DateTime? // optional: mark as read
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
+  user      User?     @relation(fields: [targetId], references: [id])
+}
 
-  user      User?    @relation(fields: [targetId], references: [id])
+model NewsletterSubscriber {
+  id         String    @id @default(cuid())
+  email      String    @unique
+  createdAt  DateTime  @default(now())
+  verified   Boolean   @default(false)
+  verifiedAt DateTime?
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  fullName  String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
 }

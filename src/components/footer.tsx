@@ -1,15 +1,47 @@
+'use client'
+
 import Link from 'next/link';
 import {RiTwitterXFill} from "react-icons/ri";
 import {SiFacebook, SiInstagram, SiLinkedin} from "react-icons/si";
 import * as React from "react";
-import type { SVGProps } from "react";
-import {Headset, MailIcon, PhoneCallIcon, PhoneIcon} from "lucide-react";
+import {SVGProps, useState} from "react";
+import {Headset, Mail, MailIcon, PhoneCallIcon, PhoneIcon} from "lucide-react";
 import Image from "next/image";
 import {Separator} from "@/components/ui/separator";
+import { toast } from "sonner";
 
 export const WhatsApp = (props: SVGProps<SVGSVGElement>) => <svg viewBox="0 0 256 259" width="18px" height="18px" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" {...props}><path d="m67.663 221.823 4.185 2.093c17.44 10.463 36.971 15.346 56.503 15.346 61.385 0 111.609-50.224 111.609-111.609 0-29.297-11.859-57.897-32.785-78.824-20.927-20.927-48.83-32.785-78.824-32.785-61.385 0-111.61 50.224-110.912 112.307 0 20.926 6.278 41.156 16.741 58.594l2.79 4.186-11.16 41.156 41.853-10.464Z" fill="#00E676" /><path d="M219.033 37.668C195.316 13.254 162.531 0 129.048 0 57.898 0 .698 57.897 1.395 128.35c0 22.322 6.278 43.947 16.742 63.478L0 258.096l67.663-17.439c18.834 10.464 39.76 15.347 60.688 15.347 70.453 0 127.653-57.898 127.653-128.35 0-34.181-13.254-66.269-36.97-89.986ZM129.048 234.38c-18.834 0-37.668-4.882-53.712-14.648l-4.185-2.093-40.458 10.463 10.463-39.76-2.79-4.186C7.673 134.63 22.322 69.058 72.546 38.365c50.224-30.692 115.097-16.043 145.79 34.181 30.692 50.224 16.043 115.097-34.18 145.79-16.045 10.463-35.576 16.043-55.108 16.043Zm61.385-77.428-7.673-3.488s-11.16-4.883-18.136-8.371c-.698 0-1.395-.698-2.093-.698-2.093 0-3.488.698-4.883 1.396 0 0-.697.697-10.463 11.858-.698 1.395-2.093 2.093-3.488 2.093h-.698c-.697 0-2.092-.698-2.79-1.395l-3.488-1.395c-7.673-3.488-14.648-7.674-20.229-13.254-1.395-1.395-3.488-2.79-4.883-4.185-4.883-4.883-9.766-10.464-13.253-16.742l-.698-1.395c-.697-.698-.697-1.395-1.395-2.79 0-1.395 0-2.79.698-3.488 0 0 2.79-3.488 4.882-5.58 1.396-1.396 2.093-3.488 3.488-4.883 1.395-2.093 2.093-4.883 1.395-6.976-.697-3.488-9.068-22.322-11.16-26.507-1.396-2.093-2.79-2.79-4.883-3.488H83.01c-1.396 0-2.79.698-4.186.698l-.698.697c-1.395.698-2.79 2.093-4.185 2.79-1.395 1.396-2.093 2.79-3.488 4.186-4.883 6.278-7.673 13.951-7.673 21.624 0 5.58 1.395 11.161 3.488 16.044l.698 2.093c6.278 13.253 14.648 25.112 25.81 35.575l2.79 2.79c2.092 2.093 4.185 3.488 5.58 5.58 14.649 12.557 31.39 21.625 50.224 26.508 2.093.697 4.883.697 6.976 1.395h6.975c3.488 0 7.673-1.395 10.464-2.79 2.092-1.395 3.487-1.395 4.882-2.79l1.396-1.396c1.395-1.395 2.79-2.092 4.185-3.487 1.395-1.395 2.79-2.79 3.488-4.186 1.395-2.79 2.092-6.278 2.79-9.765v-4.883s-.698-.698-2.093-1.395Z" fill="#FFF" /></svg>;
 
 export default function Footer() {
+
+    const [email, setEmail] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            const res = await fetch("/api/newsletter", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                toast.success(data.message || "Inscription réussie !");
+                setEmail("");
+            } else {
+                toast.error(data.error || "Erreur");
+            }
+        } catch {
+            toast.error("Erreur de connexion");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <footer className="footer !bg-[#094786] border-top" data-bs-theme="dark">
             <div className="container pt-sm-2 pt-md-3 pt-lg-4">
@@ -160,21 +192,29 @@ export default function Footer() {
                     {/* Download app CTA */}
                     <div className="col-md-5 col-lg-4 col-xl-3 pt-4 pt-sm-5 pt-md-0 mt-3 mt-sm-0">
                         <h6 className="mb-2">Notre Newsletter</h6>
-
                         <p className="fs-sm text-body-secondary my-4">
                             Souscrire pour recevoir toutes nos offres
                         </p>
 
-                        <form className="d-flex flex-column flex-sm-row flex-md-column gap-3 needs-validation mb-4"
-                              noValidate>
+                        <form
+                            className="d-flex flex-column flex-sm-row flex-md-column gap-3 mb-4"
+                            onSubmit={handleSubmit}
+                        >
                             <div className="position-relative w-100">
-                                <MailIcon className="position-absolute top-50 start-0 translate-middle-y text-body ms-2"/>
-                                <input type="email" className="form-control ps-10 form-icon-start text-start"
-                                       placeholder="Your email" aria-label="Email input" required={true}/>
+                                <Mail className="position-absolute top-50 start-0 translate-middle-y text-body ms-2" />
+                                <input
+                                    type="email"
+                                    className="form-control ps-10 form-icon-start text-start"
+                                    placeholder="Votre email"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
                             </div>
-                            <button type="submit" className="btn btn-primary px-4">Subscribe</button>
+                            <button type="submit" className="btn btn-primary px-4" disabled={loading}>
+                                {loading ? "Envoi..." : "Souscrire"}
+                            </button>
                         </form>
-
                     </div>
                 </div>
 

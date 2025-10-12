@@ -61,6 +61,7 @@ export async function POST(req: Request) {
     const notification = await prisma.notification.create({
         data: { targetId: receiverUser.id, title: "Nouveau message", content: content },
     });
+
     const channel = receiverUser.id ? `notifications-${receiverUser.id}` : "notifications-all";
     await pusher.trigger(channel, "new-notification", notification);
 
