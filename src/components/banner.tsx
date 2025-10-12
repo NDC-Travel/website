@@ -1,41 +1,25 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react';
-import Link from 'next/link';
-import { Headset, Info, SearchIcon } from "lucide-react";
-import dynamic from 'next/dynamic';
-
-
+import { useState, useEffect } from 'react';
+import { Headset, Info, Package, Truck } from "lucide-react";
+import { useRouter } from "next/navigation";
+import {LocationAutocomplete} from "@/components/ship";
 
 export default function HeroSearchSection() {
-    const [searchType, setSearchType] = useState('all-cars');
-    const [make, setMake] = useState('');
-    const [model, setModel] = useState('');
-    const [bodyType, setBodyType] = useState('');
-    const [location, setLocation] = useState('');
-    const [yearFrom, setYearFrom] = useState('');
-    const [yearTo, setYearTo] = useState('');
-    const [priceFrom, setPriceFrom] = useState('');
-    const [priceTo, setPriceTo] = useState('');
+    const [departure, setDeparture] = useState('');
+    const [destination, setDestination] = useState('');
     const [isClient, setIsClient] = useState(false);
+    const router = useRouter();
 
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
+    useEffect(() => setIsClient(true), []);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log('Search submitted:', {
-            searchType,
-            make,
-            model,
-            bodyType,
-            location,
-            yearFrom,
-            yearTo,
-            priceFrom,
-            priceTo
-        });
+    const handleSearch = (type: 'ship' | 'carry') => {
+        if (!departure || !destination) {
+            alert("Veuillez renseigner le lieu de départ et la destination.");
+            return;
+        }
+
+        router.push(`/${type}?origin=${encodeURIComponent(departure)}&destination=${encodeURIComponent(destination)}`);
     };
 
     return (
@@ -49,200 +33,76 @@ export default function HeroSearchSection() {
                         muted
                         loop
                         playsInline
-                        preload="metadata" // Add preload
+                        preload="metadata"
                         style={{ zIndex: -1 }}
-                        onLoadStart={() => console.log('Video loading...')}
-                        onCanPlay={() => console.log('Video can play')} // Add this
-                        onError={(e) => {
-                            console.log('Video error:', e);
-                            console.log('Error details:', e.target);
-                        }}
-                        onLoadedMetadata={() => console.log('Video metadata loaded')} // Add this
                     >
                         <source src="/banner.mp4" type="video/mp4" />
                         <source src="/banner.webm" type="video/webm" />
-                        {/* Add fallback text */}
                         Your browser does not support the video tag.
                     </video>
                 </div>
             )}
 
-            {/* Video overlay for better text readability */}
-            <div
-                className="absolute inset-0 w-full h-full"
-                style={{ zIndex: 11, backgroundColor: "rgba(9, 71, 134, 0.4)" }}
-            />
+            <div className="absolute inset-0 w-full h-full" style={{ zIndex: 11, backgroundColor: "rgba(9, 71, 134, 0.4)" }} />
 
-            <div className="container relative z-[12] pb-2 py-sm-3 py-md-4 py-lg-5 my-lg-3 my-xl-4 my-xxl-5">
-                <div className="row align-items-center pt-lg-2 pb-lg-3 pb-xl-4 pb-xxl-5">
+            <div className="container relative z-[12] py-5">
+                <div className="row align-items-center">
                     {/* Heading */}
-                    <div className="col-lg-4 order-lg-2 text-center text-lg-start pb-2 pb-sm-3 pb-md-0 mb-4 mb-md-5 mb-lg-0">
-                        <h4 className="display-6 text-white" style={{
-                         fontSize: "3rem"
-                        }}>De l’envoi à la livraison, nous garantissons fiabilité et suivi irréprochable.</h4>
-                        <div className="d-flex align-items-center justify-content-center justify-content-lg-start mt-4">
-                            <div className="d-flex gap-3 flex-column flex-sm-row">
-                                <Link
-                                    href="#"
-                                    className="btn btn-primary btn-lg text-white d-flex align-items-center justify-content-center"
-                                    style={{ minHeight: '50px' }}
-                                >
-                                    <Info className="me-2" size={20} />
-                                    Apprendre Plus
-                                </Link>
-
-                                <Link
-                                    href="#"
-                                    className="btn btn-info !bg-[#094786] btn-lg text-white d-flex align-items-center justify-content-center"
-                                    style={{ minHeight: '50px' }}
-                                >
-                                    <Headset className="me-2" size={20} />
-                                    Contacter Nous
-                                </Link>
-                            </div>
+                    <div className="col-lg-5 text-center text-lg-start mb-5 mb-lg-0">
+                        <h4 className="display-6 text-white" style={{ fontSize: "2.8rem", lineHeight: 1.2 }}>
+                            De l’envoi à la livraison, nous garantissons fiabilité et suivi irréprochable.
+                        </h4>
+                        <div className="d-flex align-items-center justify-content-center justify-content-lg-start mt-4 gap-3 flex-column flex-sm-row">
+                            <a href="#" className="btn btn-primary btn-lg d-flex align-items-center justify-content-center text-white">
+                                <Info className="me-2" size={20} /> Apprendre Plus
+                            </a>
+                            <a href="#" className="btn btn-info !bg-[#094786] btn-lg d-flex align-items-center justify-content-center text-white">
+                                <Headset className="me-2" size={20} /> Contacter Nous
+                            </a>
                         </div>
                     </div>
 
                     {/* Search form */}
-                    <div className="col-lg-8 order-lg-1">
-                        <div className=" rounded p-4 mb-4 me-lg-4 me-xxl-0" style={{ maxWidth: '816px', backgroundColor: 'rgba(255, 255, 255, 1)' }}>
-                            <form className="p-sm-2" onSubmit={handleSubmit}>
-
-                                <div className={'flex justify-center items-center'}>
-                                    {/*<img src={'/1.gif'} alt={""} className={'w-[70px] h-auto'} />*/}
-                                    <div className={"flex flex-col items-center"}>
-                                        <h4>Transport de colis entre particuliers</h4>
-                                        <span className={'text-muted'}>Expédition de colis pas cher, rapide et écolo</span>
-                                    </div>
-                                    {/*<img src={'/2.gif'} alt={""} className={'w-[70px] h-auto'} />*/}
+                    <div className="col-lg-7">
+                        <div className="rounded p-4" style={{ backgroundColor: 'rgba(255, 255, 255, 1)' }}>
+                            <form onSubmit={(e) => e.preventDefault()} className="d-flex flex-column gap-4 align-items-center">
+                                <div className="text-center">
+                                    <h4>Transport de colis entre particuliers</h4>
+                                    <span className="text-muted">Expédition de colis pas cher, rapide et écolo</span>
                                 </div>
 
-                                <div className="d-flex justify-content-center gap-2 gap-sm-3 mt-5 mb-5">
-                                    <input
-                                        type="radio"
-                                        className="btn-check"
-                                        name="car-search"
-                                        id="all-cars"
-                                        checked={searchType === 'all-cars'}
-                                        onChange={() => setSearchType('all-cars')}
+                                <div className="row w-100 g-3 mt-3">
+                                    <LocationAutocomplete
+                                        id="departure"
+                                        label="Lieu de départ"
+                                        placeholder="Entrez la ville de départ"
+                                        defaultValue={departure}
+                                        onSelect={(place) => setDeparture(place?.formatted_address || '')}
                                     />
-                                    <label htmlFor="all-cars" className="btn btn-outline-primary rounded-pill">
-                                        J&#39;expédie
-                                    </label>
-
-                                    <input
-                                        type="radio"
-                                        className="btn-check"
-                                        name="car-search"
-                                        id="new-cars"
-                                        checked={searchType === 'new-cars'}
-                                        onChange={() => setSearchType('new-cars')}
+                                    <LocationAutocomplete
+                                        id="destination"
+                                        label="Destination"
+                                        placeholder="Entrez la ville de destination"
+                                        defaultValue={destination}
+                                        onSelect={(place) => setDestination(place?.formatted_address || '')}
                                     />
-                                    <label htmlFor="new-cars" className="btn btn-outline-primary rounded-pill">
-                                        Je transporte
-                                    </label>
                                 </div>
 
-                                <div className="row row-cols-1 row-cols-md-2 g-3">
-                                    <div className="col d-flex flex-column gap-3">
-                                        <select
-                                            className="form-select"
-                                            aria-label="Departure location"
-                                            value={make}
-                                            onChange={(e) => setMake(e.target.value)}
-                                        >
-                                            <option value="">Lieu de départ</option>
-                                            <option value="Paris">Paris</option>
-                                            <option value="Lyon">Lyon</option>
-                                            <option value="Marseille">Marseille</option>
-                                            <option value="Toulouse">Toulouse</option>
-                                            <option value="Nice">Nice</option>
-                                            <option value="Nantes">Nantes</option>
-                                            <option value="Montpellier">Montpellier</option>
-                                            <option value="Strasbourg">Strasbourg</option>
-                                            <option value="Bordeaux">Bordeaux</option>
-                                            <option value="Lille">Lille</option>
-                                        </select>
+                                <div className="d-flex justify-content-center gap-3 mt-4 flex-column flex-md-row w-100">
+                                    <button
+                                        type="button"
+                                        onClick={() => handleSearch('ship')}
+                                        className="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center"
+                                    >
+                                        <Package className="me-2" size={20} /> J’expédie un colis
+                                    </button>
 
-                                        <select
-                                            className="form-select"
-                                            aria-label="Package type"
-                                            value={model}
-                                            onChange={(e) => setModel(e.target.value)}
-                                        >
-                                            <option value="">Type de colis</option>
-                                            <option value="Documents">Documents</option>
-                                            <option value="Vêtements">Vêtements</option>
-                                            <option value="Électronique">Électronique</option>
-                                            <option value="Nourriture">Nourriture</option>
-                                            <option value="Cadeaux">Cadeaux</option>
-                                            <option value="Médicaments">Médicaments</option>
-                                            <option value="Livres">Livres</option>
-                                            <option value="Objets fragiles">Objets fragiles</option>
-                                            <option value="Autre">Autre</option>
-                                        </select>
-                                    </div>
-
-                                    <div className="col d-flex flex-column gap-3">
-                                        <select
-                                            className="form-select"
-                                            aria-label="Destination location"
-                                            value={location}
-                                            onChange={(e) => setLocation(e.target.value)}
-                                        >
-                                            <option value="">Destination</option>
-                                            <option value="Paris">Paris</option>
-                                            <option value="Lyon">Lyon</option>
-                                            <option value="Marseille">Marseille</option>
-                                            <option value="Toulouse">Toulouse</option>
-                                            <option value="Nice">Nice</option>
-                                            <option value="Nantes">Nantes</option>
-                                            <option value="Montpellier">Montpellier</option>
-                                            <option value="Strasbourg">Strasbourg</option>
-                                            <option value="Bordeaux">Bordeaux</option>
-                                            <option value="Lille">Lille</option>
-                                        </select>
-
-                                        <div className="input-group">
-                                            <div className="w-50">
-                                                <select
-                                                    className="form-select rounded-end-0"
-                                                    aria-label="Date de départ"
-                                                    value={yearFrom}
-                                                    onChange={(e) => setYearFrom(e.target.value)}
-                                                >
-                                                    <option value="">Date de départ</option>
-                                                    <option value="Aujourd'hui">Aujourd'hui</option>
-                                                    <option value="Demain">Demain</option>
-                                                    <option value="Cette semaine">Cette semaine</option>
-                                                    <option value="Semaine prochaine">Semaine prochaine</option>
-                                                    <option value="Ce mois">Ce mois</option>
-                                                    <option value="Mois prochain">Mois prochain</option>
-                                                    <option value="Flexible">Flexible</option>
-                                                </select>
-                                            </div>
-                                            <div className="w-50">
-                                                <select
-                                                    className="form-select rounded-start-0"
-                                                    aria-label="Urgence"
-                                                    value={yearTo}
-                                                    onChange={(e) => setYearTo(e.target.value)}
-                                                >
-                                                    <option value="">Urgence</option>
-                                                    <option value="Très urgent">Très urgent</option>
-                                                    <option value="Urgent">Urgent</option>
-                                                    <option value="Normal">Normal</option>
-                                                    <option value="Flexible">Flexible</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="d-flex justify-content-center mt-5">
-                                    <button type="submit" className="btn !bg-[#094786] text-white w-[100%] md:w-[30%] d-flex align-items-center">
-                                        <SearchIcon className="me-2" size={18} />
-                                        Rechercher
+                                    <button
+                                        type="button"
+                                        onClick={() => handleSearch('carry')}
+                                        className="btn btn-outline-primary btn-lg w-100 d-flex align-items-center justify-content-center"
+                                    >
+                                        <Truck className="me-2" size={20} /> Je transporte
                                     </button>
                                 </div>
                             </form>
