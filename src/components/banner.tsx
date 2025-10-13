@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { Headset, Info, Package, Truck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {LocationAutocomplete} from "@/components/ship";
+import {AiFillDashboard} from "react-icons/ai";
+import Link from "next/link";
 
 export default function HeroSearchSection() {
     const [departure, setDeparture] = useState('');
@@ -53,12 +55,12 @@ export default function HeroSearchSection() {
                             De l’envoi à la livraison, nous garantissons fiabilité et suivi irréprochable.
                         </h4>
                         <div className="d-flex align-items-center justify-content-center justify-content-lg-start mt-4 gap-3 flex-column flex-sm-row">
-                            <a href="#" className="btn btn-primary btn-lg d-flex align-items-center justify-content-center text-white">
-                                <Info className="me-2" size={20} /> Apprendre Plus
-                            </a>
-                            <a href="#" className="btn btn-info !bg-[#094786] btn-lg d-flex align-items-center justify-content-center text-white">
+                            <Link href="/dashboard" className="btn btn-primary btn-lg d-flex align-items-center justify-content-center text-white">
+                                <AiFillDashboard className="me-2" size={20} /> Démarrer
+                            </Link>
+                            <Link href="/contact" className="btn btn-info !bg-[#094786] btn-lg d-flex align-items-center justify-content-center text-white">
                                 <Headset className="me-2" size={20} /> Contacter Nous
-                            </a>
+                            </Link>
                         </div>
                     </div>
 
