@@ -505,6 +505,8 @@ export default function ShipSendPackage({
     const { data: session, status } = useSession();
     const router = useRouter();
 
+    const params = use(searchParams);
+
     const originParam = params.origin || "";
     const destinationParam = params.destination || "";
     const carryId = params.id || "";
