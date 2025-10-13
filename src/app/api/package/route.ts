@@ -73,6 +73,12 @@ export async function POST(req: Request) {
             auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
         });
 
+        console.log({
+            host: process.env.SMTP_HOST,
+            port: Number(process.env.SMTP_PORT),
+            auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+        }, process.env.NEXT_PUBLIC_ADMIN)
+
         // Admin
         await transporter.sendMail({
             from: `"NDC Travels" <${process.env.SMTP_USER}>`,
