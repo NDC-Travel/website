@@ -36,7 +36,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ChevronRight } from "lucide-react";
 import {FaFacebook} from "react-icons/fa";
-import {LocationAutocomplete} from "@/app/carry/page";
 
 export const countryNameToISO: Record<string, string> = {
     "Afghanistan": "AF",
@@ -235,23 +234,20 @@ export const countryNameToISO: Record<string, string> = {
     "Zimbabwe": "ZW"
 };
 
-export const isoToFlag = (iso: string) => {
-    if(iso){
-        return iso
-            .toUpperCase()
-            .replace(/./g, char =>
-                String.fromCodePoint(127397 + char.charCodeAt(0))
-            );
-    }
-    else{
-        return iso
-    }
+export const getCountryFromAddress = (address?: string) => {
+    if (!address || typeof address !== "string") return ""; // safely handle undefined/null
+    const parts = address.split(",");
+    const country = parts[parts.length - 1]?.trim() || "";
+    return country;
 };
 
-export const getCountryFromAddress = (address: string) => {
-    const parts = address.split(",");
-    const country = parts[parts.length - 1].trim();
-    return country;
+export const isoToFlag = (iso?: string) => {
+    if (!iso || typeof iso !== "string") return ""; // safely handle invalid ISO
+    return iso
+        .toUpperCase()
+        .replace(/./g, char =>
+            String.fromCodePoint(127397 + char.charCodeAt(0))
+        );
 };
 
 
@@ -341,8 +337,8 @@ const TransportTable: React.FC = () => {
             <TableBody>
                 {transports.map((t) => (
                     <TableRow key={t.id} className="border">
-                        <TableCell className="border">{isoToFlag(countryNameToISO[getCountryFromAddress(t.origin)])} {t.origin}</TableCell>
-                        <TableCell className="border">{isoToFlag(countryNameToISO[getCountryFromAddress(t.destination)])}  {t.destination}</TableCell>
+                        <TableCell className="border">{isoToFlag(countryNameToISO[getCountryFromAddress(t.origin)]) || "🌍"} {t.origin}</TableCell>
+                        <TableCell className="border">{isoToFlag(countryNameToISO[getCountryFromAddress(t.destination)]) || "🌍"}  {t.destination}</TableCell>
                         <TableCell className="border">{new Date(t.outboundDepartureDate as string).toDateString()}</TableCell>
                         <TableCell className="border justify-content-end flex gap-2">
                             <Sheet>

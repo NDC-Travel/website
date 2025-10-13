@@ -104,11 +104,11 @@ export default function Listing() {
                     <div className="border-top pt-3 mb-3">
                         <div className="flex items-center justify-content-between g-2 fs-sm">
                             <div className="col d-flex align-items-center gap-2">
-                                {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.origin)])} {pkg.origin}
+                                {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.origin)]) || "🌍"} {pkg.origin}
                             </div>
                             <ArrowRight />
                             <div className="col d-flex fw-bold align-items-center justify-content-end gap-2">
-                                {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.destination)])} {pkg.destination}
+                                {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.destination)]) || "🌍"} {pkg.destination}
                             </div>
                         </div>
                     </div>

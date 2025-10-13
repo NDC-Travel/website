@@ -269,12 +269,12 @@ export default function PackageDetailPage() {
                                     <h2 className="h4 mb-3 !text-[#007bff]">Trajet du colis</h2>
                                     <div className="flex items-center justify-content-between g-2 py-2 fs-sm">
                                         <div className="col d-flex fw-bold text-black align-items-center gap-2">
-                                            {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.origin)])} {pkg.origin}
+                                            {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.origin)]) || "🌍"} {pkg.origin}
                                         </div>
                                         <ArrowRight/>
                                         <div
                                             className="col d-flex fw-bold text-black align-items-center justify-content-end gap-2">
-                                            {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.destination)])} {pkg.destination}
+                                            {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.destination)]) || "🌍"} {pkg.destination}
                                         </div>
                                     </div>
                                     <Link
@@ -338,12 +338,12 @@ export default function PackageDetailPage() {
                                             <b className={'!text-black'}>{listing.packageContents}</b><br/>
                                             <div className="flex items-center justify-content-between g-2 py-2 fs-sm h-[50px]">
                                                 <div className="col d-flex fw-bold !text-[0.7rem] align-items-center gap-2">
-                                                    {isoToFlag(countryNameToISO[getCountryFromAddress(listing.origin)])} {listing.origin}
+                                                    {isoToFlag(countryNameToISO[getCountryFromAddress(listing.origin)]) || "🌍"} {listing.origin}
                                                 </div>
                                                 <ArrowRight/>
                                                 <div
                                                     className="col d-flex fw-bold !text-[0.7rem] align-items-center justify-content-end gap-2">
-                                                    {isoToFlag(countryNameToISO[getCountryFromAddress(listing.destination)])} {listing.destination}
+                                                    {isoToFlag(countryNameToISO[getCountryFromAddress(listing.destination)]) || "🌍"} {listing.destination}
                                                 </div>
                                             </div>
                                             <div className="mt-2 font-semibold text-primary">

@@ -43,7 +43,7 @@ import { ChevronRight } from "lucide-react";
 import { FaFacebook } from "react-icons/fa";
 import { LocationAutocomplete } from "@/app/carry/page";
 import Image from "next/image";
-import {countryNameToISO} from "@/components/my-carry";
+import {countryNameToISO, getCountryFromAddress, isoToFlag} from "@/components/my-carry";
 
 interface Package {
     id: string;
@@ -118,25 +118,6 @@ const PackageTable: React.FC = () => {
         );
     }
 
-    const isoToFlag = (iso: string) => {
-        if(iso){
-            return iso
-                .toUpperCase()
-                .replace(/./g, char =>
-                    String.fromCodePoint(127397 + char.charCodeAt(0))
-                );
-        }
-        else{
-            return iso
-        }
-    };
-
-    const getCountryFromAddress = (address: string) => {
-        const parts = address.split(",");
-        const country = parts[parts.length - 1].trim();
-        return country;
-    };
-
     return (
         <Table className="border border-gray-300">
             <TableHeader>
@@ -152,11 +133,11 @@ const PackageTable: React.FC = () => {
                 {packages.map((p) => (
                     <TableRow key={p.id} className="border">
                         <TableCell className="border">
-                            {isoToFlag(countryNameToISO[getCountryFromAddress(p.origin)]) ?? ""}
+                            {isoToFlag(countryNameToISO[getCountryFromAddress(p.origin)]) || "🌍"}
                             {p.origin}
                         </TableCell>
                         <TableCell className="border">
-                            {isoToFlag(countryNameToISO[getCountryFromAddress(p.destination)]) ?? ""}
+                            {isoToFlag(countryNameToISO[getCountryFromAddress(p.destination)]) || "🌍"}
                             {p.destination}
                         </TableCell>
                         <TableCell className="border">
