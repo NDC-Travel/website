@@ -160,7 +160,7 @@ export default function Header() {
                             <span className="navbar-toggler-icon"></span>
                         </button>
                     </SheetTrigger>
-                    <SheetContent className={'!pt-10'}>
+                    <SheetContent className={'!pt-10 md:!w-[500px] !w-full'}>
                         <div className="!pt-24 grid flex-1 auto-rows-min gap-6 px-4">
                             <Item variant="outline" className={'!text-black'} size="sm" asChild>
                                 <Link href={"/services"}>
