@@ -63,7 +63,7 @@ export default function Listing() {
         });
 
     const renderCard = (pkg: Package, index: number) => (
-        <div key={`${pkg.id}-${index}`} className="mx-3" style={{ width: '400px', flexShrink: 0 }}>
+        <div key={`${pkg.id}-${index}`} className="mx-3 !w-full md:!w-[400px]" style={{ flexShrink: 0 }}>
             <Link href={`/package/${pkg.id}`} className="card h-100 hover-effect-scale">
                 <div className="card-img-top position-relative overflow-hidden">
                     <div className="position-absolute top-0 start-0 z-1 pt-2 ps-2">
