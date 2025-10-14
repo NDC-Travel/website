@@ -31,8 +31,8 @@ const features: Feature[] = [
 export default function FeaturesSection() {
     return (
         <section className="container pb-5 mb-lg-3 mb-xl-4 mb-xxl-5">
-            <div className="d-sm-flex justify-content-center gap-3 pb-3 mb-5 mb-sm-5">
-                <h2 className="mb-sm-0">Comment ca marche</h2>
+            <div className="d-sm-flex md:!justify-start !justify-center md:!text-start !text-center gap-3 pb-3 mb-5 mb-sm-5">
+                <h2 className="mb-sm-0 w-full">Comment ca marche</h2>
             </div>
             <div className="row gy-3 pb-sm-3 pb-md-4 pb-lg-5">
                 {features.map((feature) => (
