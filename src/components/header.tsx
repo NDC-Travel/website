@@ -145,13 +145,17 @@ export default function Header() {
         };
     }, [session?.user?.id]);
 
+    const [menu, setMenu] = React.useState<boolean>(false)
+
+    const handleClose = () => setMenu(false);
+
     return (
         <header
             className="navbar navbar-expand-lg bg-body navbar-sticky sticky-top z-fixed px-0"
             data-sticky-element=""
         >
             <div className="container">
-                <Sheet>
+                <Sheet open={menu} onOpenChange={setMenu}>
                     <SheetTrigger asChild>
                         <button
                             type="button"
@@ -160,10 +164,10 @@ export default function Header() {
                             <span className="navbar-toggler-icon"></span>
                         </button>
                     </SheetTrigger>
-                    <SheetContent className={'!pt-10 md:!w-[500px] !w-full'}>
+                    <SheetContent className={'!pt-10 md:!w-[500px] !w-[80%]'}>
                         <div className="!pt-24 grid flex-1 auto-rows-min gap-6 px-4">
                             <Item variant="outline" className={'!text-black'} size="sm" asChild>
-                                <Link href={"/services"}>
+                                <Link href={"/services"} onClick={handleClose}>
                                     <ItemMedia>
                                         <BadgeCheckIcon className="size-5" />
                                     </ItemMedia>
@@ -176,7 +180,7 @@ export default function Header() {
                                 </Link>
                             </Item>
                             <Item variant="outline" className={'!text-black'} size="sm" asChild>
-                                <Link href={"/about"}>
+                                <Link href={"/about"} onClick={handleClose}>
                                     <ItemMedia>
                                         <InfoIcon className="size-5" />
                                     </ItemMedia>
@@ -189,7 +193,7 @@ export default function Header() {
                                 </Link>
                             </Item>
                             <Item variant="outline" className={'!text-black'} size="sm" asChild>
-                                <Link href={"/contact"}>
+                                <Link href={"/contact"} onClick={handleClose}>
                                     <ItemMedia>
                                         <Headphones className="size-5" />
                                     </ItemMedia>
@@ -203,12 +207,12 @@ export default function Header() {
                             </Item>
 
 
-                            <Link href="/carry" className="btn btn-primary animate-shake me-2 h-[40px]">
+                            <Link href="/carry" onClick={handleClose} className="btn btn-primary animate-shake me-2 h-[40px]">
                                 <Truck className="w-[20px] animate-target ms-n2 me-2"/>
                                 Transporter
                             </Link>
 
-                            <Link href="/ship" className="btn btn-outline-primary animate-scale h-[40px]">
+                            <Link href="/ship" onClick={handleClose} className="btn btn-outline-primary animate-scale h-[40px]">
                                 <Package className="w-20px] animate-target ms-n2 me-1 me-sm-2"/>
                                 Expédier
                             </Link>
