@@ -33,7 +33,7 @@ export default function Login() {
     }
 
     return (
-        <div className="w-full">
+        <div className="w-full !px-4 md:!px-0">
             <form onSubmit={onSubmit} className="space-y-3 px-3">
                 <Input
                     value={email}
