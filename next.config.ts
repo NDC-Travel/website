@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {

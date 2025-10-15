@@ -10,7 +10,9 @@ const prisma = new PrismaClient();
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     session: {
-        strategy: "jwt", // ✅ use database sessions
+        strategy: "database",
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+        // strategy: "jwt", // ✅ use database sessions
     },
     providers: [
         CredentialsProvider({
@@ -101,13 +103,15 @@ export const authOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     cookies: {
         sessionToken: {
-            name: process.env.NODE_ENV === "production"
-                ? "__Secure-next-auth.session-token"
-                : "next-auth.session-token",
+            name:
+                process.env.NODE_ENV === "production"
+                    ? "__Secure-next-auth.session-token"
+                    : "next-auth.session-token",
             options: {
                 httpOnly: true,
-                sameSite: "none", // ✅ allow cross-site cookies (mobile Safari needs this)
-                secure: process.env.NODE_ENV === "production",
+                sameSite: "none", // ✅ needed for cross-site contexts (mobile)
+                path: "/",        // ✅ always include this
+                secure: process.env.NODE_ENV === "production", // ✅ required for SameSite=None
             },
         },
     },
