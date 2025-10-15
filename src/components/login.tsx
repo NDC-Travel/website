@@ -29,7 +29,9 @@ export default function Login() {
             setErr((res as any).error || "Invalid credentials");
             return;
         }
-        router.push("/dashboard");
+        if (!res?.error) {
+            setTimeout(() => router.push("/dashboard"), 200); // ⏳ let cookies settle
+        }
     }
 
     return (
