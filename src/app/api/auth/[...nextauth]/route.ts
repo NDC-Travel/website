@@ -138,6 +138,10 @@ export const authOptions: NextAuthOptions = {
     ],
 
     callbacks: {
+        async redirect({ url, baseUrl }) {
+            return url.startsWith(baseUrl) ? url : baseUrl;
+        },
+
         async session({ session, user }) {
             if (session.user && user) {
                 session.user = {
@@ -162,12 +166,12 @@ export const authOptions: NextAuthOptions = {
                     : "next-auth.session-token",
             options: {
                 httpOnly: true,
-                sameSite: "none", // ✅ Required for cross-site/mobile
-                secure: true, // ✅ MUST be true if sameSite=none
+                sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+                secure: process.env.NODE_ENV === "production" ? true : false,
                 path: "/",
                 domain:
                     process.env.NODE_ENV === "production"
-                        ? ".ndc-travels.com" // ✅ Important! Set your root domain here
+                        ? ".ndc-travels.com"
                         : undefined,
             },
         },
