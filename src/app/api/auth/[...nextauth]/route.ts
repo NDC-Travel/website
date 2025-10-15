@@ -47,35 +47,27 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        // async session({ session, user }) {
-        //     if (session.user) {
-        //         const dbUser = await prisma.user.findUnique({
-        //             where: { email: session.user.email! },
-        //         });
-        //
-        //         if (dbUser) {
-        //             console.log("SESSION Data:", dbUser);
-        //             session.user = {
-        //                 id: dbUser.id,
-        //                 name: dbUser.name,
-        //                 email: dbUser.email,
-        //                 image: dbUser.image,
-        //                 address: dbUser.address,
-        //                 phone: dbUser.phone,
-        //                 createdAt: dbUser.createdAt,
-        //             };
-        //         }
-        //     }
-        //     return session;
-        // },
-        // async jwt({ token, user }) {
-        //     if (user) {
-        //         token.id = user.id;
-        //         token.name = user.name;
-        //         token.email = user.email;
-        //     }
-        //     return token;
-        // },
+        async session({ session, user }) {
+            if (session.user) {
+                const dbUser = await prisma.user.findUnique({
+                    where: { email: session.user.email! },
+                });
+
+                if (dbUser) {
+                    console.log("SESSION Data:", dbUser);
+                    session.user = {
+                        id: dbUser.id,
+                        name: dbUser.name,
+                        email: dbUser.email,
+                        image: dbUser.image,
+                        address: dbUser.address,
+                        phone: dbUser.phone,
+                        createdAt: dbUser.createdAt,
+                    };
+                }
+            }
+            return session;
+        },
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
@@ -84,16 +76,24 @@ export const authOptions: NextAuthOptions = {
             }
             return token;
         },
-
-        async session({ session, token }) {
-            // ✅ pull data only from token, not DB
-            session.user = {
-                id: token.id as string,
-                name: token.name as string,
-                email: token.email as string,
-            };
-            return session;
-        },
+        // async jwt({ token, user }) {
+        //     if (user) {
+        //         token.id = user.id;
+        //         token.name = user.name;
+        //         token.email = user.email;
+        //     }
+        //     return token;
+        // },
+        //
+        // async session({ session, token }) {
+        //     // ✅ pull data only from token, not DB
+        //     session.user = {
+        //         id: token.id as string,
+        //         name: token.name as string,
+        //         email: token.email as string,
+        //     };
+        //     return session;
+        // },
     },
     pages: {
         signIn: "/auth/signin",
