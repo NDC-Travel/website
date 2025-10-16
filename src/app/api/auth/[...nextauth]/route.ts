@@ -53,33 +53,25 @@ export const authOptions: NextAuthOptions = {
     },
 
     callbacks: {
-        // Modify session object with additional user info
         async session({ session, token }) {
-            if (token) {
-                // Assuming token contains user info like email or role after login
-                session.user.id = token.id; // Add user ID to session
-                session.user.email = token.email; // Add email to session
-                session.user.name = token.name; // Optionally, add name
-
-                // Add any custom user info if required
-                // session.user.customInfo = token.customInfo || null;
+            if (session.user && token?.id) {
+                session.user.id = token.id as string;
+                session.user.email = token.email as string;
+                session.user.name = token.name as string;
             }
 
             return session;
         },
 
-        // Token callback is called when the user logs in
         async jwt({ token, user }) {
             if (user) {
-                // Store user info in the JWT token
                 token.id = user.id;
                 token.email = user.email;
                 token.name = user.name;
-                // token.customInfo = user.customInfo; // Add custom user info if required
             }
 
             return token;
-        }
+        },
     },
 
     secret: process.env.AUTH_SECRET,
