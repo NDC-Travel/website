@@ -91,7 +91,6 @@ export default function Header() {
 
     const [notifications, setNotifications] = useState<Notifications[]>([]);
 
-    // Fetch notifications on load
     useEffect(() => {
         if (!session?.user?.id) return;
 
@@ -115,15 +114,14 @@ export default function Header() {
             cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER!,
         });
 
-        // Subscribe to user-specific and global channels
         const channelUser = pusher.subscribe(`notifications-${session.user.id}`);
         const channelAll = pusher.subscribe("notifications-all");
 
         const handleNewNotification = (notif: Notifications) => {
             setNotifications((prev) => [notif, ...prev]);
 
-            // Browser notification
-            if (Notification.permission === "granted") {
+            // Check if we are in a browser environment
+            if (typeof window !== "undefined" && Notification.permission === "granted") {
                 new Notification(notif.title, { body: notif.content });
             }
         };
@@ -131,8 +129,8 @@ export default function Header() {
         channelUser.bind("new-notification", handleNewNotification);
         channelAll.bind("new-notification", handleNewNotification);
 
-        // Request permission
-        if (Notification.permission !== "granted") {
+        // Request permission for notifications if not granted
+        if (typeof window !== "undefined" && Notification.permission !== "granted") {
             Notification.requestPermission();
         }
 
