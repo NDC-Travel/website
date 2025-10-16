@@ -38,6 +38,7 @@ import {usePathname} from "next/navigation";
 import {useSession} from "next-auth/react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import Pusher from "pusher-js";
+import { toast } from "sonner"
 
 interface Notifications {
     id: string;
@@ -80,61 +81,56 @@ export default function Header() {
         },
     ]
 
-    // const [notifications, setNotifications] = useState<Notifications[]>([]);
-    //
-    // useEffect(() => {
-    //     if (!session?.user?.id) return;
-    //
-    //     const fetchNotifications = async () => {
-    //         const res = await fetch("/api/notifications");
-    //         const data = await res.json();
-    //         const visible = data.notifications.filter(
-    //             (notif: Notifications) => !notif.targetId || notif.targetId === session.user?.id
-    //         );
-    //         setNotifications(visible);
-    //     };
-    //
-    //     fetchNotifications();
-    // }, [session?.user?.id]);
+    const [notifications, setNotifications] = useState<Notifications[]>([]);
 
-    // useEffect(() => {
-    //     if (!session?.user?.id) return;
-    //
-    //     // Make sure Pusher only subscribes on the client side
-    //     if (typeof window === "undefined") return; // Prevent this code from running on the server
-    //
-    //     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
-    //         cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER!,
-    //     });
-    //
-    //     const channelUser = pusher.subscribe(`notifications-${session.user.id}`);
-    //     const channelAll = pusher.subscribe("notifications-all");
-    //
-    //     const handleNewNotification = (notif: Notifications) => {
-    //         setNotifications((prev) => [notif, ...prev]);
-    //
-    //         // Ensure we're in a client-side environment and have notification permission
-    //         if (Notification.permission === "granted") {
-    //             new Notification(notif.title, { body: notif.content });
-    //         }
-    //     };
-    //
-    //     channelUser.bind("new-notification", handleNewNotification);
-    //     channelAll.bind("new-notification", handleNewNotification);
-    //
-    //     // Request permission only on the client side
-    //     if (Notification.permission !== "granted" && typeof window !== "undefined") {
-    //         Notification.requestPermission();
-    //     }
-    //
-    //     return () => {
-    //         channelUser.unbind_all();
-    //         channelUser.unsubscribe();
-    //         channelAll.unbind_all();
-    //         channelAll.unsubscribe();
-    //         pusher.disconnect();
-    //     };
-    // }, [session?.user?.id]);
+    useEffect(() => {
+        if (!session?.user?.id) return;
+
+        const fetchNotifications = async () => {
+            const res = await fetch("/api/notifications");
+            const data = await res.json();
+            const visible = data.notifications.filter(
+                (notif: Notifications) => !notif.targetId || notif.targetId === session.user?.id
+            );
+            setNotifications(visible);
+        };
+
+        fetchNotifications();
+    }, [session?.user?.id]);
+
+    useEffect(() => {
+        if (!session?.user?.id) return;
+
+        // Make sure Pusher only subscribes on the client side
+        if (typeof window === "undefined") return; // Prevent this code from running on the server
+
+        const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
+            cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER!,
+        });
+
+        const channelUser = pusher.subscribe(`notifications-${session.user.id}`);
+        const channelAll = pusher.subscribe("notifications-all");
+
+        const handleNewNotification = (notif: Notifications) => {
+            setNotifications((prev) => [notif, ...prev]);
+
+            toast(notif.title, {
+                description: notif.content,
+            })
+        };
+
+        channelUser.bind("new-notification", handleNewNotification);
+        channelAll.bind("new-notification", handleNewNotification);
+
+
+        return () => {
+            channelUser.unbind_all();
+            channelUser.unsubscribe();
+            channelAll.unbind_all();
+            channelAll.unsubscribe();
+            pusher.disconnect();
+        };
+    }, [session?.user?.id]);
 
     const [menu, setMenu] = React.useState<boolean>(false)
 
@@ -269,26 +265,26 @@ export default function Header() {
 
                                         <div className="!flex !w-full !px-3 !flex-col !gap-6">
                                             <ItemGroup className="gap-2">
-                                                {/*{notifications.length === 0 ? (*/}
-                                                {/*    <p className="text-muted-foreground">Aucune notification</p>*/}
-                                                {/*) : (*/}
-                                                {/*    notifications.map((notif) => (*/}
-                                                {/*        <Item key={notif.id} variant="outline" className={'p-2'} asChild role="listitem">*/}
-                                                {/*            <a className="!text-decoration-none !hover:text-decoration-none" href="#">*/}
-                                                {/*                <ItemMedia variant="image">*/}
-                                                {/*                    <BellIcon className={'text-black w-[32px] h-[32px]'} />*/}
-                                                {/*                </ItemMedia>*/}
-                                                {/*                <ItemContent>*/}
-                                                {/*                    <ItemTitle className="line-clamp-1 text-black fw-bold">{notif.title}</ItemTitle>*/}
-                                                {/*                    <ItemDescription className={'m-0 pb-0'}>{notif.content}</ItemDescription>*/}
-                                                {/*                </ItemContent>*/}
-                                                {/*                <ItemContent className="flex-none text-center">*/}
-                                                {/*                    <ItemDescription>{new Date(notif.createdAt).toLocaleString()}</ItemDescription>*/}
-                                                {/*                </ItemContent>*/}
-                                                {/*            </a>*/}
-                                                {/*        </Item>*/}
-                                                {/*    ))*/}
-                                                {/*)}*/}
+                                                {notifications.length === 0 ? (
+                                                    <p className="text-muted-foreground">Aucune notification</p>
+                                                ) : (
+                                                    notifications.map((notif) => (
+                                                        <Item key={notif.id} variant="outline" className={'p-2'} asChild role="listitem">
+                                                            <a className="!text-decoration-none !hover:text-decoration-none" href="#">
+                                                                <ItemMedia variant="image">
+                                                                    <BellIcon className={'text-black w-[32px] h-[32px]'} />
+                                                                </ItemMedia>
+                                                                <ItemContent>
+                                                                    <ItemTitle className="line-clamp-1 text-black fw-bold">{notif.title}</ItemTitle>
+                                                                    <ItemDescription className={'m-0 pb-0'}>{notif.content}</ItemDescription>
+                                                                </ItemContent>
+                                                                <ItemContent className="flex-none text-center">
+                                                                    <ItemDescription>{new Date(notif.createdAt).toLocaleString()}</ItemDescription>
+                                                                </ItemContent>
+                                                            </a>
+                                                        </Item>
+                                                    ))
+                                                )}
                                             </ItemGroup>
                                         </div>
 
