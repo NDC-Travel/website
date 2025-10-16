@@ -36,6 +36,8 @@ export const authOptions: NextAuthOptions = {
                 const isValid = await verifyPassword(credentials.password, user.password);
                 if (!isValid) return null;
 
+                console.log("Session", user)
+
                 return user;
 
                 // return {
@@ -53,24 +55,6 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
         }),
     ],
-
-    callbacks: {
-        async session({ session, user }) {
-            if (session.user && user) {
-                session.user = {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email,
-                    image: user.image,
-                    address: user.address,
-                    phone: user.phone,
-                    createdAt: user.createdAt,
-                };
-            }
-            return session;
-        },
-    },
-
     pages: {
         signIn: "/auth/signin",
     },
