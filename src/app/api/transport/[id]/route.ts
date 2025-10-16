@@ -78,6 +78,17 @@ export async function GET(req: Request, { params }: Params) {
         // Optional: ensure user owns this transport
         const transport = await prisma.transport.findUnique({
             where: { id },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        image: true,
+                        phone: true,
+                    },
+                },
+            }
         });
 
         if (!transport) {
