@@ -60,21 +60,24 @@ export const authOptions: NextAuthOptions = {
             //     session.user.name = token.name as string;
             // }
 
-            console.log("session", session);
-            console.log("token", token);
+            // console.log("session", session);
+            // console.log("token", token);
 
             return session;
         },
 
-        async jwt({ token, user }) {
+        async jwt({ token, user, profile, session, account }) {
             // if (user) {
             //     token.id = user.id;
             //     token.email = user.email;
             //     token.name = user.name;
             // }
 
-            console.log("uer", user);
+            console.log("user", user);
             console.log("token", token);
+            console.log("account", account);
+            console.log("profile", profile);
+            console.log("session", session);
 
             return token;
         },

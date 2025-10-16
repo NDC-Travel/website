@@ -271,7 +271,7 @@ export default function Header() {
                                         </Button>
                                     </SheetTrigger>
 
-                                    <SheetContent className="w-full sm:max-w-[500px] overflow-y-auto">
+                                    <SheetContent className="w-[75%] sm:max-w-[500px] overflow-y-auto">
                                         <SheetHeader>
                                             <SheetTitle>Notifications</SheetTitle>
                                         </SheetHeader>
