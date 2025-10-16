@@ -59,13 +59,10 @@ export const authOptions: NextAuthOptions = {
                 session.user.email = token.email as string;
                 session.user.name = token.name as string;
                 session.user.image = token.picture as string;
-
                 session.user.phone = token.phone as string
                 session.user.address = token.address as string
                 session.user.createdAt = token.createdAt
             }
-
-            console.log("Session", session)
 
             return session;
         },
@@ -80,7 +77,6 @@ export const authOptions: NextAuthOptions = {
                 token.createdAt = dbUser.createdAt
                 token.image = token.picture as string;
             }
-            console.log("Token", token);
             return token;
         },
     },

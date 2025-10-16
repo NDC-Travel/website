@@ -48,7 +48,7 @@ import {useSession} from "next-auth/react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import Pusher from "pusher-js";
 
-interface Notification {
+interface Notifications {
     id: string;
     targetId: string | null;
     title: string;
@@ -89,7 +89,7 @@ export default function Header() {
         },
     ]
 
-    const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [notifications, setNotifications] = useState<Notifications[]>([]);
 
     // Fetch notifications on load
     useEffect(() => {
