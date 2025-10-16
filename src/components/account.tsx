@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from "@/components/ui/button"
+import {Button} from "@/components/ui/button"
 import {
     Card,
     CardContent,
@@ -9,8 +9,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import {Input} from "@/components/ui/input"
+import {Label} from "@/components/ui/label"
 import {
     Tabs,
     TabsContent,
@@ -24,6 +24,7 @@ import ContactTab, {ProfileTab} from "@/components/my-contact";
 import MessageTab from "@/components/my-message";
 import TransportTable from "@/components/my-carry";
 import PackageTable from "@/components/my-package";
+import {MessageCircleDashedIcon, Package2Icon, PlaneIcon, UserIcon, UsersIcon} from "lucide-react";
 
 export default function Dashboard({
                                       searchParams,
@@ -32,7 +33,7 @@ export default function Dashboard({
 }) {
     const params = use(searchParams)
 
-    const { data: session, status, update } = useSession();
+    const {data: session, status, update} = useSession();
     const router = useRouter();
     const initialTab = params.page || "profile";
     const [activeTab, setActiveTab] = useState(initialTab);
@@ -45,7 +46,7 @@ export default function Dashboard({
 
     const handleTabChange = (value: string) => {
         setActiveTab(value);
-        router.replace(`?page=${value}`, { scroll: false });
+        router.replace(`?page=${value}`, {scroll: false});
     };
 
     if (status === "loading") {
@@ -71,31 +72,48 @@ export default function Dashboard({
         );
     }
 
+    console.log(session);
+
     return (
         <div className="!flex !w-full !min-h-[70dvh] !py-10 !flex-col !justify-center !gap-6">
             <div className={'container flex justify-content-center'}>
                 <Tabs defaultValue={initialTab} onValueChange={handleTabChange} className={'md:!w-[70%] !w-full'}>
                     <TabsList className={'!h-[50px] !w-full'}>
-                        <TabsTrigger className={''} value="profile">Mon Compte</TabsTrigger>
-                        <TabsTrigger value="contact">Mes Contacts</TabsTrigger>
-                        <TabsTrigger value="package">Mes Colis</TabsTrigger>
-                        <TabsTrigger value="trip">Mes Voyages</TabsTrigger>
-                        <TabsTrigger value="message">Mes Messages</TabsTrigger>
+                        <TabsTrigger className={''} value="profile">
+                            <b className={'hidden md:flex'}>Mon Compte</b>
+                            <UserIcon className={'md:hidden flex'} />
+                        </TabsTrigger>
+                        <TabsTrigger value="contact">
+                            <b className={'hidden md:flex'}>Mes Contacts</b>
+                            <UsersIcon className={'md:hidden flex'} />
+                        </TabsTrigger>
+                        <TabsTrigger value="package">
+                            <b className={'hidden md:flex'}>Mes Colis</b>
+                            <Package2Icon className={'md:hidden flex'} />
+                        </TabsTrigger>
+                        <TabsTrigger value="trip">
+                            <b className={'hidden md:flex'}>Mes Voyages</b>
+                            <PlaneIcon className={'md:hidden flex'} />
+                        </TabsTrigger>
+                        <TabsTrigger value="message">
+                            <b className={'hidden md:flex'}>Mes Messages</b>
+                            <MessageCircleDashedIcon className={'md:hidden flex'} />
+                        </TabsTrigger>
                     </TabsList>
                     <TabsContent value="profile">
-                        <ProfileTab session={session} />
+                        <ProfileTab session={session}/>
                     </TabsContent>
                     <TabsContent value="contact">
-                        <ContactTab session={session} />
+                        <ContactTab session={session}/>
                     </TabsContent>
                     <TabsContent value="package">
-                        <PackageTable />
+                        <PackageTable/>
                     </TabsContent>
                     <TabsContent value="trip">
-                        <TransportTable />
+                        <TransportTable/>
                     </TabsContent>
                     <TabsContent value="message">
-                        <MessageTab searchParams={searchParams} />
+                        <MessageTab searchParams={searchParams}/>
                     </TabsContent>
                 </Tabs>
             </div>

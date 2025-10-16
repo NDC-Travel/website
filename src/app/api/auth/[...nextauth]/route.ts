@@ -37,6 +37,7 @@ export const authOptions: NextAuthOptions = {
                 if (!isValid) return null;
 
                 return user;
+
                 // return {
                 //     id: user.id,
                 //     name: user.name ?? undefined,
@@ -52,6 +53,24 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
         }),
     ],
+
+    callbacks: {
+        async session({ session, user }) {
+            if (session.user && user) {
+                session.user = {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    image: user.image,
+                    address: user.address,
+                    phone: user.phone,
+                    createdAt: user.createdAt,
+                };
+            }
+            return session;
+        },
+    },
+
     pages: {
         signIn: "/auth/signin",
     },
@@ -110,22 +129,22 @@ export { handler as GET, handler as POST };
 // //         }),
 // //     ],
 // //
-// //     callbacks: {
-// //         async session({ session, user }) {
-// //             if (session.user && user) {
-// //                 session.user = {
-// //                     id: user.id,
-// //                     name: user.name,
-// //                     email: user.email,
-// //                     image: user.image,
-// //                     address: user.address,
-// //                     phone: user.phone,
-// //                     createdAt: user.createdAt,
-// //                 };
-// //             }
-// //             return session;
-// //         },
-// //     },
+//     callbacks: {
+//         async session({ session, user }) {
+//             if (session.user && user) {
+//                 session.user = {
+//                     id: user.id,
+//                     name: user.name,
+//                     email: user.email,
+//                     image: user.image,
+//                     address: user.address,
+//                     phone: user.phone,
+//                     createdAt: user.createdAt,
+//                 };
+//             }
+//             return session;
+//         },
+//     },
 // //
 // //     cookies: {
 // //         sessionToken: {
