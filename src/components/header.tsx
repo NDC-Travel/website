@@ -23,15 +23,6 @@ import {
     UsersIcon
 } from "lucide-react";
 import {
-    Drawer,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from "@/components/ui/drawer"
-import {
     Item,
     ItemActions,
     ItemContent,
@@ -106,9 +97,11 @@ export default function Header() {
         fetchNotifications();
     }, [session?.user?.id]);
 
-    // Real-time notifications via Pusher
     useEffect(() => {
         if (!session?.user?.id) return;
+
+        // Make sure Pusher only subscribes on the client side
+        if (typeof window === "undefined") return; // Prevent this code from running on the server
 
         const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
             cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER!,
@@ -120,8 +113,8 @@ export default function Header() {
         const handleNewNotification = (notif: Notifications) => {
             setNotifications((prev) => [notif, ...prev]);
 
-            // Check if we are in a browser environment
-            if (typeof window !== "undefined" && Notification.permission === "granted") {
+            // Ensure we're in a client-side environment and have notification permission
+            if (Notification.permission === "granted") {
                 new Notification(notif.title, { body: notif.content });
             }
         };
@@ -129,8 +122,8 @@ export default function Header() {
         channelUser.bind("new-notification", handleNewNotification);
         channelAll.bind("new-notification", handleNewNotification);
 
-        // Request permission for notifications if not granted
-        if (typeof window !== "undefined" && Notification.permission !== "granted") {
+        // Request permission only on the client side
+        if (Notification.permission !== "granted" && typeof window !== "undefined") {
             Notification.requestPermission();
         }
 
