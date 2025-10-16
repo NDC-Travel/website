@@ -54,21 +54,21 @@ export const authOptions: NextAuthOptions = {
 
     callbacks: {
         async session({ session, token }) {
-            if (session.user && token?.id) {
-                session.user.id = token.id as string;
-                session.user.email = token.email as string;
-                session.user.name = token.name as string;
-            }
+            // if (session.user && token?.id) {
+            //     session.user.id = token.id as string;
+            //     session.user.email = token.email as string;
+            //     session.user.name = token.name as string;
+            // }
 
             return session;
         },
 
         async jwt({ token, user }) {
-            if (user) {
-                token.id = user.id;
-                token.email = user.email;
-                token.name = user.name;
-            }
+            // if (user) {
+            //     token.id = user.id;
+            //     token.email = user.email;
+            //     token.name = user.name;
+            // }
 
             return token;
         },
