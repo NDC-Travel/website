@@ -26,9 +26,5 @@ export default function Providers({ children }: { children: ReactNode }) {
             window.removeEventListener("visibilitychange", visibilityHandler, false)
     }, [update])
 
-    return <SessionProvider basePath="/"
-        // Re-fetch session every 5 minutes
-                            refetchInterval={5 * 60}
-        // Re-fetches session when window is focused
-                            refetchOnWindowFocus={true}>{children}</SessionProvider>;
+    return <SessionProvider>{children}</SessionProvider>;
 }
