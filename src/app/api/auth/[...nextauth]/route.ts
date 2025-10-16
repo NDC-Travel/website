@@ -36,12 +36,13 @@ export const authOptions: NextAuthOptions = {
                 const isValid = await verifyPassword(credentials.password, user.password);
                 if (!isValid) return null;
 
-                return {
-                    id: user.id,
-                    name: user.name ?? undefined,
-                    email: user.email ?? undefined,
-                    image: user.image ?? undefined,
-                };
+                return user;
+                // return {
+                //     id: user.id,
+                //     name: user.name ?? undefined,
+                //     email: user.email ?? undefined,
+                //     image: user.image ?? undefined,
+                // };
             },
         }),
 
