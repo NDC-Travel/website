@@ -60,6 +60,9 @@ export const authOptions: NextAuthOptions = {
             //     session.user.name = token.name as string;
             // }
 
+            console.log("session", session);
+            console.log("token", token);
+
             return session;
         },
 
@@ -69,6 +72,9 @@ export const authOptions: NextAuthOptions = {
             //     token.email = user.email;
             //     token.name = user.name;
             // }
+
+            console.log("uer", user);
+            console.log("token", token);
 
             return token;
         },
