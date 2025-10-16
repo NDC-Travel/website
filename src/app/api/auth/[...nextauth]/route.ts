@@ -39,13 +39,6 @@ export const authOptions: NextAuthOptions = {
                 console.log("Session", user)
 
                 return user;
-
-                // return {
-                //     id: user.id,
-                //     name: user.name ?? undefined,
-                //     email: user.email ?? undefined,
-                //     image: user.image ?? undefined,
-                // };
             },
         }),
 
@@ -58,6 +51,37 @@ export const authOptions: NextAuthOptions = {
     pages: {
         signIn: "/auth/signin",
     },
+
+    callbacks: {
+        // Modify session object with additional user info
+        async session({ session, token }) {
+            if (token) {
+                // Assuming token contains user info like email or role after login
+                session.user.id = token.id; // Add user ID to session
+                session.user.email = token.email; // Add email to session
+                session.user.name = token.name; // Optionally, add name
+
+                // Add any custom user info if required
+                // session.user.customInfo = token.customInfo || null;
+            }
+
+            return session;
+        },
+
+        // Token callback is called when the user logs in
+        async jwt({ token, user }) {
+            if (user) {
+                // Store user info in the JWT token
+                token.id = user.id;
+                token.email = user.email;
+                token.name = user.name;
+                // token.customInfo = user.customInfo; // Add custom user info if required
+            }
+
+            return token;
+        }
+    },
+
     secret: process.env.AUTH_SECRET,
 };
 
