@@ -5,7 +5,7 @@ import {ReactNode, useEffect} from "react";
 
 export default function Providers({ children }: { children: ReactNode }) {
 
-    const { data: session, status, update } = useSession()
+    const { update } = useSession()
 
     // Polling the session every 1 hour
     useEffect(() => {

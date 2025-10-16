@@ -53,7 +53,7 @@ export const authOptions: NextAuthOptions = {
     },
 
     callbacks: {
-        async session({ session, token }) {
+        async session({ session, token, user }) {
             // if (session.user && token?.id) {
             //     session.user.id = token.id as string;
             //     session.user.email = token.email as string;
@@ -77,7 +77,7 @@ export const authOptions: NextAuthOptions = {
             console.log("token", token);
             console.log("account", account);
             console.log("profile", profile);
-            console.log("session", session);
+            // console.log("session", session);
 
             return token;
         },
