@@ -214,7 +214,7 @@ const PackageTable: React.FC = () => {
                             <Button
                                 size="icon"
                                 variant="outline"
-                                onClick={() => router.push(`/package?origin=${encodeURIComponent(p.origin)}&destination=${encodeURIComponent(p.destination)}`)}
+                                onClick={() => router.push(`/carrier?origin=${encodeURIComponent(p.origin)}&destination=${encodeURIComponent(p.destination)}`)}
                                 title="Chercher un transporteur"
                             >
                                 <SearchIcon />
@@ -230,7 +230,7 @@ const PackageTable: React.FC = () => {
 
                             {/* Partager sur Facebook */}
                             <FacebookShareButton
-                                url={"https://www.ndc-travels.com/package/" + p.id}
+                                url={"https://www.ndc-travels.com/carrier/" + p.id}
                                 quote="Regardez ce colis sur NDC Travels !"
                             />
                         </TableCell>

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import {LocationAutocomplete} from "@/components/ship";
 import {Separator} from "@/components/ui/separator";
-import {countryNameToISO, getCountryFromAddress, isoToFlag} from "@/components/my-carry";
+import {countryNameToISO, getAddress, getCountryFromAddress, isoToFlag, transportIcon} from "@/components/my-carry";
 import {ArrowRight} from "lucide-react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 
@@ -144,44 +144,41 @@ export default function ListingCarrier({
                     <div key={index} className="mx-1.5">
                         <Link href={`/carrier/${pkg.id}`} className="card h-100 hover-effect-scale">
                             <div className="card-body pb-3">
-                                <div className="d-flex align-items-center justify-content-between mb-4">
-                                    <div className="fs-xs text-body-secondary me-3">
-                                        Deadline: <b className={'text-black'}>{formatDate(pkg.shippingDeadline)}</b>
+
+                                <div className="flex items-center justify-content-between g-2 text-[0.75rem]">
+                                    <div className="col d-flex fw-bold align-items-center justify-content-start gap-3">
+                                        {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.origin)]) || "🌍"} {getAddress(pkg.origin)}
                                     </div>
-                                    <div className="mb-0 text-[0.85rem]">
-                                        Indemnité Proposée: <b className="h6 text-primary">{pkg.participationAllowance} €</b>
+                                    <ArrowRight /> &nbsp; &nbsp;
+                                    {transportIcon[pkg.meansTransport]}
+                                    &nbsp; &nbsp;  <ArrowRight />
+                                    <div className="col d-flex fw-bold align-items-center justify-content-end gap-3">
+                                        {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.destination)]) || "🌍"} {getAddress(pkg.destination)}
                                     </div>
                                 </div>
-
-                                <h3 className="h6 mb-2">
-                                    <Link href={`/carrier/${pkg.id}`} className="hover-effect-underline stretched-link me-1 !text-[#d46328]">
-                                        {pkg.packageContents}
-                                    </Link>
-                                </h3>
-
-                                <small className={'text-muted'}>
-                                    {pkg.parcelDetails}
-                                </small>
 
                             </div>
 
                             <div className="card-footer bg-transparent border-0 pt-0 pb-4">
                                 <div className="border-top pt-3 mb-3">
-                                    <div className="flex items-center justify-content-between g-2 fs-sm">
-                                        <div className="col d-flex align-items-center gap-2">
-                                            {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.origin)]) || "🌍"} {pkg.origin}
+                                    <div className="d-flex align-items-center justify-content-between mb-4">
+                                        <div className="fs-xs text-body-secondary me-3">
+                                            Poids Acceptable: <b className={'text-black'}>{pkg.weightAvailable} KG</b>
                                         </div>
-                                        <ArrowRight />
-                                        <div className="col d-flex fw-bold align-items-center justify-content-end gap-2">
-                                            {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.destination)]) || "🌍"} {pkg.destination}
+                                        <div className="mb-0 text-[0.85rem]">
+                                            Prix du Kilo: <b className="h6 text-primary">{pkg.pricePerKg} €</b>
                                         </div>
                                     </div>
+
+                                    <small className={'text-muted'}>
+                                        {pkg.tripDescription}
+                                    </small>
                                 </div>
 
                                 <div className="border-top pt-3">
-                                    <div className="d-flex align-items-center justify-content-between gap-2">
+                                    <div className="d-flex text-[0.85rem] align-items-center justify-content-between gap-2">
                                         Publié par
-                                        <div className="d-flex align-items-center gap-2">
+                                        <div className="d-flex fw-bold text-black align-items-center gap-2">
                                             <Avatar className={'!w-[32px] !bg-black !text-white !h-[32px]'}>
                                                 <AvatarImage src={pkg.user?.image as string} />
                                                 <AvatarFallback className={'!text-decoration-none !bg-black !text-white'}>{pkg.user?.name?.charAt(0)}</AvatarFallback>

@@ -241,6 +241,31 @@ export const getCountryFromAddress = (address?: string) => {
     return country;
 };
 
+export const getAddress = (address?: string) => {
+    if (!address || typeof address !== "string") return ""; // safely handle undefined/null
+    const parts = address.split(",");
+    const country = parts[0]?.trim() || "";
+    return country;
+};
+
+export const transportIcon = {
+    "plane": "✈️",
+    "car": "🚗",
+    "van": "🚐",
+    "train": "🚂",
+    "bus": "🚌",
+    "ship": "🚢",
+}
+
+export const transportName = {
+    "plane": "Avion",
+    "car": "Voiture",
+    "van": "Camionnette",
+    "train": "Train",
+    "bus": "Bus",
+    "ship": "Fret maritime",
+}
+
 export const isoToFlag = (iso?: string) => {
     if (!iso || typeof iso !== "string") return ""; // safely handle invalid ISO
     return iso

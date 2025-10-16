@@ -21,12 +21,8 @@ export async function GET(req: Request) {
         const nowIso = new Date().toISOString(); // convert to ISO string for string comparison
 
         // Fetch all active packages (deadline not passed)
-        const activePackages = await prisma.package.findMany({
-            where: {
-                shippingDeadline: {
-                    gt: nowIso, // ✅ compare ISO strings
-                },
-            },
+        const activePackages = await prisma.transport.findMany({
+            where: {},
             include: {
                 user: {
                     select: {
