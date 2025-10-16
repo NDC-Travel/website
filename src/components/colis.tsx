@@ -547,6 +547,18 @@ export default function ShipSendPackage({
         fetchCarryData();
     }, [carryId, router]);
 
+    const [route, setRoute] = useState("/package");
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams();
+
+        // Use only string values, not the full object
+        if (params.origin) urlParams.set("origin", params.origin || "");
+        if (params.destination) urlParams.set("destination", params.destination || "");
+
+        setRoute(`/package?${urlParams.toString()}`);
+    }, [params]);
+
     if (loadingData) {
         return (
             <main className={'content-wrapper'}>
@@ -634,7 +646,7 @@ export default function ShipSendPackage({
                                             Vérifiez les colis disponibles pour cet itinéraire.
                                         </p>
                                     </div>
-                                    <Link href="#" className="btn text-white !bg-[#094786] animate-shake me-2 h-[40px]">
+                                    <Link href={route} className="btn text-white !bg-[#094786] animate-shake me-2 h-[40px]">
                                         <PackageIcon className="w-[20px] animate-target ms-n2 me-2"/>
                                         Voir les colis
                                     </Link>

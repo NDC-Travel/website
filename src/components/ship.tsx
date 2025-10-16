@@ -448,7 +448,6 @@ export default function SendPackage({
         }
     }, [status, router]);
 
-    // Fetch package data if id is present (edit mode)
     useEffect(() => {
         const fetchPackageData = async () => {
             if (!packageId) return;
@@ -474,6 +473,18 @@ export default function SendPackage({
 
         fetchPackageData();
     }, [packageId, router]);
+
+    const [route, setRoute] = useState("/carrier");
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams();
+
+        // Use only string values, not the full object
+        if (params.origin) urlParams.set("origin", params.origin || "");
+        if (params.destination) urlParams.set("destination", params.destination || "");
+
+        setRoute(`/carrier?${urlParams.toString()}`);
+    }, [params]);
 
     if (loadingData) {
         return (
@@ -562,7 +573,7 @@ export default function SendPackage({
                                             Vérifiez les transporteurs disponibles pour cet itinéraire.
                                         </p>
                                     </div>
-                                    <Link href="/carry" className="btn text-white !bg-[#094786] animate-shake me-2 h-[40px]">
+                                    <Link href={route} className="btn text-white !bg-[#094786] animate-shake me-2 h-[40px]">
                                         <Truck className="w-[20px] animate-target ms-n2 me-2"/>
                                         Voir les transporteurs
                                     </Link>

@@ -10,9 +10,9 @@ import {countryNameToISO, getCountryFromAddress, isoToFlag} from "@/components/m
 import {ArrowRight} from "lucide-react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 
-const PAGE_SIZE = 9;
+const PAGE_SIZE = 12;
 
-export default function ListingPackage({
+export default function ListingCarrier({
                                            searchParams,
                                        }: {
     searchParams: Promise<{ origin?: string, search?: string, destination?: string }>
@@ -45,12 +45,12 @@ export default function ListingPackage({
         if (destination) params.set("destination", destination.formatted_address || destination.name || "");
         if (search) params.set("search", search);
 
-        router.replace(`/package?${params.toString()}`);
+        router.replace(`/carrier?${params.toString()}`);
     }, [origin, destination, search]);
 
     // Fetch listings (mocked here, replace with API call)
     const fetchListings = async () => {
-        let data: any = await fetch("/api/packages")
+        let data: any = await fetch("/api/carriers")
             .then((res) => res.json())
             .catch(() => []);
 
@@ -139,23 +139,10 @@ export default function ListingPackage({
             <Separator className={'my-5'} />
 
             {/* Listings */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 mb-7">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-1.5 mb-7">
                 {paginated.map((pkg: any, index: number) => (
-                    <div key={index} className="mx-3">
-                        <Link href={`/package/${pkg.id}`} className="card h-100 hover-effect-scale">
-                            <div className="card-img-top position-relative overflow-hidden">
-                                <div className="position-absolute top-0 start-0 z-1 pt-2 ps-2">
-            <span className="badge text-bg-primary">
-              {pkg.weight ? `Poids: ${pkg.weight} KG` : 'Colis'}
-            </span>
-                                </div>
-
-                                <div className="ratio hover-effect-target bg-body-tertiary"
-                                     style={{ '--fn-aspect-ratio': 'calc(204 / 306 * 100%)' } as React.CSSProperties}>
-                                    <img className={'!h-[300px] !w-full !object-cover'} src={pkg.imageUrl || "https://img.freepik.com/free-vector/cardboard-box_23-2147513430.jpg?t=st=1760309231~exp=1760312831~hmac=cbb721d02a1fc426748066b66230a45e80ee69d96f18af4f1147f866ffb48b82&w=2000"} alt={pkg.packageContents}/>
-                                </div>
-                            </div>
-
+                    <div key={index} className="mx-1.5">
+                        <Link href={`/carrier/${pkg.id}`} className="card h-100 hover-effect-scale">
                             <div className="card-body pb-3">
                                 <div className="d-flex align-items-center justify-content-between mb-4">
                                     <div className="fs-xs text-body-secondary me-3">
@@ -167,7 +154,7 @@ export default function ListingPackage({
                                 </div>
 
                                 <h3 className="h6 mb-2">
-                                    <Link href={`/package/${pkg.id}`} className="hover-effect-underline stretched-link me-1 !text-[#d46328]">
+                                    <Link href={`/carrier/${pkg.id}`} className="hover-effect-underline stretched-link me-1 !text-[#d46328]">
                                         {pkg.packageContents}
                                     </Link>
                                 </h3>
