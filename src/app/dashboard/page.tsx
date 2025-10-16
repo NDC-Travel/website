@@ -1,14 +1,15 @@
 import {Suspense} from "react";
 import Dashboard from "@/components/account";
-import {useSession} from "next-auth/react";
+import {getServerSession} from "next-auth";
+import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 
-export default function Page({
+export default async function Page({
                                  searchParams,
                              }: {
     searchParams: Promise<{ page?: string, id?: string }>
 }) {
 
-    const { data: session } = useSession();
+    const session = await getServerSession(authOptions);
 
     if (!session?.user) return <div>Loading...</div>;
 
