@@ -99,7 +99,7 @@ export default function Header() {
             const res = await fetch("/api/notifications");
             const data = await res.json();
             const visible = data.notifications.filter(
-                (notif: Notification) => !notif.targetId || notif.targetId === session.user?.id
+                (notif: Notifications) => !notif.targetId || notif.targetId === session.user?.id
             );
             setNotifications(visible);
         };
@@ -119,7 +119,7 @@ export default function Header() {
         const channelUser = pusher.subscribe(`notifications-${session.user.id}`);
         const channelAll = pusher.subscribe("notifications-all");
 
-        const handleNewNotification = (notif: Notification) => {
+        const handleNewNotification = (notif: Notifications) => {
             setNotifications((prev) => [notif, ...prev]);
 
             // Browser notification
