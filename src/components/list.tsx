@@ -7,7 +7,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import {LocationAutocomplete} from "@/components/ship";
 import {Separator} from "@/components/ui/separator";
 import {countryNameToISO, getCountryFromAddress, isoToFlag} from "@/components/my-carry";
-import {ArrowRight} from "lucide-react";
+import {ArrowRight, MessageSquareIcon} from "lucide-react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 
 const PAGE_SIZE = 9;
@@ -177,6 +177,7 @@ export default function ListingPackage({
                         </span>
                                 </div>
 
+
                                 <div className="ratio hover-effect-target bg-body-tertiary"
                                      style={{ '--fn-aspect-ratio': 'calc(204 / 306 * 100%)' } as React.CSSProperties}>
                                     <img className={'!h-[300px] !w-full !object-cover'} src={pkg.imageUrl || "https://img.freepik.com/free-vector/cardboard-box_23-2147513430.jpg?t=st=1760309231~exp=1760312831~hmac=cbb721d02a1fc426748066b66230a45e80ee69d96f18af4f1147f866ffb48b82&w=2000"} alt={pkg.packageContents}/>
@@ -229,6 +230,33 @@ export default function ListingPackage({
                                             {pkg.user?.name || 'Utilisateur Inconnu'}
                                         </div>
                                     </div>
+                                    {
+                                        pkg.carrier !== null ? (
+                                                <>
+                                                    <br />
+                                                    <div className="d-flex border-top align-items-center justify-content-between gap-2 pt-3">
+                                                        Transporté par
+                                                        <div className="d-flex align-items-center gap-2">
+                                                            <Avatar className={'!w-[32px] !bg-black !text-white !h-[32px]'}>
+                                                                <AvatarImage src={pkg.carrier?.image as string} />
+                                                                <AvatarFallback className={'!text-decoration-none !bg-black !text-white'}>{pkg.carrier?.name?.charAt(0)}</AvatarFallback>
+                                                            </Avatar>
+                                                            {pkg.carrier?.name || 'Utilisateur Inconnu'}
+                                                        </div>
+                                                    </div>
+                                                </> )
+                                            :
+                                            <div className="d-flex border-top align-items-center justify-content-between gap-2 pt-3 mt-3">
+                                                Pas de Transporteur
+                                                <Link
+                                                    href={`https://wa.me/237656501651`}
+                                                    // href={"/dashboard?page=message&id=" + pkg.user?.email}
+                                                    className="btn btn-sm btn-primary fw-bold d-flex z-2 align-items-center"
+                                                >
+                                                    <MessageSquareIcon className="w-4 me-2 h-4 text-white" /> Chat Par Message
+                                                </Link>
+                                            </div>
+                                    }
                                 </div>
                             </div>
                         </Link>

@@ -22,7 +22,7 @@ export default function Home() {
 
         <CategoryCardsSection />
 
-        <ListingCarrier />
+        {/*<ListingCarrier />*/}
 
         <DirectoryListingCTA />
 

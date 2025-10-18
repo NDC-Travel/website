@@ -215,32 +215,34 @@ export default function PackageDetailPage() {
 
                                     <div className="md:!flex !hidden flex-1 justify-content-between gap-3 !mt-0">
                                         <Link
-                                            href={"/dashboard?page=message&id=" + pkg.user?.email}
+                                            href={`https://wa.me/237656501651`}
+                                            // href={"/dashboard?page=message&id=" + pkg.user?.email}
                                             className="btn flex-1 btn-primary fw-bold d-flex align-items-center"
                                         >
                                             <MessageSquareIcon className="w-4 me-2 h-4 text-white" /> Chat Par Message
                                         </Link>
-                                        <a
-                                            href="https://wa.me/237656501651"
-                                            className="btn flex-1 fw-bold btn-primary d-flex align-items-center !bg-green-600 !border-0"
-                                        >
-                                            <FaWhatsapp className="w-4 me-2 h-4 text-white" /> Contactez-nous
-                                        </a>
+                                        {/*<a*/}
+                                        {/*    href="https://wa.me/237656501651"*/}
+                                        {/*    className="btn flex-1 fw-bold btn-primary d-flex align-items-center !bg-green-600 !border-0"*/}
+                                        {/*>*/}
+                                        {/*    <FaWhatsapp className="w-4 me-2 h-4 text-white" /> Contactez-nous*/}
+                                        {/*</a>*/}
                                     </div>
 
                                     <div className="!flex flex-col md:!hidden flex-1 justify-content-between gap-3 !mt-0">
                                         <Link
-                                            href={"/dashboard?page=message&id=" + pkg.user?.email}
+                                            href={`https://wa.me/237656501651`}
+                                            // href={"/dashboard?page=message&id=" + pkg.user?.email}
                                             className="btn flex-1 btn-primary fw-bold d-flex align-items-center"
                                         >
                                             <MessageSquareIcon className="w-4 me-2 h-4 text-white" /> Chat Par Message
                                         </Link>
-                                        <a
-                                            href="https://wa.me/237656501651"
-                                            className="btn flex-1 fw-bold btn-primary d-flex align-items-center !bg-green-600 !border-0"
-                                        >
-                                            <FaWhatsapp className="w-4 me-2 h-4 text-white" /> Contactez-nous
-                                        </a>
+                                        {/*<a*/}
+                                        {/*    href="https://wa.me/237656501651"*/}
+                                        {/*    className="btn flex-1 fw-bold btn-primary d-flex align-items-center !bg-green-600 !border-0"*/}
+                                        {/*>*/}
+                                        {/*    <FaWhatsapp className="w-4 me-2 h-4 text-white" /> Contactez-nous*/}
+                                        {/*</a>*/}
                                     </div>
                                 </div>
                             </div>
