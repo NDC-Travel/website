@@ -95,10 +95,10 @@ export default function Dashboard({
                             <b className={'hidden md:flex'}>Mes Voyages</b>
                             <PlaneIcon className={'md:hidden flex'} />
                         </TabsTrigger>
-                        <TabsTrigger value="message">
-                            <b className={'hidden md:flex'}>Mes Messages</b>
-                            <MessageCircleDashedIcon className={'md:hidden flex'} />
-                        </TabsTrigger>
+                        {/*<TabsTrigger value="message">*/}
+                        {/*    <b className={'hidden md:flex'}>Mes Messages</b>*/}
+                        {/*    <MessageCircleDashedIcon className={'md:hidden flex'} />*/}
+                        {/*</TabsTrigger>*/}
                     </TabsList>
                     <TabsContent value="profile">
                         <ProfileTab session={session}/>
@@ -112,9 +112,9 @@ export default function Dashboard({
                     <TabsContent value="trip">
                         <TransportTable/>
                     </TabsContent>
-                    <TabsContent value="message">
-                        <MessageTab searchParams={searchParams}/>
-                    </TabsContent>
+                    {/*<TabsContent value="message">*/}
+                    {/*    <MessageTab searchParams={searchParams}/>*/}
+                    {/*</TabsContent>*/}
                 </Tabs>
             </div>
         </div>

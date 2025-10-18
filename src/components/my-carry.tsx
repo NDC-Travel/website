@@ -21,7 +21,8 @@ import {
 import { useSession } from "next-auth/react";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle, EmptyMedia } from "@/components/ui/empty";
 import {
-    Calendar1Icon, CalendarCheck2Icon,
+    ArrowRight,
+    Calendar1Icon, CalendarCheck2Icon, ChevronRightIcon,
     DockIcon, DollarSignIcon,
     Edit2Icon,
     EyeIcon,
@@ -36,6 +37,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ChevronRight } from "lucide-react";
 import {FaFacebook} from "react-icons/fa";
+import {ScrollArea} from "@/components/ui/scroll-area";
+import {Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle} from "@/components/ui/item";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 
 export const countryNameToISO: Record<string, string> = {
     "Afghanistan": "AF",
@@ -425,13 +429,38 @@ const TransportTable: React.FC = () => {
                             </Sheet>
 
                             {/* Chercher un colis */}
-                            <Button
-                                size="icon"
-                                variant="outline"
-                                onClick={() => router.push(`/package?origin=${encodeURIComponent(t.origin)}&destination=${encodeURIComponent(t.destination)}`)}
-                            >
-                                <SearchIcon />
-                            </Button>
+                            {/*<Button*/}
+                            {/*    size="icon"*/}
+                            {/*    variant="outline"*/}
+                            {/*    onClick={() => router.push(`/package?origin=${encodeURIComponent(t.origin)}&destination=${encodeURIComponent(t.destination)}`)}*/}
+                            {/*>*/}
+                            {/*    <SearchIcon />*/}
+                            {/*</Button>*/}
+
+                            <Sheet>
+                                <SheetTrigger asChild>
+                                    <Button size="icon" variant="outline" onClick={() => setSelected(t)}>
+                                        <SearchIcon />
+                                    </Button>
+                                </SheetTrigger>
+
+                                <SheetContent className="!pt-24 !h-[90vh] flex flex-col">
+                                    <SheetHeader>
+                                        <SheetTitle>Nos Colis</SheetTitle>
+                                        <SheetDescription>
+                                            Liste de nos Colis et leurs trajets
+                                        </SheetDescription>
+                                    </SheetHeader>
+
+                                    <div className="flex-1 overflow-auto">
+                                        <ScrollArea className="h-full">
+                                            <div className="p-3 gap-2 flex flex-col">
+                                                <CarrierItem />
+                                            </div>
+                                        </ScrollArea>
+                                    </div>
+                                </SheetContent>
+                            </Sheet>
 
                             <Button size="icon" variant="outline" onClick={() => router.push("/carry?id=" + t.id)}><Edit2Icon /></Button>
 
@@ -478,3 +507,60 @@ export const FacebookShareButton: React.FC<ShareButtonProps> = ({ url, quote }) 
     );
 };
 
+
+const CarrierItem: React.FC<> = () => {
+
+    const [packages, setPackages] = useState<any>([]);
+    const router = useRouter();
+
+    useEffect(() => {
+        const fetchPackages = async () => {
+            try {
+                const res = await fetch("/api/packages");
+                const data = await res.json();
+                setPackages(data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        fetchPackages();
+    }, []);
+
+    return (
+        <>
+            {
+                packages.map((c, index) => (
+                    <Item key={index} variant="outline" size="sm" asChild>
+                        <a href={`/package/${c.id}`}>
+                            <ItemMedia>
+                                <Avatar className={'!w-full !h-[auto] !bg-black !text-white'}>
+                                    <AvatarImage src={c.imageUrl as string} />
+                                    <AvatarFallback className={'!text-decoration-none !bg-black !text-white'}>{c.name?.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                            </ItemMedia>
+                            <ItemContent>
+                                <ItemTitle className={'text-secondary flex flex-1 w-full items-start justify-content-start flex-col'}>
+                                    <div className={'flex text-black-50 items-center'}>
+                                        {c.packageContents} &nbsp; • &nbsp; <b className={'text-black fw-bold'}>{c.participationAllowance || 0} €</b>
+                                    </div>
+                                    <div className={'flex flex-1 items-center !text-[0.75rem]'}>
+                                        <div className="col d-flex align-items-center gap-2">
+                                            {isoToFlag(countryNameToISO[getCountryFromAddress(c.origin)]) || "🌍"} {getAddress(c.origin)}
+                                        </div>
+                                        <ArrowRight/>
+                                        <div className="col d-flex fw-bold align-items-center justify-content-end gap-2">
+                                            {isoToFlag(countryNameToISO[getCountryFromAddress(c.destination)]) || "🌍"} {getAddress(c.destination)}
+                                        </div>
+                                    </div>
+                                </ItemTitle>
+                            </ItemContent>
+                            <ItemActions>
+                                <ChevronRightIcon className="size-4" />
+                            </ItemActions>
+                        </a>
+                    </Item>
+                ))
+            }
+        </>
+    );
+};

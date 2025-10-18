@@ -292,12 +292,21 @@ export default function Listing() {
                 <div className="d-sm-flex justify-content-between gap-3 pb-3 mb-2 mb-sm-3">
                     <h2 className="mb-sm-0">Dernières Annonces</h2>
 
-                    <Link
-                        href={"/package"}
-                        className="btn btn-primary btn-lg d-flex align-items-center justify-content-center"
-                    >
-                        Nos Colis
-                    </Link>
+                    <div className="d-sm-flex justify-content-between gap-3 pb-3 mb-2 mb-sm-3">
+                        <Link
+                            href={"/package"}
+                            className="btn btn-primary btn-lg d-flex align-items-center justify-content-center"
+                        >
+                            Nos Colis
+                        </Link>
+                        <Link
+                            href={"/carrier"}
+                            className="btn btn-primary btn-lg d-flex align-items-center justify-content-center"
+                        >
+                            Nos Transporteurs
+                        </Link>
+                    </div>
+
                 </div>
             </div>
 

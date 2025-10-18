@@ -34,7 +34,7 @@ import {
     ScaleIcon,
     SearchIcon,
     Trash2Icon,
-    BoxIcon
+    BoxIcon, ChevronRightIcon
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import DatePicker from "react-datepicker";
@@ -44,6 +44,9 @@ import { FaFacebook } from "react-icons/fa";
 import { LocationAutocomplete } from "@/app/carry/page";
 import Image from "next/image";
 import {countryNameToISO, getCountryFromAddress, isoToFlag} from "@/components/my-carry";
+import {Item, ItemActions, ItemContent, ItemMedia, ItemTitle} from "@/components/ui/item";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {ScrollArea} from "@/components/ui/scroll-area";
 
 interface Package {
     id: string;
@@ -160,7 +163,7 @@ const PackageTable: React.FC = () => {
                                     </SheetHeader>
 
                                     {selected && (
-                                        <div className="grid gap-2 ps-4 mt-4">
+                                        <div className="grid gap-2 ps-4 pe-3 mt-4">
                                             {selected.imageUrl && (
                                                 <div className="mb-4">
                                                     <img
@@ -211,14 +214,40 @@ const PackageTable: React.FC = () => {
                             </Sheet>
 
                             {/* Chercher un transporteur */}
-                            <Button
-                                size="icon"
-                                variant="outline"
-                                onClick={() => router.push(`/carrier?origin=${encodeURIComponent(p.origin)}&destination=${encodeURIComponent(p.destination)}`)}
-                                title="Chercher un transporteur"
-                            >
-                                <SearchIcon />
-                            </Button>
+                            {/*<Button*/}
+                            {/*    size="icon"*/}
+                            {/*    variant="outline"*/}
+                            {/*    onClick={() => router.push(`/carrier?origin=${encodeURIComponent(p.origin)}&destination=${encodeURIComponent(p.destination)}`)}*/}
+                            {/*    title="Chercher un transporteur"*/}
+                            {/*>*/}
+                            {/*    <SearchIcon />*/}
+                            {/*</Button>*/}
+
+                            <Sheet>
+                                <SheetTrigger asChild>
+                                    <Button size="icon" variant="outline" onClick={() => setSelected(p)}>
+                                        <SearchIcon />
+                                    </Button>
+                                </SheetTrigger>
+
+                                <SheetContent className="!pt-24 !h-[90vh] flex flex-col">
+                                    <SheetHeader>
+                                        <SheetTitle>Nos Transporteurs</SheetTitle>
+                                        <SheetDescription>
+                                            Liste de nos Transporteurs et leurs trajets
+                                        </SheetDescription>
+                                    </SheetHeader>
+
+                                    <div className="flex-1 overflow-auto">
+                                        <ScrollArea className="h-full">
+                                            <div className="p-3 gap-2 flex flex-col">
+                                                <CarrierItem />
+                                            </div>
+                                        </ScrollArea>
+                                    </div>
+                                </SheetContent>
+                            </Sheet>
+
 
                             <Button size="icon" variant="outline" onClick={() => router.push("/ship?id=" + p.id)}>
                                 <Edit2Icon />
@@ -266,3 +295,48 @@ const FacebookShareButton: React.FC<ShareButtonProps> = ({ url, quote }) => {
         </Button>
     );
 };
+
+const CarrierItem: React.FC<> = () => {
+
+    const [packages, setPackages] = useState<any>([]);
+    const router = useRouter();
+
+    useEffect(() => {
+        const fetchPackages = async () => {
+            try {
+                const res = await fetch("/api/carriers/list");
+                const data = await res.json();
+                setPackages(data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        fetchPackages();
+    }, []);
+
+    return (
+        <>
+            {
+                packages.map((c, index) => (
+                    <Item key={index} variant="outline" size="sm" asChild>
+                        <a href={`/carrier/${c.id}`}>
+                            <ItemMedia>
+                                <Avatar className={'!w-[32px] !h-[32px] !bg-black !text-white'}>
+                                    <AvatarImage src={c.image as string} />
+                                    <AvatarFallback className={'!text-decoration-none !bg-black !text-white'}>{c.name?.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                            </ItemMedia>
+                            <ItemContent>
+                                <ItemTitle className={'text-black fw-bold'}>{c.name}</ItemTitle>
+                            </ItemContent>
+                            <ItemActions>
+                                <b className={'!text-[#007bff]'}>Voir</b><ChevronRightIcon className="size-4" />
+                            </ItemActions>
+                        </a>
+                    </Item>
+                ))
+            }
+        </>
+    );
+};
+
