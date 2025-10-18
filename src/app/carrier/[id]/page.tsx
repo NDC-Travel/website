@@ -26,6 +26,7 @@ import {
 import { ReviewForm } from "@/components/review";
 import {FaWhatsapp} from "react-icons/fa";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import Marquee from "react-fast-marquee";
 
 interface Transport {
     id: string;
@@ -66,7 +67,7 @@ export default function CarrierDetailPage() {
                 const res = await fetch(`/api/transport/${id}`);
                 const data = await res.json();
 
-                const relatedRes = await fetch(`/api/carriers?limit=4`);
+                const relatedRes = await fetch(`/api/carriers?limit=6`);
                 const relatedData = await relatedRes.json();
 
                 setCarrier(data);
@@ -238,7 +239,7 @@ export default function CarrierDetailPage() {
                 {related.length > 0 && (
                     <>
                         <h2 className="text-xl font-semibold my-6">Autres transporteurs disponibles</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-7">
+                        <Marquee pauseOnHover speed={50} gradient gradientWidth={100} gradientColor="white" className="py-3">
                             {related.map((pkg, index) => (
                                 <div key={index} className="mx-1.5">
                                     <Link href={`/carrier/${pkg.id}`} className="card h-100 hover-effect-scale">
@@ -325,7 +326,7 @@ export default function CarrierDetailPage() {
                                     </Link>
                                 </div>
                             ))}
-                        </div>
+                        </Marquee>
                     </>
                 )}
             </section>

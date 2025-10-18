@@ -20,6 +20,8 @@ import {BsStarFill} from "react-icons/bs";
 import {countryNameToISO, FacebookShareButton, getCountryFromAddress, isoToFlag} from "@/components/my-carry";
 import {ReviewForm} from "@/components/review";
 import {FaWhatsapp} from "react-icons/fa";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import Marquee from "react-fast-marquee";
 
 interface Package {
     id: string;
@@ -54,7 +56,7 @@ export default function PackageDetailPage() {
                 const detailRes = await fetch(`/api/package/${id}`);
                 const detail = await detailRes.json();
 
-                const relatedRes = await fetch(`/api/packages?limit=4`);
+                const relatedRes = await fetch(`/api/packages?limit=6`);
                 const related = await relatedRes.json();
 
                 setPkg(detail);
@@ -96,6 +98,14 @@ export default function PackageDetailPage() {
             </div>
         );
     }
+
+    const formatDate = (date: string) =>
+        new Date(date).toLocaleDateString('fr-FR', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        });
+
 
     return (
         <main className="content-wrapper">
@@ -308,39 +318,79 @@ export default function PackageDetailPage() {
                 {related.length > 0 && (
                     <>
                         <h2 className="text-xl font-semibold my-6">Autres colis disponibles</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-7">
-                            {related.map((listing) => (
-                                <div key={listing.id}>
-                                    <article className="card hover-effect-scale">
-                                        <div className="card-img-top overflow-hidden">
-                                            <img className={'!h-[300px] !w-full !object-cover'} src={listing.imageUrl || "https://img.freepik.com/free-vector/cardboard-box_23-2147513430.jpg?t=st=1760309231~exp=1760312831~hmac=cbb721d02a1fc426748066b66230a45e80ee69d96f18af4f1147f866ffb48b82&w=2000"} alt={listing.title}/>
+                        <Marquee pauseOnHover speed={50} gradient gradientWidth={100} gradientColor="white" className="py-3">
+                            {related.map((pkg, index) => (
+                                <div key={`${pkg.id}-${index}`} className="!mx-0 md:!mx-3 !w-full md:!w-[400px]" style={{ flexShrink: 0 }}>
+                                    <Link href={`/package/${pkg.id}`} className="card h-100 hover-effect-scale">
+                                        <div className="card-img-top position-relative overflow-hidden">
+                                            <div className="d-flex flex-row items-center !w-[90%] md:!w-[365px] justify-content-between gap-2 align-items-start position-absolute top-0 start-0 z-1 pt-1 pt-sm-0 ps-1 ps-sm-0 mt-2 mt-sm-3 ms-2 ms-sm-3">
+                        <span className="badge text-bg-primary p-2 !bg-[#094786] w-auto fw-bold">
+                          {pkg.weight ? `Poids: ${pkg.weight} KG` : 'Colis'}
+                        </span>
+                                                <span className="badge text-bg-primary p-2 !bg-[#000]">
+                          Colis pour des expedition
+                        </span>
+                                            </div>
+
+
+                                            <div className="ratio hover-effect-target bg-body-tertiary"
+                                                 style={{ '--fn-aspect-ratio': 'calc(204 / 306 * 100%)' } as React.CSSProperties}>
+                                                <img className={'!h-[300px] !w-full !object-cover'} src={pkg.imageUrl || "https://img.freepik.com/free-vector/cardboard-box_23-2147513430.jpg?t=st=1760309231~exp=1760312831~hmac=cbb721d02a1fc426748066b66230a45e80ee69d96f18af4f1147f866ffb48b82&w=2000"} alt={pkg.packageContents}/>
+                                            </div>
                                         </div>
-                                        <div className="card-body">
-                                            <h3 className="h6 mb-1">
-                                                <Link href={`/package/${listing.id}`}
-                                                      className="hover-effect-underline stretched-link">
-                                                    {listing.title}
+
+                                        <div className="card-body pb-3">
+                                            <div className="d-flex align-items-center justify-content-between mb-4">
+                                                <div className="fs-xs text-body-secondary me-3">
+                                                    Deadline: <b className={'text-black'}>{formatDate(pkg.shippingDeadline)}</b>
+                                                </div>
+                                                <div className="mb-0 text-[0.85rem]">
+                                                    Indemnité Proposée: <b className="h6 text-primary">{pkg.participationAllowance} €</b>
+                                                </div>
+                                            </div>
+
+                                            <h3 className="h6 mb-2">
+                                                <Link href={`/package/${pkg.id}`} className="hover-effect-underline stretched-link me-1 !text-[#d46328]">
+                                                    {pkg.packageContents}
                                                 </Link>
                                             </h3>
-                                            <b className={'!text-black'}>{listing.packageContents}</b><br/>
-                                            <div className="flex items-center justify-content-between g-2 py-2 fs-sm h-[50px]">
-                                                <div className="col d-flex fw-bold !text-[0.7rem] align-items-center gap-2">
-                                                    {isoToFlag(countryNameToISO[getCountryFromAddress(listing.origin)]) || "🌍"} {listing.origin}
-                                                </div>
-                                                <ArrowRight/>
-                                                <div
-                                                    className="col d-flex fw-bold !text-[0.7rem] align-items-center justify-content-end gap-2">
-                                                    {isoToFlag(countryNameToISO[getCountryFromAddress(listing.destination)]) || "🌍"} {listing.destination}
+
+                                            <small className={'text-muted'}>
+                                                {pkg.parcelDetails}
+                                            </small>
+
+                                        </div>
+
+                                        <div className="card-footer bg-transparent border-0 pt-0 pb-4">
+                                            <div className="border-top pt-3 mb-3">
+                                                <div className="flex items-center justify-content-between g-2 fs-sm">
+                                                    <div className="col d-flex align-items-center gap-2">
+                                                        {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.origin)]) || "🌍"} {pkg.origin}
+                                                    </div>
+                                                    <ArrowRight />
+                                                    <div className="col d-flex fw-bold align-items-center justify-content-end gap-2">
+                                                        {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.destination)]) || "🌍"} {pkg.destination}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="mt-2 font-semibold text-primary">
-                                                {listing.participationAllowance ? `${listing.participationAllowance} €` : "Sur demande"}
+
+                                            <div className="border-top pt-3">
+                                                <div className="d-flex align-items-center justify-content-between gap-2">
+                                                    Publié par
+                                                    <div className="d-flex align-items-center gap-2">
+                                                        <Avatar className={'!w-[32px] !bg-black !text-white !h-[32px]'}>
+                                                            <AvatarImage src={pkg.user?.image as string} />
+                                                            <AvatarFallback className={'!text-decoration-none !bg-black !text-white'}>{pkg.user?.name?.charAt(0)}</AvatarFallback>
+                                                        </Avatar>
+                                                        {pkg.user?.name || 'Utilisateur Inconnu'}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </article>
+                                    </Link>
                                 </div>
                             ))}
-                        </div>
+                        </Marquee>
                     </>
                 )}
             </section>
