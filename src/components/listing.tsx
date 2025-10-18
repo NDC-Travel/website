@@ -7,10 +7,11 @@ import {
     StarIcon,
     PlaneTakeoff,
     PlaneLanding,
-    UserIcon, ArrowRight, Truck
+    UserIcon, ArrowRight, Truck, MessageSquareIcon
 } from 'lucide-react';
 import {countryNameToISO, getCountryFromAddress, isoToFlag} from "@/components/my-carry";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {Separator} from "@radix-ui/react-menu";
 
 export interface Package {
     id: string;
@@ -23,6 +24,11 @@ export interface Package {
     image?: string;
     user?: {
         name: string;
+        image?: string;
+    };
+    carrier?: {
+        name: string;
+        email: string;
         image?: string;
     };
 }
@@ -128,6 +134,32 @@ export default function Listing() {
                                 {pkg.user?.name || 'Utilisateur Inconnu'}
                             </div>
                         </div>
+                        {
+                            pkg.carrier !== null ? (
+                                <>
+                                    <br />
+                                    <div className="d-flex border-top align-items-center justify-content-between gap-2 pt-3">
+                                        Transporté par
+                                        <div className="d-flex align-items-center gap-2">
+                                            <Avatar className={'!w-[32px] !bg-black !text-white !h-[32px]'}>
+                                                <AvatarImage src={pkg.carrier?.image as string} />
+                                                <AvatarFallback className={'!text-decoration-none !bg-black !text-white'}>{pkg.carrier?.name?.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                            {pkg.carrier?.name || 'Utilisateur Inconnu'}
+                                        </div>
+                                    </div>
+                                </> )
+                                :
+                                <div className="d-flex border-top align-items-center justify-content-between gap-2 pt-3 mt-3">
+                                    Pas de Transporteur
+                                    <Link
+                                        href={"/dashboard?page=message&id=" + pkg.user?.email}
+                                        className="btn btn-sm btn-primary fw-bold d-flex z-2 align-items-center"
+                                    >
+                                        <MessageSquareIcon className="w-4 me-2 h-4 text-white" /> Chat Par Message
+                                    </Link>
+                                </div>
+                        }
                     </div>
                 </div>
             </Link>

@@ -36,6 +36,14 @@ export async function GET(req: Request) {
                         image: true,
                     },
                 },
+                carrier: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        image: true,
+                    },
+                },
             },
             orderBy: {
                 createdAt: "desc",
