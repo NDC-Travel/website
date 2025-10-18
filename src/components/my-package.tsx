@@ -110,7 +110,7 @@ const PackageTable: React.FC = () => {
                     </EmptyDescription>
                 </EmptyHeader>
                 <EmptyContent>
-                    <Button variant="outline" onClick={() => router.push("/package")}>
+                    <Button variant="outline" onClick={() => router.push("/ship")}>
                         Ajouter un colis
                     </Button>
                 </EmptyContent>
