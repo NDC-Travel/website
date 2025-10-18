@@ -131,12 +131,29 @@ export function ProfileTab({ session }: ProfileTabProps) {
             .then(data => setUser(data));
     }, []);
 
-    const [formData, setFormData] = useState({
-        name: session.user?.name || "",
-        phone: session.user?.phone || "",
-        address: session.user?.address || "",
-        image: session.user?.image || "",
-    });
+    // useEffect(() => {
+    //     update();
+    // }, []);
+
+    // const [formData, setFormData] = useState({
+    //     name: session.user?.name || "",
+    //     phone: session.user?.phone || "",
+    //     address: session.user?.address || "",
+    //     image: session.user?.image || "",
+    // });
+
+    const [formData, setFormData] = useState({ name: "", phone: "", address: "", image: "" });
+
+    useEffect(() => {
+        if (session?.user) {
+            setFormData({
+                name: session.user.name || "",
+                phone: session.user.phone || "",
+                address: session.user.address || "",
+                image: session.user.image || "",
+            });
+        }
+    }, [session]);
 
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
@@ -179,6 +196,8 @@ export function ProfileTab({ session }: ProfileTabProps) {
             delete updatedFormData.image;
         }
 
+        console.log(JSON.stringify(updatedFormData));
+
         try {
             const res = await fetch("/api/user/update", {
                 method: "POST",
@@ -192,7 +211,8 @@ export function ProfileTab({ session }: ProfileTabProps) {
             }
             const data = await res.json();
             setUser(data);
-            await update();
+            await update({ user });
+
             console.log("Profil mis à jour:", data);
             alert("✅ Profil mis à jour avec succès !");
         } catch (error) {

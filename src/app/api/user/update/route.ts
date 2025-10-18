@@ -17,15 +17,7 @@ export async function POST(req: Request) {
         data,
     });
 
-    const updatedSession = {
-        ...session,
-        user: {
-            ...session.user,
-            ...user, // merge updated fields
-        },
-    };
-
-    return NextResponse.json({ user, session: updatedSession });
+    return NextResponse.json({ user });
 
     // return NextResponse.json(user);
 }

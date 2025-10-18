@@ -53,31 +53,49 @@ export const authOptions: NextAuthOptions = {
     },
 
     callbacks: {
-        async session({ session, token, user }) {
-            if (session?.user && token) {
-                session.user.id = token.sub as string;
-                session.user.email = token.email as string;
-                session.user.name = token.name as string;
-                session.user.image = token.picture as string;
-                session.user.phone = token.phone as string
-                session.user.address = token.address as string
-                session.user.createdAt = token.createdAt
-            }
-
-            return session;
-        },
-
-        async jwt({ token }) {
-            if(token){
+        async jwt({ token, trigger, session }) {
+            // When user updates their profile via `update()` client method
+            if (trigger === "update" && session?.user) {
                 const dbUser = await prisma.user.findUnique({
                     where: { email: token.email },
                 });
-                token.address = dbUser.address
-                token.phone = dbUser.phone
-                token.createdAt = dbUser.createdAt
-                token.image = token.picture as string;
+
+                if (dbUser) {
+                    token.name = dbUser.name;
+                    token.phone = dbUser.phone;
+                    token.address = dbUser.address;
+                    token.image = dbUser.image;
+                }
             }
+
+            // Initial sign-in
+            if (!token.phone || !token.address) {
+                const dbUser = await prisma.user.findUnique({
+                    where: { email: token.email },
+                });
+                if (dbUser) {
+                    token.name = dbUser.name;
+                    token.phone = dbUser.phone;
+                    token.address = dbUser.address;
+                    token.image = dbUser.image;
+                    token.createdAt = dbUser.createdAt;
+                }
+            }
+
             return token;
+        },
+
+        async session({ session, token }) {
+            if (session.user && token) {
+                session.user.id = token.sub;
+                session.user.name = token.name;
+                session.user.email = token.email;
+                session.user.phone = token.phone;
+                session.user.address = token.address;
+                session.user.image = token.image;
+                session.user.createdAt = token.createdAt;
+            }
+            return session;
         },
     },
 
