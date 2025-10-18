@@ -12,7 +12,7 @@ import {
     ArrowRight,
     PlaneTakeoff,
     PlaneLanding,
-    UserIcon,
+    UserIcon, MessageSquareIcon,
 } from "lucide-react";
 import { BsStarFill } from "react-icons/bs";
 import Breadcrumb from "@/components/nav";
@@ -21,9 +21,11 @@ import {
     countryNameToISO,
     getCountryFromAddress,
     isoToFlag,
-    FacebookShareButton, transportIcon, transportName,
+    FacebookShareButton, transportIcon, transportName, getAddress,
 } from "@/components/my-carry";
 import { ReviewForm } from "@/components/review";
+import {FaWhatsapp} from "react-icons/fa";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 
 interface Transport {
     id: string;
@@ -213,24 +215,18 @@ export default function CarrierDetailPage() {
                                     </div>
 
                                     <div className="flex flex-col gap-2 mt-[5.5rem]">
-                                        <a
-                                            href={`tel:${carrier.user?.phone}`}
-                                            className="btn btn-primary w-full"
-                                        >
-                                            Appeler
-                                        </a>
-                                        <a
-                                            href={`mailto:${carrier.user?.email}`}
-                                            className="btn btn-outline-primary w-full"
-                                        >
-                                            Envoyer un mail
-                                        </a>
                                         <Link
                                             href={`/dashboard?page=message&id=${carrier.user?.email}`}
-                                            className="btn btn-primary w-full"
+                                            className="btn flex-1 btn-primary fw-bold d-flex align-items-center"
                                         >
-                                            Chat
+                                            <MessageSquareIcon className="w-4 me-2 h-4 text-white" /> Chat Par Message
                                         </Link>
+                                        <a
+                                            href="https://wa.me/237656501651"
+                                            className="btn flex-1 fw-bold btn-primary d-flex align-items-center !bg-green-600 !border-0"
+                                        >
+                                            <FaWhatsapp className="w-4 me-2 h-4 text-white" /> Contactez-nous
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -243,20 +239,91 @@ export default function CarrierDetailPage() {
                     <>
                         <h2 className="text-xl font-semibold my-6">Autres transporteurs disponibles</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-7">
-                            {related.map((t) => (
-                                <article key={t.id} className="card hover-effect-scale">
-                                    <div className="card-body">
-                                        <h3 className="h6 mb-1">
-                                            <Link href={`/carrier/${t.id}`} className="hover-effect-underline">
-                                                {t.origin} → {t.destination}
-                                            </Link>
-                                        </h3>
-                                        <p className="text-sm text-gray-600 mb-1">{t.meansTransport}</p>
-                                        <div className="text-primary font-semibold">
-                                            {t.pricePerKg} €/kg
+                            {related.map((pkg, index) => (
+                                <div key={index} className="mx-1.5">
+                                    <Link href={`/carrier/${pkg.id}`} className="card h-100 hover-effect-scale">
+                                        <div className="card-img-top position-relative overflow-hidden">
+                                            <div className="position-absolute top-0 start-0 z-1 pt-2 ps-2">
+            <span className="badge text-bg-primary !bg-[#094786] fw-bold">
+              Transporteur
+            </span>
+                                            </div>
+
+                                            <div className="ratio hover-effect-target bg-body-tertiary"
+                                                 style={{ '--fn-aspect-ratio': 'calc(204 / 306 * 100%)' } as React.CSSProperties}>
+                                                <img className={'!h-[300px] !w-full !object-cover'} src={"/carrier.jpeg"} alt={pkg.packageContents}/>
+                                            </div>
                                         </div>
-                                    </div>
-                                </article>
+                                        <div className="card-body pb-3">
+
+                                            <div className="flex items-center justify-content-between g-2 text-[0.75rem]">
+                                                <div className="col d-flex fw-bold align-items-center justify-content-start gap-3">
+                                                    {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.origin)]) || "🌍"} {getAddress(pkg.origin)}
+                                                </div>
+                                                <ArrowRight /> &nbsp; &nbsp;
+                                                {transportIcon[pkg.meansTransport]}
+                                                &nbsp; &nbsp;  <ArrowRight />
+                                                <div className="col d-flex fw-bold align-items-center justify-content-end gap-3">
+                                                    {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.destination)]) || "🌍"} {getAddress(pkg.destination)}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-center justify-content-between g-2 mt-3 text-[0.75rem]">
+                                                <div className="col d-flex align-items-center justify-content-start gap-3">
+                                                    Aller
+                                                </div>
+
+                                                <div className="col d-flex fw-bold align-items-center justify-content-end gap-3">
+                                                    {new Date(pkg.outboundDepartureDate).toLocaleDateString()}  - {new Date(pkg.outboundArrivalDate).toLocaleDateString()}
+                                                </div>
+                                            </div>
+                                            {
+                                                pkg.isRoundTrip && (
+                                                    <div className="flex items-center justify-content-between g-2 mt-1.5 text-[0.75rem]">
+                                                        <div className="col d-flex align-items-center justify-content-start gap-3">
+                                                            Retour
+                                                        </div>
+
+                                                        <div className="col d-flex fw-bold align-items-center justify-content-end gap-3">
+                                                            {new Date(pkg.returnDepartureDate).toLocaleDateString()}  - {new Date(pkg.returnArrivalDate).toLocaleDateString()}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+
+                                        </div>
+
+                                        <div className="card-footer bg-transparent border-0 pt-0 pb-4">
+                                            <div className="border-top pt-3 mb-3">
+                                                <div className="d-flex align-items-center justify-content-between mb-4">
+                                                    <div className="fs-xs text-body-secondary me-3">
+                                                        Poids Acceptable: <b className={'text-black'}>{pkg.weightAvailable} KG</b>
+                                                    </div>
+                                                    <div className="mb-0 text-[0.85rem]">
+                                                        Prix du Kilo: <b className="h6 text-primary">{pkg.pricePerKg} €</b>
+                                                    </div>
+                                                </div>
+
+                                                <small className={'text-muted'}>
+                                                    {pkg.tripDescription}
+                                                </small>
+                                            </div>
+
+                                            <div className="border-top pt-3">
+                                                <div className="d-flex text-[0.85rem] align-items-center justify-content-between gap-2">
+                                                    Publié par
+                                                    <div className="d-flex fw-bold text-black align-items-center gap-2">
+                                                        <Avatar className={'!w-[32px] !bg-black !text-white !h-[32px]'}>
+                                                            <AvatarImage src={pkg.user?.image as string} />
+                                                            <AvatarFallback className={'!text-decoration-none !bg-black !text-white'}>{pkg.user?.name?.charAt(0)}</AvatarFallback>
+                                                        </Avatar>
+                                                        {pkg.user?.name || 'Utilisateur Inconnu'}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </div>
                             ))}
                         </div>
                     </>

@@ -55,31 +55,56 @@ export default function ListingCarrier({
             .catch(() => []);
 
         // Normalize origin/destination values
-        const originStr = typeof origin === "string"
-            ? origin
-            : origin?.formatted_address || origin?.name || "";
+        const originStr =
+            typeof origin === "string"
+                ? origin
+                : origin?.formatted_address || origin?.name || "";
 
-        const destinationStr = typeof destination === "string"
-            ? destination
-            : destination?.formatted_address || destination?.name || "";
+        const destinationStr =
+            typeof destination === "string"
+                ? destination
+                : destination?.formatted_address || destination?.name || "";
 
-        // Apply filters safely
-        if (originStr)
-            data = data.filter((l: any) =>
-                l.origin?.toLowerCase().includes(originStr.toLowerCase())
-            );
+        // Apply OR filter for origin/destination
+        if (originStr || destinationStr) {
+            const normalize = (val: string) =>
+                val?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-        if (destinationStr)
-            data = data.filter((l: any) =>
-                l.destination?.toLowerCase().includes(destinationStr.toLowerCase())
-            );
+            data = data.filter((l: any) => {
+                const matchesOrigin = originStr
+                    ? normalize(l.origin || "").includes(normalize(originStr))
+                    : false;
 
-        if (search)
-            data = data.filter(
-                (l: any) =>
-                    l.title?.toLowerCase().includes(search.toLowerCase()) ||
-                    l.description?.toLowerCase().includes(search.toLowerCase())
-            );
+                const matchesDestination = destinationStr
+                    ? normalize(l.destination || "").includes(normalize(destinationStr))
+                    : false;
+
+                return matchesOrigin || matchesDestination;
+            });
+        }
+
+        // 🔍 Improved partial search (case- and accent-insensitive)
+        if (search) {
+            const normalize = (val: string) =>
+                val?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+            const searchStr = normalize(search);
+
+            data = data.filter((l: any) => {
+                const title = normalize(l.title || "");
+                const desc = normalize(l.description || "");
+                const origin = normalize(l.origin || "");
+                const destination = normalize(l.destination || "");
+
+                // ✅ Broader partial search in title, description, origin, or destination
+                return (
+                    title.includes(searchStr) ||
+                    desc.includes(searchStr) ||
+                    origin.includes(searchStr) ||
+                    destination.includes(searchStr)
+                );
+            });
+        }
 
         setListings(data);
     };
@@ -178,15 +203,19 @@ export default function ListingCarrier({
                                         {new Date(pkg.outboundDepartureDate).toLocaleDateString()}  - {new Date(pkg.outboundArrivalDate).toLocaleDateString()}
                                     </div>
                                 </div>
-                                <div className="flex items-center justify-content-between g-2 mt-1.5 text-[0.75rem]">
-                                    <div className="col d-flex align-items-center justify-content-start gap-3">
-                                        Retour
-                                    </div>
+                                {
+                                    pkg.isRoundTrip && (
+                                        <div className="flex items-center justify-content-between g-2 mt-1.5 text-[0.75rem]">
+                                            <div className="col d-flex align-items-center justify-content-start gap-3">
+                                                Retour
+                                            </div>
 
-                                    <div className="col d-flex fw-bold align-items-center justify-content-end gap-3">
-                                        {new Date(pkg.returnDepartureDate).toLocaleDateString()}  - {new Date(pkg.returnArrivalDate).toLocaleDateString()}
-                                    </div>
-                                </div>
+                                            <div className="col d-flex fw-bold align-items-center justify-content-end gap-3">
+                                                {new Date(pkg.returnDepartureDate).toLocaleDateString()}  - {new Date(pkg.returnArrivalDate).toLocaleDateString()}
+                                            </div>
+                                        </div>
+                                    )
+                                }
 
                             </div>
 
