@@ -54,32 +54,56 @@ export default function ListingPackage({
             .then((res) => res.json())
             .catch(() => []);
 
-        // Normalize origin/destination values
-        const originStr = typeof origin === "string"
-            ? origin
-            : origin?.formatted_address || origin?.name || "";
+        // 🔧 Helper function: normalize text for loose comparison
+        const normalize = (val: string) =>
+            val?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") || "";
 
-        const destinationStr = typeof destination === "string"
-            ? destination
-            : destination?.formatted_address || destination?.name || "";
+        // Normalize origin/destination inputs
+        const originStr =
+            typeof origin === "string"
+                ? origin
+                : origin?.formatted_address || origin?.name || "";
 
-        // Apply filters safely
-        if (originStr)
-            data = data.filter((l: any) =>
-                l.origin?.toLowerCase().includes(originStr.toLowerCase())
-            );
+        const destinationStr =
+            typeof destination === "string"
+                ? destination
+                : destination?.formatted_address || destination?.name || "";
 
-        if (destinationStr)
-            data = data.filter((l: any) =>
-                l.destination?.toLowerCase().includes(destinationStr.toLowerCase())
-            );
+        // 🧭 Apply OR filter for origin/destination (case + accent insensitive)
+        if (originStr || destinationStr) {
+            const normOrigin = normalize(originStr);
+            const normDest = normalize(destinationStr);
 
-        if (search)
-            data = data.filter(
-                (l: any) =>
-                    l.title?.toLowerCase().includes(search.toLowerCase()) ||
-                    l.description?.toLowerCase().includes(search.toLowerCase())
-            );
+            data = data.filter((l: any) => {
+                const matchesOrigin = normOrigin
+                    ? normalize(l.origin).includes(normOrigin)
+                    : false;
+
+                const matchesDestination = normDest
+                    ? normalize(l.destination).includes(normDest)
+                    : false;
+
+                return matchesOrigin || matchesDestination; // ✅ OR condition
+            });
+        }
+
+        // 🔍 Flexible search (partial, case-insensitive, accent-insensitive)
+        if (search) {
+            const searchStr = normalize(search);
+            data = data.filter((l: any) => {
+                const title = normalize(l.title || "");
+                const desc = normalize(l.description || "");
+                const origin = normalize(l.origin || "");
+                const destination = normalize(l.destination || "");
+
+                return (
+                    title.includes(searchStr) ||
+                    desc.includes(searchStr) ||
+                    origin.includes(searchStr) ||
+                    destination.includes(searchStr)
+                );
+            });
+        }
 
         setListings(data);
     };
