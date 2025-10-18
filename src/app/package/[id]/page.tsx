@@ -11,7 +11,7 @@ import {
     StarIcon,
     PlaneTakeoff,
     PlaneLanding,
-    UserIcon, ArrowRight, Star,
+    UserIcon, ArrowRight, Star, MessageSquareIcon,
 } from "lucide-react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
@@ -19,6 +19,7 @@ import Breadcrumb from "@/components/nav";
 import {BsStarFill} from "react-icons/bs";
 import {countryNameToISO, FacebookShareButton, getCountryFromAddress, isoToFlag} from "@/components/my-carry";
 import {ReviewForm} from "@/components/review";
+import {FaWhatsapp} from "react-icons/fa";
 
 interface Package {
     id: string;
@@ -181,7 +182,7 @@ export default function PackageDetailPage() {
 
                                         <div className="w-100 ps-3">
                                             <div
-                                                className="d-flex align-items-center justify-content-between gap-3 mb-1">
+                                                className="d-flex flex-col align-items-start justify-content-between gap-3 mb-1">
                                                 <span
                                                     className="h6 fs-sm hover-effect-underline stretched-link text-decoration-none mb-0"
                                                 >
@@ -191,7 +192,7 @@ export default function PackageDetailPage() {
                                             </div>
 
 
-                                            <div className="!flex !flex-col md:!flex-col md:!items-center !items-start gap-1">
+                                            <div className="!flex !flex-col md:!flex-row md:!items-center !items-start gap-1">
                                                 <span
                                                     className="fs-sm fw-medium text-dark-emphasis">{pkg.user?.phone}</span>
                                                 <BsStarFill className="!text-[0.75rem] text-warning !hidden md:!flex"/>
@@ -203,47 +204,33 @@ export default function PackageDetailPage() {
                                     <hr/>
 
                                     <div className="md:!flex !hidden flex-1 justify-content-between gap-3 !mt-0">
-                                        <a
-                                            href={"tel:" + pkg.user?.phone}
-                                            className="btn btn-primary fw-bold d-flex align-items-center !bg-[#094786] !border-0"
-                                        >
-                                            Appel Direct
-                                        </a>
-                                        <a
-                                            href={"mailto:" + pkg.user?.email}
-                                            className="btn fw-bold btn-primary d-flex align-items-center !bg-[#094786] !border-0"
-                                        >
-                                            Envoi un mail
-                                        </a>
                                         <Link
                                             href={"/dashboard?page=message&id=" + pkg.user?.email}
-                                            className="btn btn-primary fw-bold d-flex align-items-center"
+                                            className="btn flex-1 btn-primary fw-bold d-flex align-items-center"
                                         >
-                                            Chat Par Message
+                                            <MessageSquareIcon className="w-4 me-2 h-4 text-white" /> Chat Par Message
                                         </Link>
+                                        <a
+                                            href="https://wa.me/237656501651"
+                                            className="btn flex-1 fw-bold btn-primary d-flex align-items-center !bg-green-600 !border-0"
+                                        >
+                                            <FaWhatsapp className="w-4 me-2 h-4 text-white" /> Contactez-nous
+                                        </a>
                                     </div>
 
                                     <div className="!flex flex-col md:!hidden flex-1 justify-content-between gap-3 !mt-0">
-                                        <div className="!flex flex-1 justify-content-between gap-3 !mt-0">
-                                            <a
-                                                href={"tel:" + pkg.user?.phone}
-                                                className="btn btn-primary !flex-1 fw-bold d-flex align-items-center !bg-[#094786] !border-0"
-                                            >
-                                                Appel Direct
-                                            </a>
-                                            <a
-                                                href={"mailto:" + pkg.user?.email}
-                                                className="btn fw-bold btn-primary !flex-1 d-flex align-items-center !bg-[#094786] !border-0"
-                                            >
-                                                Envoi un mail
-                                            </a>
-                                        </div>
                                         <Link
                                             href={"/dashboard?page=message&id=" + pkg.user?.email}
-                                            className="btn !w-full btn-primary fw-bold d-flex align-items-center"
+                                            className="btn flex-1 btn-primary fw-bold d-flex align-items-center"
                                         >
-                                            Chat Par Message
+                                            <MessageSquareIcon className="w-4 me-2 h-4 text-white" /> Chat Par Message
                                         </Link>
+                                        <a
+                                            href="https://wa.me/237656501651"
+                                            className="btn flex-1 fw-bold btn-primary d-flex align-items-center !bg-green-600 !border-0"
+                                        >
+                                            <FaWhatsapp className="w-4 me-2 h-4 text-white" /> Contactez-nous
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -251,7 +238,7 @@ export default function PackageDetailPage() {
                             <div className="card bg-body-tertiary border-0 !py-0 mb-4">
                                 <div className="card-body !py-2.5">
                                     <div className="!flex !items-center !justify-between py-0">
-                                        <div className="text0muted !mb-0">Indemnité</div>
+                                        <div className="text0muted !mb-0">Indemnité Proposée</div>
                                         <div className="!flex !items-center !gap-x-4 !justify-between py-0">
                                             <div className="h2 !mb-0">{pkg.participationAllowance} €</div>
                                             <div className="d-flex gap-2">
@@ -295,10 +282,10 @@ export default function PackageDetailPage() {
                                             className={'!text-black'}>{pkg.weight || "N/A"} Kg</b></li>
                                         <li className={'flex items-center justify-content-between'}>
                                             <strong>Dimension:</strong> <b
-                                            className={'!text-black'}>{pkg.reward || "N/A"} €</b></li>
+                                            className={'!text-black'}>{pkg.width + "cm x " + pkg.length + "cm x " + pkg.height + "cm" || "N/A"} (W x L x H)</b></li>
                                         <li className={'flex items-center justify-content-between'}><strong>Date limite
-                                            d’expédition:</strong> <b
-                                            className={'!text-black'}>{pkg.shippingDeadline ? new Date(pkg.shippingDeadline).toDateString() : "N/A"}</b>
+                                            d’expédition:</strong> <i
+                                            className={'text-black-50'}>{pkg.shippingDeadline ? new Date(pkg.shippingDeadline).toDateString() : "N/A"}</i>
                                         </li>
                                     </ul>
 

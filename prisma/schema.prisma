@@ -24,7 +24,8 @@ model User {
   receivedMessages   Message[]            @relation("ReceivedMessages")
   sentMessages       Message[]            @relation("SentMessages")
   Notification       Notification[]
-  packages           Package[]
+  packages           Package[]            @relation("UserPackages")
+  carriedPackages    Package[]            @relation("CarrierRelation")
   PasswordResetToken PasswordResetToken[]
   sessions           Session[]
   transport          Transport[]
@@ -145,6 +146,7 @@ model Transport {
 model Package {
   id                     String   @id @default(cuid())
   userId                 String
+  carrierId              String?
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
   destination            String
@@ -161,8 +163,9 @@ model Package {
   imageUrl               String?
   imageKey               String?
   status                 String   @default("active")
-  user                   User     @relation(fields: [userId], references: [id])
-  review          Review[]
+  user                   User    @relation("UserPackages", fields: [userId], references: [id])
+  carrier                User?   @relation("CarrierRelation", fields: [carrierId], references: [id])
+  review                 Review[]
 }
 
 model Review {

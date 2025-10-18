@@ -95,9 +95,9 @@ export async function GET(req: Request, { params }: Params) {
             return NextResponse.json({ error: "Transport not found" }, { status: 404 });
         }
 
-        if (transport.userId !== session.user?.id) {
-            return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-        }
+        // if (transport.userId !== session.user?.id) {
+        //     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        // }
 
         return NextResponse.json(transport);
     } catch (err) {

@@ -143,6 +143,18 @@ export default function ListingCarrier({
                 {paginated.map((pkg: any, index: number) => (
                     <div key={index} className="mx-1.5">
                         <Link href={`/carrier/${pkg.id}`} className="card h-100 hover-effect-scale">
+                            <div className="card-img-top position-relative overflow-hidden">
+                                <div className="position-absolute top-0 start-0 z-1 pt-2 ps-2">
+            <span className="badge text-bg-primary !bg-[#094786] fw-bold">
+              Transporteur
+            </span>
+                                </div>
+
+                                <div className="ratio hover-effect-target bg-body-tertiary"
+                                     style={{ '--fn-aspect-ratio': 'calc(204 / 306 * 100%)' } as React.CSSProperties}>
+                                    <img className={'!h-[300px] !w-full !object-cover'} src={"/carrier.jpeg"} alt={pkg.packageContents}/>
+                                </div>
+                            </div>
                             <div className="card-body pb-3">
 
                                 <div className="flex items-center justify-content-between g-2 text-[0.75rem]">
@@ -154,6 +166,25 @@ export default function ListingCarrier({
                                     &nbsp; &nbsp;  <ArrowRight />
                                     <div className="col d-flex fw-bold align-items-center justify-content-end gap-3">
                                         {isoToFlag(countryNameToISO[getCountryFromAddress(pkg.destination)]) || "🌍"} {getAddress(pkg.destination)}
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center justify-content-between g-2 mt-3 text-[0.75rem]">
+                                    <div className="col d-flex align-items-center justify-content-start gap-3">
+                                        Aller
+                                    </div>
+
+                                    <div className="col d-flex fw-bold align-items-center justify-content-end gap-3">
+                                        {new Date(pkg.outboundDepartureDate).toLocaleDateString()}  - {new Date(pkg.outboundArrivalDate).toLocaleDateString()}
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-content-between g-2 mt-1.5 text-[0.75rem]">
+                                    <div className="col d-flex align-items-center justify-content-start gap-3">
+                                        Retour
+                                    </div>
+
+                                    <div className="col d-flex fw-bold align-items-center justify-content-end gap-3">
+                                        {new Date(pkg.returnDepartureDate).toLocaleDateString()}  - {new Date(pkg.returnArrivalDate).toLocaleDateString()}
                                     </div>
                                 </div>
 

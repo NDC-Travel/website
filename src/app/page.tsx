@@ -7,6 +7,7 @@ import FeaturesSection from "@/components/howto";
 import CategoryCardsSection from "@/components/feature";
 import CitySearchCarousel from "@/components/countries";
 import DirectoryListingCTA from "@/components/c-t-a";
+import ListingCarrier from "@/components/carriers";
 
 export default function Home() {
   return (
@@ -20,6 +21,8 @@ export default function Home() {
         <CTASection />
 
         <CategoryCardsSection />
+
+        <ListingCarrier />
 
         <DirectoryListingCTA />
 

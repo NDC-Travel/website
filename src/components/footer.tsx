@@ -49,7 +49,7 @@ export default function Footer() {
                 <div className="border-bottom flex md:flex-row flex-col md:gap-y-0 gap-y-5 justify-content-between item-center mt-0 pt-mt-4 pb-4">
                     <b style={{ alignSelf: "center" }} className="flex items-center fs-sm mb-0 pb-0 text-white">
                         <Headset className={'text-primary'} />&nbsp;&nbsp;&nbsp;
-                        <span>Contactez-nous pour tout aide ou support</span>
+                        <span>Contactez-nous pour toute aide ou tout support.</span>
                     </b>
                     <div className="d-flex items-center gap-x-3">
                         <a
@@ -224,7 +224,8 @@ export default function Footer() {
                     <div className="d-flex justify-content-center mb-3 mb-md-0 order-sm-2">
                         <a
                             className="btn btn-icon fs-base btn-outline-secondary border-0"
-                            href="#!"
+                            href="ici mettre la redirections vers Facebook : https://www.facebook.com/share/1BQXGsufnn/?mibextid=wwXIfr"
+                            target={"_blank"}
                             data-bs-toggle="tooltip"
                             data-bs-template='<div className="tooltip fs-xs mb-n2" role="tooltip"><div className="tooltip-inner bg-transparent text-white opacity-75 p-0"></div></div>'
                             title="Instagram"

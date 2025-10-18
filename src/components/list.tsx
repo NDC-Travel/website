@@ -144,10 +144,13 @@ export default function ListingPackage({
                     <div key={index} className="mx-3">
                         <Link href={`/package/${pkg.id}`} className="card h-100 hover-effect-scale">
                             <div className="card-img-top position-relative overflow-hidden">
-                                <div className="position-absolute top-0 start-0 z-1 pt-2 ps-2">
-            <span className="badge text-bg-primary">
-              {pkg.weight ? `Poids: ${pkg.weight} KG` : 'Colis'}
-            </span>
+                                <div className="d-flex flex-row items-center !w-[90%] md:!w-[365px] justify-content-between gap-2 align-items-start position-absolute top-0 start-0 z-1 pt-1 pt-sm-0 ps-1 ps-sm-0 mt-2 mt-sm-3 ms-2 ms-sm-3">
+                        <span className="badge text-bg-primary p-2 !bg-[#094786] w-auto fw-bold">
+                          {pkg.weight ? `Poids: ${pkg.weight} KG` : 'Colis'}
+                        </span>
+                                    <span className="badge text-bg-primary p-2 !bg-[#000]">
+                          Colis pour des expedition
+                        </span>
                                 </div>
 
                                 <div className="ratio hover-effect-target bg-body-tertiary"

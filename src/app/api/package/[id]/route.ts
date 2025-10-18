@@ -126,9 +126,9 @@ export async function GET(req: Request, {params}: Params) {
         if (!packageData) {
             return NextResponse.json({error: "Package not found"}, {status: 404});
         }
-        if (packageData.userId !== session.user?.id) {
-            return NextResponse.json({error: "Forbidden"}, {status: 403});
-        }
+        // if (packageData.userId !== session.user?.id) {
+        //     return NextResponse.json({error: "Forbidden"}, {status: 403});
+        // }
 
         return NextResponse.json(packageData);
     } catch (err) {
