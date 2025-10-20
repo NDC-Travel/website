@@ -11,8 +11,6 @@ export default async function Page({
 
     const session = await getServerSession(authOptions);
 
-    if (!session?.user) return <div>Loading...</div>;
-
     return (
         <Suspense fallback={<>...</>}>
             <Dashboard searchParams={searchParams} />

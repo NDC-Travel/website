@@ -16,17 +16,17 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
     {
         id: 1,
-        quote: 'I had an amazing experience using Finder to search for my new home. The platform is incredibly user-friendly, with comprehensive listings and detailed descriptions that made it easy to find exactly what I was looking for.',
+        quote: 'J’ai été impressionné par la qualité du service ! De l’envoi à la livraison, tout s’est déroulé sans le moindre souci. Le suivi est clair, les notifications sont précises, et les délais ont été parfaitement respectés. Une plateforme fiable que je recommande sans hésiter.',
         highlight: 'an amazing experience using Finder',
-        name: 'Michael Howard',
+        name: 'Anonyme',
         role: 'Landlord',
         avatar: 'assets/img/about/v1/avatar/02.jpg'
     },
     {
         id: 2,
-        quote: 'I was thoroughly impressed with Finder when searching for my first rental property. The platform is intuitive and offers a wide range of listings, complete with high-quality images and all the details I needed to make an informed decision.',
+        quote: 'Service au top ! J’ai envoyé plusieurs colis via la plateforme et chaque livraison s’est faite rapidement et en toute sécurité. Le suivi en temps réel m’a vraiment rassuré. On sent que la fiabilité est une priorité.',
         highlight: 'impressed with Finder',
-        name: 'Kristin Watson',
+        name: 'Anonyme',
         role: 'Tenant',
         avatar: 'assets/img/about/v1/avatar/03.jpg'
     }

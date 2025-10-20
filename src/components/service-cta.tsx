@@ -8,11 +8,11 @@ const AppCTA: React.FC = () => {
             <div className="container">
                 <div className="row align-items-center justify-content-center">
                     <div className="col-md-6 col-lg-5 text-center text-md-start pt-5 pb-md-5 my-md-3">
-                        <h2 className="h1">Get the top-rated App!</h2>
+                        <h2 className="h1">Découvrez la plateforme la plus fiable !
+                        </h2>
                         <p className="pb-3">
-                            Choose the best doctor nearby, conduct an online consultation with a specialist, or order
-                            medicine in pharmacies at a better price — all this can be done quickly and easily in the
-                            Finder application. Install and be healthy!
+                            Envoyez vos colis en toute simplicité, suivez chaque étape de la livraison en temps réel et bénéficiez d’un service rapide et sécurisé — tout cela facilement et en quelques clics grâce à notre application.
+                            Installez-la dès maintenant et expédiez l’esprit tranquille !
                         </p>
                         <div
                             className="d-flex flex-column flex-sm-row justify-content-center justify-content-md-start gap-3">
