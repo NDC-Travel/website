@@ -22,7 +22,7 @@ const PrinciplesSection: React.FC = () => {
             description: "est de devenir un partenaire de confiance pour les particuliers, les familles et les entreprises, en leur offrant un service rapide, transparent et professionnel.\n" +
                 "\n\n" +
                 "NDC Travel se positionne comme un pont entre les continents, rapprochant les personnes et facilitant les échanges grâce à des solutions modernes, fiables et accessibles.",
-            imageUrl: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=600&fit=crop",
+            imageUrl: "/1.jpeg",
             aspectRatios: {
                 mobile: (300 / 167) * 100,
                 tablet: (350 / 397) * 100,
@@ -37,7 +37,7 @@ const PrinciplesSection: React.FC = () => {
                 "Bien que jeune, notre agence connaît une croissance rapide, portée par la confiance de nos clients et notre volonté d'apporter des solutions modernes aux voyageurs et aux expéditeurs.\n" +
                 "\n" +
                 "Depuis notre lancement, nous avons su gagner la fidélité de particuliers et d'entreprises grâce à un service de proximité, transparent et orienté résultats.",
-            imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop",
+            imageUrl: "/2.jpeg",
             aspectRatios: {
                 mobile: (300 / 467) * 100,
                 tablet: (350 / 697) * 100,
