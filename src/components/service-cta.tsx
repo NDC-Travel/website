@@ -15,13 +15,13 @@ const AppCTA: React.FC = () => {
                             Installez-la dès maintenant et expédiez l’esprit tranquille !
                         </p>
                         <div
-                            className="d-flex flex-column flex-sm-row justify-content-center justify-content-md-start gap-3">
+                            className="d-flex flex-column flex-sm-row justify-content-center justify-content-md-start !gap-3">
                             <Link href="/auth/signin" className="btn btn-primary animate-shake me-2 h-[50px] px-5">
                                 <User2Icon className="w-[20px] animate-target ms-n2 me-2"/>
                                 Se Connecter
                             </Link>
 
-                            <Link href="/auth/register" className="btn !bg-[#094786] text-white animate-scale h-[50px] px-5">
+                            <Link href="/auth/register" className="btn !bg-[#094786]  text-white animate-scale h-[50px] !px-5">
                                 <UserPlus2 className="w-20px] animate-target ms-n2 me-1 me-sm-2"/>
                                 Créer un Compte
                             </Link>
