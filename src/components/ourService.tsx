@@ -85,7 +85,7 @@ export default function PopularConsultations() {
             </div>
 
             {/* Row of cards that turns into carousel on screens < 768px wide (md breakpoint) */}
-            <div className="row row-cols-3 gap-y-5">
+            <div className="row row-cols-md-3  row-cols-1 gap-y-5">
                 {consultations.map((consultation, index) => (
                     <div
                         key={consultation.id}

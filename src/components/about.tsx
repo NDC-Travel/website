@@ -49,7 +49,7 @@ const PrinciplesSection: React.FC = () => {
             id: 3,
             title: "Notre priorité",
             description: "Vous simplifier la vie et vous accompagner dans chacun de vos projets de voyage et d'expédition, où que vous soyez.",
-            imageUrl: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=600&fit=crop",
+            imageUrl: "/66197.jpg",
             aspectRatios: {
                 mobile: (300 / 467) * 100,
                 tablet: (350 / 697) * 100,
@@ -69,7 +69,7 @@ const PrinciplesSection: React.FC = () => {
                 "Transparence : pas de surprises, juste des solutions adaptées et honnêtes.\n" +
                 "\n" +
                 "Accessibilité : des prix compétitifs et des services ouverts à tous.",
-            imageUrl: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop",
+            imageUrl: "/25.jpg",
             aspectRatios: {
                 mobile: (300 / 467) * 100,
                 tablet: (350 / 697) * 100,
@@ -80,7 +80,7 @@ const PrinciplesSection: React.FC = () => {
             id: 5,
             title: "Nos engagements",
             description: "Mettre en avant des promesses fortes : ponctualité, sécurité des envois, accompagnement personnalisé, service après-vente réactif.",
-            imageUrl: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&h=600&fit=crop",
+            imageUrl: "/23.jpg",
             aspectRatios: {
                 mobile: (300 / 467) * 100,
                 tablet: (350 / 697) * 100,
