@@ -5,7 +5,7 @@ import {RiTwitterXFill} from "react-icons/ri";
 import {SiFacebook, SiInstagram, SiLinkedin} from "react-icons/si";
 import * as React from "react";
 import {SVGProps, useState} from "react";
-import {Headset, Mail, MailIcon, PhoneCallIcon, PhoneIcon} from "lucide-react";
+import {DownloadIcon, Headset, Mail, MailIcon, PhoneCallIcon, PhoneIcon} from "lucide-react";
 import Image from "next/image";
 import {Separator} from "@/components/ui/separator";
 import { toast } from "sonner";
@@ -138,6 +138,11 @@ export default function Footer() {
                                     <li className="pt-1">
                                         <Link href="/contact" className="nav-link hover-effect-underline d-inline text-body fw-normal p-0">
                                             Contactez-Nous
+                                        </Link>
+                                    </li>
+                                    <li className="pt-1">
+                                        <Link href="/Contrat%20NDC%20Travels.pdf" className="nav-link !flex !items-center hover-effect-underline text-body fw-normal p-0">
+                                            <DownloadIcon className={"me-2"} /> Télécharger le contrat
                                         </Link>
                                     </li>
                                 </ul>
