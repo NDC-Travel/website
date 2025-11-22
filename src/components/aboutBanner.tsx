@@ -31,7 +31,7 @@ const AboutHeroSection: React.FC = () => {
                 <div className="md:w-7/12 xl:w-1/2 xl:ml-16 text-center md:text-left">
                     <div className="md:pl-6 lg:pl-8 xl:pl-0">
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold pb-2 md:pb-4 lg:pb-6 xl:pb-8 leading-tight">
-                            NDC Travel
+                            NDC Travels
                         </h1>
                         <p className="text-lg lg:text-xl text-gray-600 pb-4 lg:pb-6 xl:pb-8 leading-relaxed max-w-2xl mx-auto md:mx-0">
                             Une agence de voyages et de services internationaux qui met au cœur de son activité la fiabilité, la proximité et la satisfaction de ses clients.

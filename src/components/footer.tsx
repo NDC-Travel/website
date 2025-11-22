@@ -276,7 +276,7 @@ export default function Footer() {
                             target="_blank"
                             rel="noreferrer"
                         >
-                            NDC Travel
+                            NDC Travels
                         </a>{' '}2025. Tous les droits sont reservés. {' '}
                     </p>
                 </div>

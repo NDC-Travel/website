@@ -59,7 +59,7 @@ export default function HeroSearchSection() {
                                 <AiFillDashboard className="me-2" size={20} /> Démarrer
                             </Link>
                             <Link href="/contact" className="btn btn-info !bg-[#094786] btn-lg d-flex align-items-center justify-content-center text-white">
-                                <Headset className="me-2" size={20} /> Contacter Nous
+                                <Headset className="me-2" size={20} /> Contactez Nous
                             </Link>
                         </div>
                     </div>
