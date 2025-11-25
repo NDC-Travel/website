@@ -52,6 +52,19 @@ interface Transport {
     };
 }
 
+
+function formatDate(date: string){
+    try{
+        return new Date(date).toLocaleDateString('fr-FR', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        });
+    } catch (e) {
+        return date
+    }
+}
+
 export default function CarrierDetailPage() {
     const { id } = useParams();
     const [carrier, setCarrier] = useState<Transport | null>(null);

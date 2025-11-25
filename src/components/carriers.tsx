@@ -48,12 +48,18 @@ export default function ListingCarrier() {
         fetchPackages();
     }, []);
 
-    const formatDate = (date: string) =>
-        new Date(date).toLocaleDateString('fr-FR', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-        });
+    function formatDate(date: string) {
+        try{
+            return new Date(date).toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+            });
+        } catch (e) {
+            return date
+        }
+    }
+
 
     const renderCard = (pkg: Package, index: number) => (
         <div key={`${pkg.id}-${index}`} className="!mx-0 md:!mx-3 !w-full md:!w-[400px]" style={{ flexShrink: 0 }}>
